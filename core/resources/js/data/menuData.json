@@ -37,6 +37,18 @@
                         "permission": "view-page-section"
                     },
                     {
+                        "text": "Pages",
+                        "available": true,
+                        "link": "pages.index",
+                        "permission": "view-page"
+                    },
+                    {
+                        "text": "Page Section",
+                        "available": true,
+                        "link": "page-sections.index",
+                        "permission": "view-page-section"
+                    },
+                    {
                         "text": "Tabs",
                         "available": true,
                         "link": "tabs.index",
