@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\SeoSettingController;
 use App\Http\Controllers\Admin\SupportInformationController;
 use App\Http\Controllers\Admin\TabController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ChannelPartnerController;
 use App\Http\Controllers\Frontend\CMSController;
 use App\Http\Controllers\Frontend\ContactController;
@@ -155,6 +156,10 @@ Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.s
 //News
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
 Route::get('/news/{slug}', [NewsController::class, 'detail'])->name('news.show');
+
+//Blog
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{slug}', [BlogController::class, 'detail'])->name('blog.show');
 
 //FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
