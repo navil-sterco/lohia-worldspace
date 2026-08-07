@@ -27,7 +27,7 @@ jobs:
           cache-dependency-path: core/package-lock.json
 
       - name: Install PHP dependencies
-        run: composer install --no-interaction --prefer-dist --no-progress
+        run: composer update
 
       - name: Install JS dependencies
         run: npm ci
