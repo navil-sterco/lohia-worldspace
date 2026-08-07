@@ -1,0 +1,157 @@
+
+:root {
+    --flex: flex;
+    --w-full: 100%;
+    --H-full: 100%;
+    --Radius-full: 100%;
+    --circular:'Circular Std', sans-serif;
+    --color-black: #000000;
+    --color-white: #ffffff;
+    --color-e5: #E51735;
+    --color-3f: #33543F;
+    --color-22: #222F28;
+    --color-3e: #3E664F;
+    --color-93: #939598;
+    --color-23: #231F20;
+    --color-28: #283052;
+    --color-61: #613A2E;
+    --color-47: #472B20;
+    --color-4e: #4e4e4e;
+    --color-70: #707070;
+    --color-f8: #F8F8F8;
+    --color-e2: #E2E3DE;
+    --color-d8: #D8D8D8;
+    --color-f6: #F6F6F6;
+    --font-size-29:2.9rem;
+    --font-size-28:2.8rem;
+    --font-461: var(--fw-700) 46.1rem/0.80 var(--circular);
+    --font-93: var(--fw-normal) 9.3rem/0.90 var(--circular);
+    --font-72: var(--fw-400) 7.2rem/1 var(--circular);
+    --font-60: var(--fw-400) 6rem/1 var(--circular);
+    --font-48: var(--fw-400) 4.8rem/1 var(--circular);
+    --font-41: var(--fw-700) 4.1rem/1.5 var(--circular);
+    --font-37: var(--fw-700) 3.7rem/1.6 var(--circular);
+    --font-36: var(--fw-700) 3.6rem/1.6 var(--circular);
+    --font-31: var(--fw-700) 3.1rem/1 var(--circular);
+    --font-30: var(--fw-300) 3rem/1.2 var(--circular);
+    --font-24: var(--fw-300) 2.4rem/1.41 var(--circular);
+    --font-21: var(--fw-700) 2.1rem/1.14 var(--circular);
+    --font-18: var(--fw-300) 1.8rem/1.66 var(--circular);
+    --font-16: var(--fw-300) 1.6rem/1.5 var(--circular);
+    --font-13: var(--fw-300) 1.3rem/1.5 var(--circular);
+    --font-12: var(--fw-400) 1.2rem/1.5 var(--circular);
+    --btn-height:4.6rem;
+    --header-height:27.8rem;
+    --input-height:5.2rem;
+    --mw2545:2545px;
+    --mx1755:calc(100% - ((100% - min(1755px, 68.95874vw)) / 2));
+    --mx1690:calc(100% - ((100% - min(1690px, 66.40471vw)) / 2));
+    --mx1450:calc(100% - ((100% - min(1450px, 56.97445vw)) / 2));
+    --fw-black:900;
+    --fw-700:700;
+    --fw-bold:700;
+    --fw-500:500;
+    --fw-medium:500;
+    --fw-400:400;
+    --fw-normal:400;
+    --fw-300:300;
+}
+
+/* According to 1920 resolution */
+/* html{font-size:min(0.52083333vw,10px);}
+.container-fluid{max-width:100%;padding-inline:1.5rem;margin-inline:auto;}
+.container-lg{max-width:min(1755px,91.40625vw);padding-inline:1.5rem;margin-inline:auto;}
+.container{max-width:min(1505px,78.385416vw);padding-inline:1.5rem;margin-inline:auto;}
+.max-content-lg{width: var(--mx-container);max-width:var(--mw2545);padding-right:0;margin-inline:auto 0;}
+.full-width{width: 100%; max-width: var(--mw2545); margin-inline: auto;} */
+
+/* According to 2545 resolution */
+
+html{font-size:min(0.39292vw,10px);}
+.container-fluid{max-width:100%;padding-inline:1.5rem;margin-inline:auto;}
+.container-lg{max-width:min(1755px, 68.95874vw);padding-inline:1.5rem;margin-inline:auto;}
+.container-md{max-width:min(1690px, 66.40471vw);padding-inline:1.5rem;margin-inline:auto;}
+.container{max-width:min(1450px, 56.97445vw);padding-inline:1.5rem;margin-inline:auto;}
+.max-content-lg{width:100%;max-width:var(--mx1755);padding-right:0;margin-inline:auto 0;}
+.max-content-md{width:100%;max-width:var(--mx1690);padding-right:0;margin-inline:auto 0;}
+.max-container{width:100%;max-width:var(--mx1450);padding-right:0;margin-inline:auto 0;}
+.full-width{width: 100%; max-width: var(--mw2545); margin-inline: auto;}
+section{width: 100%; max-width: var(--mw2545); margin-inline: auto;}
+
+main{padding-top: var(--header-height);}
+
+
+@media(max-width:991px){
+    :root{--header-height:18.8rem;}
+    html {font-size: 50%;}
+    .container-lg{max-width:100%;padding-inline:3.2rem;}
+    .container{max-width:100%;padding-inline:3.2rem;}
+    .max-container{max-width:100%;padding-inline:3.2rem;}
+    .max-content-lg{max-width:100%;padding-inline:3.2rem;}
+}
+
+@media(max-width:767px){
+    :root{
+        --font-461: var(--fw-700) 46.1rem/0.80 var(--circular);
+        --font-93: var(--fw-normal) 4.6rem/0.95 var(--circular);
+        --font-60: var(--fw-400) 3.6rem/1 var(--circular);
+        --font-48: var(--fw-400) 3rem/1 var(--circular);
+        --font-41: var(--fw-700) 3rem/1.5 var(--circular);
+        --font-31: var(--fw-700) 2.4rem/1.4 var(--circular);
+        --font-30: var(--fw-300) 2.4rem/1.4 var(--circular);
+        --font-24: var(--fw-300) 1.8rem/1.33 var(--circular);
+        --font-21: var(--fw-700) 1.6rem/1.3 var(--circular);
+        --font-18: var(--fw-300) 1.4rem/1.5 var(--circular);
+        --font-16: var(--fw-400) 1.2rem/1.3 var(--circular);
+        --font-13: var(--fw-300) 1.3rem/1.5 var(--circular);
+        --font-12: var(--fw-400) 1.2rem/1.5 var(--circular);
+    }    
+    html{font-size:68.2%;}
+}
+
+@media(max-width:375px){
+    html {font-size: 62.5%;}
+}
+@media(max-width:330px){
+    html {font-size: 57.5%;}
+}
+
+
+/*  Landmark Creations keyframes */
+@keyframes reveal1{
+    0%{opacity:1;clip-path:inset(0 100% 0 0);}
+    20%{opacity:1;clip-path:inset(0 0 0 0);}
+    40%{opacity:1;clip-path:inset(0 0 0 0);}
+    50%,100%{opacity:0;clip-path:inset(0 0 0 100%);}
+}
+@keyframes reveal2{
+    0%,50%{opacity:0;clip-path:inset(0 100% 0 0);}
+    70%{opacity:1;clip-path:inset(0 0 0 0);}
+    90%{opacity:1;clip-path:inset(0 0 0 0);}
+    100%{opacity:0;clip-path:inset(0 0 0 100%);}
+}
+
+@keyframes shapeMove{
+    from{transform:translateY(-10rem);}
+    to{transform:translateY(10rem);}
+
+}
+@-webkit-keyframes shapeMove{
+    from{-webkit-transform:translateY(-10rem);}
+    to{-webkit-transform:translateY(10rem);}
+}
+@keyframes rectangleFloat{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-1.5rem);}
+}
+@-webkit-keyframes rectangleFloat{
+    0%,100%{-webkit-transform:translateY(0);}
+    50%{-webkit-transform:translateY(-1.5rem);}
+}
+
+
+/* fade Key Frame */
+@keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+}

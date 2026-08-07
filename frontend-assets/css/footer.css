@@ -1,0 +1,30 @@
+.main_footer{position:relative;padding-block:8rem;background-color:var(--color-white);}
+.footer_grid{display:grid;grid-template-columns:480fr 1181fr;margin-inline:auto;}
+.footer_left{padding-left:4.1rem;border-left:0.1rem solid var(--color-70);}
+.footer_logo{display:block;width:100%;max-width:29.9rem;}
+.ftr_social{display:flex;align-items:center;gap:1.9rem;margin-top:6.5rem;}
+.ftr_social>a{display:block;width:2.5rem;height:2.5rem;background-color:var(--color-f6);border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%;}
+.ftr_social>a:hover{background-color:var(--color-white);}
+.footer_link>ul{padding:0;margin:0;display:inline-flex;border-bottom:0.1rem solid var(--color-70);padding-bottom:1.5rem;}
+.footer_link>ul>li{font:var(--font-16);color:var(--color-black);list-style:none;border-left:0.1rem solid #707070;padding-top: 0.8rem;padding-inline:3rem;}
+.footer_link>ul>li:last-child{border-right:0.1rem solid #707070;}
+.footer_link>ul>li>a{display:block;padding-right:2rem;background:url(../images/arrow-right-red.svg) no-repeat center right / 1rem;}
+.footer_link>ul>li>a:hover{color:var(--color-e5);}
+.other_link{display:flex;align-items:center;gap:3rem;margin-top:2.1rem;}
+.other_link>h6{position:relative;font:var(--font-13);font-weight:var(--fw-700);color:var(--color-black);flex-shrink:0;display:flex;align-items:center;gap:3rem;}
+.other_link>h6::after{content:'';position:relative;display:block;height:0.1rem;width:1rem;background-color:var(--color-black);}
+.other_link>ul{padding:0;margin:0;display:inline-flex;justify-content:space-between;gap:2rem;width:100%;}
+.other_link>ul>li{list-style:none;}
+.other_link>ul>li>a{display: block;font:var(--font-13);color:var(--color-black);}
+.other_link>ul>li>a:hover{color:var(--color-e5);}
+.subscopy_grid{margin-top:4.1rem;display:flex;justify-content:space-between;align-items:center;}
+.subscribe_form{flex-shrink:0;display:grid;}
+.subscribe_form>*{grid-area:1/1;}
+.subscribe_form .form-control{font:var(--font-16);font-weight:var(--fw-500);color:var(--color-black);width:39.6rem;height:3.6rem;padding:0 2rem 2rem 0;border:none;border-bottom:0.1rem solid var(--color-70);}
+.subscribe_form .form-control::placeholder{color:var(--color-black);}
+.subscribe_form>button{width:1rem;margin-left:auto;height:1rem;cursor:pointer;z-index:1;}
+.copyright{display:flex;gap:3rem;}
+.copyright>p{font:var(--font-13);}
+.copyright>p>a:hover{color:var(--color-e5);}
+
+

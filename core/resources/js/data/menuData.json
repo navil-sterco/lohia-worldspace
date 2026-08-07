@@ -1,0 +1,158 @@
+[
+    {
+        "header": "",
+        "items": [
+            {
+                "text": "Dashboard",
+                "icon": "bx bx-qr",
+                "available": true,
+                "link": "dashboard"
+            }
+        ]
+    },
+    {
+        "header": "CMS & Elements",
+        "items": [
+            {
+                "text": "Content Managers",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "",
+                "permissions": [
+                    "view-page",
+                    "view-page-section",
+                    "view-tab"
+                ],
+                "submenu": [
+                    {
+                        "text": "Pages",
+                        "available": true,
+                        "link": "pages.index",
+                        "permission": "view-page"
+                    },
+                    {
+                        "text": "Page Section",
+                        "available": true,
+                        "link": "page-sections.index",
+                        "permission": "view-page-section"
+                    },
+                    {
+                        "text": "Tabs",
+                        "available": true,
+                        "link": "tabs.index",
+                        "permission": "view-tab"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "header": "Modules Management",
+        "items": [
+            {
+                "text": "Manage Modules",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "",
+                "permissions": [
+                    "modules.view"
+                ],
+                "submenu": [
+                    {
+                        "text": "All Modules",
+                        "available": true,
+                        "link": "modules.index",
+                        "permission": "modules.view"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "header": "MEDIA LIBRARY & SEO",
+        "items": [
+            {
+                "text": "Gallery",
+                "icon": "bx bx-image",
+                "available": true,
+                "link": "gallery.index",
+                "permission": "view-gallery"
+            },
+            {
+                "text": "Seo",
+                "icon": "bx bx-search-alt-2",
+                "available": true,
+                "link": "seo.index",
+                "permission": "view-seo"
+            }
+        ]
+    },
+    {
+        "header": "CONTACT & SUPPORT",
+        "items": [
+            {
+                "text": "Enquiry",
+                "icon": "bx bx-message-square-detail",
+                "available": true,
+                "link": "contact-forms.index",
+                "permission": "view-contact"
+            },
+            {
+                "text": "Support Info",
+                "icon": "bx bx-support",
+                "available": true,
+                "link": "support-information.index",
+                "permission": "view-support"
+            }
+        ]
+    },
+    {
+        "header": "User Management",
+        "items": [
+            {
+                "text": "Users & Access",
+                "icon": "bx bx-user",
+                "available": true,
+                "link": "",
+                "permissions": [
+                    "view-user",
+                    "view-roles",
+                    "view-permission"
+                ],
+                "submenu": [
+                    {
+                        "text": "Users",
+                        "available": true,
+                        "link": "users.index",
+                        "permission": "view-user"
+                    },
+                    {
+                        "text": "Roles",
+                        "available": true,
+                        "link": "roles.index",
+                        "permission": "view-roles"
+                    },
+                    {
+                        "text": "Permissions",
+                        "available": true,
+                        "link": "permissions.index",
+                        "permission": "view-permission"
+                    }
+                ]
+            },
+            {
+                "text": "Profile Settings",
+                "icon": "bx bx-cog",
+                "available": true,
+                "link": "",
+                "submenu": [
+                    {
+                        "text": "Update Profile",
+                        "available": true,
+                        "link": "profile.edit"
+                    }
+                ]
+            }
+        ]
+    }
+]

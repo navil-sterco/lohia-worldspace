@@ -1,0 +1,278 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Inertia\Inertia;
+use App\Models\Module;
+use App\Models\PageSection;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+
+
+class ModuleController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('permission:modules.view')->only(['index']);
+        $this->middleware('permission:modules.create')->only(['create', 'store']);
+        $this->middleware('permission:modules.update')->only(['edit', 'update']);
+        $this->middleware('permission:modules.delete')->only(['destroy']);
+    }
+
+    public function index(Request $request)
+    {
+        $search = $request->input('search');
+
+        $modules = Module::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('slug', 'like', "%{$search}%");
+            })
+            ->orderByDesc('id')
+            ->paginate(10)
+            ->withQueryString()
+            ->through(function ($module) {
+                return [
+                    'id' => $module->id,
+                    'name' => $module->name,
+                    'slug' => $module->slug,
+                    'fields_count' => count($module->fields_config ?? []),
+                    'is_active' => (bool) $module->is_active,
+                    'created_at' => optional($module->created_at)?->format('M d, Y'),
+                ];
+            });
+
+        return Inertia::render('Module/Index', [
+            'modules' => $modules,
+            'searchTerm' => $search ?? '',
+        ]);
+    }
+
+    public function create()
+    {
+        $previousUrl = url()->previous();
+        if ($previousUrl && str_contains($previousUrl, '/modules')) {
+            if (
+                !str_contains($previousUrl, '/create') &&
+                !str_contains($previousUrl, '/edit')
+            ) {
+                session(['return_url.modules' => $previousUrl]);
+            }
+        }
+
+        $modules = Module::active()->orderBy('name')->get(['id', 'name', 'slug']);
+        $sections = PageSection::orderBy('name')->get(['id', 'name', 'identifier', 'fields_config', 'mapping_config', 'mapping_enabled']);
+        return Inertia::render('Module/Create', [
+            'modules' => $modules,
+            'sections' => $sections,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $fieldsConfig = $request->input('fields_config');
+        if (is_string($fieldsConfig)) {
+            $decoded = json_decode($fieldsConfig, true);
+            if (!is_array($decoded)) {
+                return back()->withErrors([
+                    'fields_config' => 'Invalid JSON format for fields configuration.',
+                ])->withInput();
+            }
+            $request->merge(['fields_config' => $decoded]);
+        }
+
+        $mappingConfig = $request->input('mapping_config');
+        if (is_string($mappingConfig)) {
+            $decoded = json_decode($mappingConfig, true);
+            if (!is_array($decoded)) {
+                return back()->withErrors([
+                    'mapping_config' => 'Invalid JSON format for mapping configuration.',
+                ])->withInput();
+            }
+            $request->merge(['mapping_config' => $decoded]);
+        }
+        // Backward compatibility: allow old flat mapping_config (fields array) and normalize to grouped format
+        $mappingConfig = $request->input('mapping_config');
+        if (is_array($mappingConfig) && !empty($mappingConfig)) {
+            $first = $mappingConfig[0] ?? null;
+            if (is_array($first) && array_key_exists('name', $first) && !array_key_exists('fields', $first)) {
+                $request->merge([
+                    'mapping_config' => [
+                        [
+                            'group_label' => 'Repeatable Items',
+                            'group_name' => 'items',
+                            'fields' => $mappingConfig,
+                        ]
+                    ],
+                ]);
+            }
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:modules,slug',
+            'auto_generate_slug' => 'boolean',
+            'fields_config' => 'nullable|array',
+            'fields_config.*.name' => 'required|string',
+            'fields_config.*.type' => 'required|string|in:text,textarea,number,email,url,select,checkbox,radio,file,date,image,code,color',
+            'fields_config.*.label' => 'required|string',
+            'fields_config.*.placeholder' => 'nullable|string',
+            'fields_config.*.is_slug' => 'nullable|boolean',
+            'fields_config.*.required' => 'boolean',
+            'fields_config.*.options' => 'nullable|array',
+            'mapping_config' => 'nullable|array',
+            'mapping_config.*.group_label' => 'required|string|max:255',
+            'mapping_config.*.group_name' => 'required|string|max:255',
+            'mapping_config.*.fields' => 'nullable|array',
+            'mapping_config.*.fields.*.name' => 'required|string',
+            'mapping_config.*.fields.*.type' => 'required|string|in:text,textarea,number,email,url,select,checkbox,radio,file,date,image,code,color',
+            'mapping_config.*.fields.*.label' => 'required|string',
+            'mapping_config.*.fields.*.required' => 'boolean',
+            'mapping_config.*.fields.*.options' => 'nullable|array',
+            'page_section_ids' => 'nullable|array',
+            'page_section_ids.*' => 'integer|exists:page_sections,id',
+            'map_to_module_ids' => 'nullable|array',
+            'map_to_module_ids.*' => 'integer|exists:modules,id',
+            'selectbox_module_ids' => 'nullable|array',
+            'selectbox_module_ids.*' => 'integer|exists:modules,id',
+            'mapping_enabled' => 'boolean',
+            'types_enabled' => 'boolean',
+            'types' => 'nullable|array',
+            'types.*' => 'string|max:255',
+            'is_active' => 'boolean',
+        ]);
+
+        if (($validated['auto_generate_slug'] ?? true) || empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
+
+        Module::create($validated);
+
+        $returnUrl = session()->pull('return_url.modules', route('modules.index'));
+        return redirect()->to($returnUrl)->with('success', 'Module created successfully!');
+    }
+
+    public function edit(Module $module)
+    {
+        $previousUrl = url()->previous();
+        if ($previousUrl && str_contains($previousUrl, '/modules')) {
+            if (
+                !str_contains($previousUrl, '/create') &&
+                !str_contains($previousUrl, '/edit')
+            ) {
+                session(['return_url.modules' => $previousUrl]);
+            }
+        }
+
+        $modules = Module::active()->where('id', '!=', $module->id)->orderBy('name')->get(['id', 'name', 'slug']);
+        $sections = PageSection::orderBy('name')->get(['id', 'name', 'identifier', 'fields_config', 'mapping_config', 'mapping_enabled']);
+        return Inertia::render('Module/Edit', [
+            'module' => $module,
+            'modules' => $modules,
+            'sections' => $sections,
+        ]);
+    }
+
+    public function update(Request $request, Module $module)
+    {
+        $rawFieldsConfig = $request->input('fields_config');
+        if (is_string($rawFieldsConfig)) {
+            $decoded = json_decode($rawFieldsConfig, true);
+            if (!is_array($decoded)) {
+                return back()->withErrors([
+                    'fields_config' => 'Invalid JSON format for fields configuration.',
+                ])->withInput();
+            }
+            $request->merge(['fields_config' => $decoded]);
+        }
+
+        $rawMappingConfig = $request->input('mapping_config');
+        if (is_string($rawMappingConfig)) {
+            $decoded = json_decode($rawMappingConfig, true);
+            if (!is_array($decoded)) {
+                return back()->withErrors([
+                    'mapping_config' => 'Invalid JSON format for mapping configuration.',
+                ])->withInput();
+            }
+            $request->merge(['mapping_config' => $decoded]);
+        }
+        // Backward compatibility: allow old flat mapping_config (fields array) and normalize to grouped format
+        $rawMappingConfig = $request->input('mapping_config');
+        if (is_array($rawMappingConfig) && !empty($rawMappingConfig)) {
+            $first = $rawMappingConfig[0] ?? null;
+            if (is_array($first) && array_key_exists('name', $first) && !array_key_exists('fields', $first)) {
+                $request->merge([
+                    'mapping_config' => [
+                        [
+                            'group_label' => 'Repeatable Items',
+                            'group_name' => 'items',
+                            'fields' => $rawMappingConfig,
+                        ]
+                    ],
+                ]);
+            }
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:modules,slug,' . $module->id,
+            'auto_generate_slug' => 'boolean',
+            'fields_config' => 'nullable|array',
+            'fields_config.*.name' => 'required|string',
+            'fields_config.*.type' => 'required|string|in:text,textarea,number,email,url,select,checkbox,radio,file,date,image,code,color',
+            'fields_config.*.label' => 'required|string',
+            'fields_config.*.required' => 'boolean',
+            'fields_config.*.placeholder' => 'nullable|string',
+            'fields_config.*.options' => 'nullable|array',
+            'fields_config.*.is_slug' => 'nullable|boolean',
+            'mapping_config' => 'nullable|array',
+            'mapping_config.*.group_label' => 'required|string|max:255',
+            'mapping_config.*.group_name' => 'required|string|max:255',
+            'mapping_config.*.fields' => 'nullable|array',
+            'mapping_config.*.fields.*.name' => 'required|string',
+            'mapping_config.*.fields.*.type' => 'required|string|in:text,textarea,number,email,url,select,checkbox,radio,file,date,image,code,color',
+            'mapping_config.*.fields.*.label' => 'required|string',
+            'mapping_config.*.fields.*.required' => 'boolean',
+            'mapping_config.*.fields.*.options' => 'nullable|array',
+            'page_section_ids' => 'nullable|array',
+            'page_section_ids.*' => 'integer|exists:page_sections,id',
+            'map_to_module_ids' => 'nullable|array',
+            'map_to_module_ids.*' => 'integer|exists:modules,id',
+            'selectbox_module_ids' => 'nullable|array',
+            'selectbox_module_ids.*' => 'integer|exists:modules,id',
+            'mapping_enabled' => 'boolean',
+            'types_enabled' => 'boolean',
+            'types' => 'nullable|array',
+            'types.*' => 'string|max:255',
+            'is_active' => 'boolean',
+        ]);
+
+        if ($validated['auto_generate_slug'] ?? false) {
+            $validated['slug'] = Str::slug($validated['name']);
+        }
+
+        $module->update($validated);
+
+        $returnUrl = session()->pull('return_url.modules', route('modules.index'));
+        return redirect()->to($returnUrl)->with('success', 'Module updated successfully!');
+    }
+
+    public function destroy(Module $module)
+    {
+        $entryIds = $module->entries()->pluck('id')->toArray();
+        if (!empty($entryIds)) {
+            DB::table('module_entry_page')->whereIn('module_entry_id', $entryIds)->delete();
+            DB::table('module_entry_mapping')
+                ->whereIn('module_entry_id', $entryIds)
+                ->orWhereIn('related_module_entry_id', $entryIds)
+                ->delete();
+        }
+        $module->entries()->delete();
+        $module->delete();
+
+        return back()->with('success', 'Module deleted successfully!');
+    }
+}
+
