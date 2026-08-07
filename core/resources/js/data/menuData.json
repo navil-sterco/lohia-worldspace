@@ -31,19 +31,7 @@
                         "permission": "view-page"
                     },
                     {
-                        "text": "Pas",
-                        "available": true,
-                        "link": "pages.index",
-                        "permission": "view-page"
-                    },
-                    {
                         "text": "Page Section",
-                        "available": true,
-                        "link": "page-sections.index",
-                        "permission": "view-page-section"
-                    },
-                    {
-                        "text": " Section",
                         "available": true,
                         "link": "page-sections.index",
                         "permission": "view-page-section"
