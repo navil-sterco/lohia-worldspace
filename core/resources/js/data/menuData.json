@@ -7,12 +7,6 @@
                 "icon": "bx bx-qr",
                 "available": true,
                 "link": "dashboard"
-            },
-            {
-                "text": "Home",
-                "icon": "bx bx-qr",
-                "available": true,
-                "link": "dashboard"
             }
         ]
     },
@@ -32,6 +26,12 @@
                 "submenu": [
                     {
                         "text": "Pages",
+                        "available": true,
+                        "link": "pages.index",
+                        "permission": "view-page"
+                    },
+                    {
+                        "text": "Pas",
                         "available": true,
                         "link": "pages.index",
                         "permission": "view-page"
