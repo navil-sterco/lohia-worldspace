@@ -7,6 +7,12 @@
                 "icon": "bx bx-qr",
                 "available": true,
                 "link": "dashboard"
+            },
+            {
+                "text": "Home",
+                "icon": "bx bx-qr",
+                "available": true,
+                "link": "dashboard"
             }
         ]
     },
