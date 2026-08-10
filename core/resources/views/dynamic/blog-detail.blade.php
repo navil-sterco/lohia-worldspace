@@ -1,18 +1,7 @@
 @include('includes.header')
 <link rel="stylesheet" type="text/css" href="{{ asset('frontend-assets/css/inner-page.css') }}">
 
-<section class="inner_menu">
-    <div class="container max-content-lg">
-        <div class="dropdown_menu">
-            <button class="dropdown_toggle">News</button>
-            <ul class="dropdown_item">
-                <li><a href="{{ route('news.index') }}">News</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Media</a></li>
-            </ul>
-        </div>
-    </div>
-</section>
+<x-menu />
 
 <section class="nwsdtl_sec">
     <div class="nwsdtl_wrapper">

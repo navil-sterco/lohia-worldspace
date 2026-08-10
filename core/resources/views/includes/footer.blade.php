@@ -25,10 +25,8 @@
                 <div class="footer_link">
                     <ul>
                         @foreach($footer as $menu)
-                            <li><a href="{{ url($menu['slug']) }}" 
-                            @if(($menu['target_blank'] ?? false))
-                                target="_blank" rel="noopener noreferrer"
-                            @endif>{{ $menu['title'] }}</a></li>
+                            <li><a href="{{ url($menu['slug']) }}" @if(($menu['target_blank'] ?? false)) target="_blank"
+                            rel="noopener noreferrer" @endif>{{ $menu['title'] }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -37,10 +35,8 @@
                     <h6>Other Links</h6>
                     <ul>
                         @foreach($quickLinks as $menu)
-                            <li><a href="{{ url($menu['slug']) }}" 
-                            @if(($menu['target_blank'] ?? false))
-                                target="_blank" rel="noopener noreferrer"
-                            @endif>{{ $menu['title'] }}</a></li>
+                            <li><a href="{{ url($menu['slug']) }}" @if(($menu['target_blank'] ?? false)) target="_blank"
+                            rel="noopener noreferrer" @endif>{{ $menu['title'] }}</a></li>
                         @endforeach
                     </ul>
                 </div>
@@ -71,7 +67,9 @@
 <script src="{{ url('frontend-assets/js/aos.js') }}"></script>
 <script src="{{ url('frontend-assets/js/swiper-bundle.min.js') }}"></script>
 <script src="{{ url('frontend-assets/js/lenis.min.js') }}"></script>
-<script src="{{ url('frontend-assets/js/jquery-rbox.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"
+    integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ url('frontend-assets/js/custom.js') }}"></script>
 @if(request()->is('/') || request()->is('home'))
     <script src="{{ url('frontend-assets/js/home.js') }}"></script>

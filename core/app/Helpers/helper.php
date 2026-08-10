@@ -85,3 +85,38 @@ function socialIcons()
     });
 }
 
+function insightMenu(string $slug): array
+{
+    $page = Page::published()
+        ->where('page_type', 'cms')
+        ->where('slug', $slug)
+        ->first();
+
+    if (!$page) {
+        return ['parent' => null, 'items' => collect()];
+    }
+
+    if ($page->parent_page_id) {
+        $parent = Page::find($page->parent_page_id);
+
+        $items = Page::published()
+            ->where('page_type', 'cms')
+            ->where('parent_page_id', $page->parent_page_id)
+            ->orderBy('display_order')
+            ->get(['title', 'slug']);
+    } else {
+        $parent = $page;
+
+        $items = Page::published()
+            ->where('page_type', 'cms')
+            ->where('parent_page_id', $page->id)
+            ->orderBy('display_order')
+            ->get(['title', 'slug']);
+    }
+
+    return [
+        'parent' => $parent,
+        'items' => $items,
+    ];
+}
+

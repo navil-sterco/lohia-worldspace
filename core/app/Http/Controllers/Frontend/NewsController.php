@@ -24,21 +24,4 @@ class NewsController extends Controller
             'news' => $news,
         ]);
     }
-
-    public function detail($slug)
-    {
-        $newsDetail = ModuleEntry::where('slug', $slug)->where('module_id', 1)->firstOrFail();
-        $newsDetail = $newsDetail->toCleanData();
-
-        $relatedNews = ModuleEntry::where('module_id', 1)
-            ->where('slug', '!=', $slug)
-            ->take(2)
-            ->get()
-            ->map(fn($item) => $item->toCleanData());
-
-        return view('dynamic.news-detail', [
-            'newsDetail' => $newsDetail,
-            'relatedNews' => $relatedNews,
-        ]);
-    }
 }

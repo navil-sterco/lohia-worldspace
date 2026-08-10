@@ -1,17 +1,6 @@
 @include('includes.header')
 
-<section class="inner_menu">
-    <div class="container max-content-md">
-        <div class="dropdown_menu">
-            <button class="dropdown_toggle">Blog</button>
-            <ul class="dropdown_item">
-                <li><a href="#">News</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Media</a></li>
-            </ul>
-        </div>
-    </div>
-</section>
+<x-menu />
 
 <section class="nws_sec">
     <div class="container-md">

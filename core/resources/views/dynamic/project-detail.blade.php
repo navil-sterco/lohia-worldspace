@@ -36,44 +36,31 @@
                 {!! $projectDetail['cms']['project_detail_gallery_section'] ?? '' !!}
 
                 @if(!empty($projectDetail['modular']['testimonials']))
-                    <div class="speak_wrapper" id="customer-speak">
+                    <div class="speak_wrapper" id="customer-testimonials">
+                        <h5 class="title21">Customers Speak</h5>
                         <div class="speak_swiper swiper">
                             <div class="swiper-wrapper">
                                 @foreach($projectDetail['modular']['testimonials'] as $testimonial)
                                     <div class="swiper-slide">
-                                        <div class="speak_grid">
-
-                                            <div class="speak_figure">
-                                                <div class="speak_auth">
-                                                    <h4>
-                                                        {{ $testimonial['name'] ?? '' }}
-                                                        <strong>{{ $testimonial['location'] ?? '' }}</strong>
-                                                    </h4>
-                                                </div>
-
-                                                <figure>
-                                                    <img src="{{ $testimonial['image'] ?? '' }}"
-                                                        alt="{{ $testimonial['name'] ?? 'Customer' }}" class="img-fluid w-100">
-                                                </figure>
-                                            </div>
-
-                                            <div class="speak_caption">
-                                                <h6>Customers Speak</h6>
-
-                                                <h3>
-                                                    {{ $testimonial['title'] ?? '' }}
-                                                </h3>
-                                            </div>
-
+                                        <div class="speak_video commonvideo_wraper">
+                                            <video class="desktop_video" muted="false" autoplay playsinline
+                                                @if(!empty($testimonial['thumbnail_image']))
+                                                    poster="{{ $testimonial['thumbnail_image'] }}"
+                                                @endif>
+                                                @if(!empty($testimonial['video']))
+                                                    <source src="{{ $testimonial['video'] }}" type="video/mp4">
+                                                @endif
+                                            </video>
+                                            <button type="button" class="play_btn">
+                                                <img src="{{ asset('frontend-assets/images/pause.svg') }}" alt="pause" class="img-fluid">
+                                                <img src="{{ asset('frontend-assets/images/videoplay-icon.svg') }}" alt="play" class="img-fluid">
+                                            </button>
                                         </div>
-
-                                        <a href="#" class="overlap_btn">
-                                            <img src="{{ asset('frontend-assets/images/arrow-right-white.svg') }}" alt="arrow"
-                                                class="img-fluid">
-                                        </a>
                                     </div>
                                 @endforeach
                             </div>
+                            <div class="swiper-button-prev speak-prev"></div>
+                            <div class="swiper-button-next speak-next"></div>
                         </div>
                     </div>
                 @endif

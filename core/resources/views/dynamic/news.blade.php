@@ -1,17 +1,6 @@
 @include('includes.header')
 
-<section class="inner_menu">
-    <div class="container max-content-md">
-        <div class="dropdown_menu">
-            <button class="dropdown_toggle">News</button>
-            <ul class="dropdown_item">
-                <li><a href="#">News</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Media</a></li>
-            </ul>
-        </div>
-    </div>
-</section>
+<x-menu />
 
 <section class="nws_sec">
     <div class="container-md">
@@ -43,7 +32,11 @@
                         <figure class="nws_figure">
                             <img src="{{ $firstNews['image'] ?? ''}}" alt="{{ $firstNews['name'] }}" class="img-fluid w-100">
                         </figure>
-                        <a href="{{ route('news.show', $firstNews['slug']) }}" class="overlap_btn">View</a>
+                        @if(!empty($firstNews['link']))
+                            <a href="{{ $firstNews['link'] }}" target="_blank" rel="noopener noreferrer" class="overlap_btn">
+                                View
+                            </a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -65,7 +58,11 @@
                                 <figure>
                                     <img src="{{ $item['image'] ?? '' }}" alt="{{ $item['name'] }}" class="img-fluid w-100">
                                 </figure>
-                                <a href="{{ route('news.show', $item['slug']) }}" class="overlap_btn">View</a>
+                                @if(!empty($item['link']))
+                                    <a href="{{ $item['link'] }}" target="_blank" rel="noopener noreferrer" class="overlap_btn">
+                                        View
+                                    </a>
+                                @endif
                             </div>
                         @empty
                             <p>No news to show yet.</p>

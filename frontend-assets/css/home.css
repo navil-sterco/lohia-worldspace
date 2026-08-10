@@ -5,7 +5,7 @@
 .hero_title>p{margin-top: 2rem;}
 .hero_bnrarea{position: relative; display: grid; width:100%;padding-left: 4.6rem;}
 .hero_swiper{width:100%;}
-.hero_swiper .swiper-slide{display:flex;height:auto;aspect-ratio:4 / 1.9324;}
+.hero_swiper .swiper-slide{display:flex;height:auto;aspect-ratio:1863/900;}
 .hero_swiper .swiper-slide video{height: 100%; object-fit: cover;-webkit-object-fit: cover; object-position: 50% 50%;}
 
 /* About Area Start */
@@ -48,7 +48,7 @@
 .mstr_victor{position:relative; margin-top:-0.5rem;}
 .mstr_title{display:flex;flex-direction:column;align-items:start;gap:4rem;padding-block:5.4rem 15rem;}
 .master_video{overflow: hidden;}
-.master_video>video{width:100%;height:100%;max-height:77.9rem;object-fit:cover;object-position:center;}
+.master_video>video{width:100%;height:100%;aspect-ratio:1990 / 779;object-fit:cover;object-position:center;}
 
 .mstrone_grid{display:flex;align-items:center;justify-content:space-between;gap:11rem;}
 .mstrone_grid>figure{width:100%;max-width:29.3rem;flex-shrink:0;}
@@ -119,12 +119,13 @@
 .speak_sec{padding-block:20rem 10rem;}
 .speak_sec .sec_title{display:grid;grid-template-columns:310fr 700fr;gap:12rem;align-items:center;max-width:113rem;margin-inline:auto 3rem;margin-bottom:5.5rem;}
 .speak_title{display:grid;gap:4rem;}
-.speak_wrapper{position: relative;}
-.speak_wrapper>:is(.speak-prev, .speak-next){position: absolute; top: 50%; left: 10rem;}
-.speak_wrapper>:is(.speak-next){left: auto; right: 10rem;}
-.speak_swiper{max-width:199rem;margin-inline:auto;}
+.speak_wrapper{position: relative;padding-inline:10rem;}
+.speak_wrapper>:is(.speak-prev, .speak-next){position: absolute; top: 50%; left: 0;}
+.speak_wrapper>:is(.speak-next){left: auto; right: 0;}
+.speak_swiper{margin-inline:auto;}
 .speak_swiper .swiper-slide{position: relative;}
-.speak_grid{display:grid;grid-template-columns:812fr 890fr;gap:12rem;padding:2.5rem 4.9rem 2.5rem 2.8rem;background-color:var(--color-93);}
+.speak_video>video{object-fit:cover;aspect-ratio:1524 / 850;}
+/* .speak_grid{display:grid;grid-template-columns:812fr 890fr;gap:12rem;padding:2.5rem 4.9rem 2.5rem 2.8rem;background-color:var(--color-93);}
 .speak_figure{position:relative;background-color:var(--color-22);padding:5.3rem 6.2rem 0 5.5rem;z-index:1;}
 .speak_auth{position:absolute;left:4.4rem;top:4.5rem;padding:2.1rem 2.3rem;background:url(../images/auth-bg.svg) no-repeat center/100%;z-index:1;-webkit-clip-path:polygon(0 0,0 0,0 100%,0 100%);clip-path:polygon(0 0,0 0,0 100%,0 100%);}
 .speak_swiper .swiper-slide-active .speak_auth{-webkit-clip-path:polygon(0 0,100% 0,100% 100%,0 100%);clip-path:polygon(0 0,100% 0,100% 100%,0 100%);-webkit-transition:-webkit-clip-path .8s ease-in-out;transition:clip-path .8s ease-in-out;will-change:clip-path;}
@@ -136,11 +137,11 @@
 .speak_caption{padding-right:13.5rem;display:flex;flex-direction:column;justify-content:center;align-items:start;gap:4rem;height:100%;}
 .speak_caption>*{color:var(--color-white);}
 .speak_caption > h3{font:var(--font-60);opacity:0;transform:translate3d(0,30px,0) scale(.98);filter:blur(6px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.16,1,.3,1),filter 1.1s ease;transition-delay:.15s;will-change:opacity,transform,filter;}
-.speak_caption > p{max-width:calc(100% - 9rem);opacity:0;transform:translate3d(0,35px,0) scale(.98);filter:blur(6px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.16,1,.3,1),filter 1.1s ease;transition-delay:.35s;will-change:opacity,transform,filter;}
+.speak_caption > p{ max-width:calc(100% - 9rem); opacity:0; transform:translate3d(0,35px,0) scale(.98); filter:blur(6px); transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.16,1,.3,1),filter 1.1s ease; transition-delay:.35s; will-change:opacity,transform,filter; -webkit-transform:translate3d(0,35px,0) scale(.98); -moz-transform:translate3d(0,35px,0) scale(.98); -ms-transform:translate3d(0,35px,0) scale(.98); -o-transform:translate3d(0,35px,0) scale(.98); }
 .speak_swiper .swiper-slide-active .speak_caption > h3,.speak_swiper .swiper-slide-active .speak_caption > p{opacity:1;transform:translate3d(0,0,0) scale(1);filter:blur(0);}
 
 .speak_swiper .swiper-slide>.overlap_btn{position:absolute;right:5rem;left:auto;top:5rem;width:auto;height:auto;}
-.speak_swiper .swiper-slide>.overlap_btn>img{width: 4.7rem; height: 4.7rem;}
+.speak_swiper .swiper-slide>.overlap_btn>img{width: 4.7rem; height: 4.7rem;} */
 
 
 /* Whats On Area */

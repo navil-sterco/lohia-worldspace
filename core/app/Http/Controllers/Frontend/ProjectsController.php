@@ -93,6 +93,7 @@ class ProjectsController extends Controller
         }
 
         $projectDetail = $projectDetail->getDetailData($projectDetail->id);
+        
 
         return view('dynamic.project-detail', [
             'projectDetail' => $projectDetail

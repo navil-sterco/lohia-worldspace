@@ -3,6 +3,9 @@
     $sidebar = sidebar();
     $footer = footerData();
     $socialIcons = socialIcons();
+
+    // Normalize current path once, reuse for every menu loop below
+    $currentPath = trim(request()->path(), '/'); // '' for home, 'about-us', 'projects/lohia-one', etc.
 @endphp
 
 <!DOCTYPE html>
@@ -41,11 +44,17 @@
 
             <ul class="site_nav">
                 @foreach($header as $menu)
-                    <li>
+                    @php
+                        $menuSlug = trim($menu['slug'] ?? '', '/');
+                        $isActive = $currentPath === $menuSlug
+                            || ($menuSlug !== '' && Str::startsWith($currentPath, $menuSlug . '/'));
+                    @endphp
+                    <li class="{{ $isActive ? 'active' : '' }}">
                         <a href="{{ url($menu['slug']) }}"
                         @if(($menu['target_blank'] ?? false))
                             target="_blank" rel="noopener noreferrer"
-                        @endif>
+                        @endif
+                        @if($isActive) aria-current="page" @endif>
                             {{ $menu['title'] }}
                         </a>
                     </li>
@@ -67,10 +76,18 @@
             <div class="hamb_menu">
                 <ul>
                     @foreach($sidebar as $menu)
-                        <li><a href="{{ url($menu['slug']) }}" 
-                        @if(($menu['target_blank'] ?? false))
-                            target="_blank" rel="noopener noreferrer"
-                        @endif>{{ $menu['title'] }}</a></li>
+                        @php
+                            $menuSlug = trim($menu['slug'] ?? '', '/');
+                            $isActive = $currentPath === $menuSlug
+                                || ($menuSlug !== '' && Str::startsWith($currentPath, $menuSlug . '/'));
+                        @endphp
+                        <li class="{{ $isActive ? 'active' : '' }}">
+                            <a href="{{ url($menu['slug']) }}"
+                            @if(($menu['target_blank'] ?? false))
+                                target="_blank" rel="noopener noreferrer"
+                            @endif
+                            @if($isActive) aria-current="page" @endif>{{ $menu['title'] }}</a>
+                        </li>
                     @endforeach
                 </ul>
 
@@ -82,10 +99,18 @@
             <div class="hamb_quick">
                 <ul>
                     @foreach($footer as $menu)
-                        <li><a href="{{ url($menu['slug']) }}"
-                            @if(($menu['target_blank'] ?? false))
-                                target="_blank" rel="noopener noreferrer"
-                            @endif>{{ $menu['title'] }}</a></li>
+                        @php
+                            $menuSlug = trim($menu['slug'] ?? '', '/');
+                            $isActive = $currentPath === $menuSlug
+                                || ($menuSlug !== '' && Str::startsWith($currentPath, $menuSlug . '/'));
+                        @endphp
+                        <li class="{{ $isActive ? 'active' : '' }}">
+                            <a href="{{ url($menu['slug']) }}"
+                                @if(($menu['target_blank'] ?? false))
+                                    target="_blank" rel="noopener noreferrer"
+                                @endif
+                                @if($isActive) aria-current="page" @endif>{{ $menu['title'] }}</a>
+                        </li>
                     @endforeach
                 </ul>
 

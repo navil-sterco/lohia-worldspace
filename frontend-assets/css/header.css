@@ -31,13 +31,14 @@ body:has(.side_hamburger.is-open) .site_nav{transform:translateY(var(--hamb-widt
 
 
 @media(max-width:991px){
+    .main_header{padding-block:3.3rem 0;}
+    .main_header.sticky{padding-block:1rem;}
+    .main_header>.container-fluid{padding-inline: 3.2rem;}
     .site_nav, .hamb_btn{display: none;}
-    .site_navbar{max-width:30.2rem;margin-inline:auto;}
+    .site_navbrand{max-width:30.2rem;margin-inline:0 auto;}
 }
 @media(max-width:767px){
-    .main_header{padding-block:3rem 0;}
-    .main_header.sticky{padding-block:1rem;}
-    .site_navbar{max-width:22.4rem;}
+    .site_navbrand{max-width:21.9rem;}
 }
 
 /* Hamburger Menu */

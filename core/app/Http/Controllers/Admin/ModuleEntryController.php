@@ -177,7 +177,7 @@ class ModuleEntryController extends Controller
             if (!$name)
                 continue;
             if (in_array($field['type'] ?? 'text', ['file', 'image'])) {
-                $rules["data.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:5000';
+                $rules["data.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:12000';
             }
         }
 
@@ -189,7 +189,7 @@ class ModuleEntryController extends Controller
                 if (!$name)
                     continue;
                 if (in_array($field['type'] ?? 'text', ['file', 'image'])) {
-                    $rules["mapping_data.{$groupName}.*.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:5000';
+                    $rules["mapping_data.{$groupName}.*.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:12000';
                 }
             }
         }
@@ -388,8 +388,8 @@ class ModuleEntryController extends Controller
                                 ])
                             ) {
                                 $fail("The {$attribute} field has an invalid file type.");
-                            } elseif ($value->getSize() > 5000 * 1024) {
-                                $fail("The {$attribute} field must not exceed 5000 KB.");
+                            } elseif ($value->getSize() > 12000 * 1024) {
+                                $fail("The {$attribute} field must not exceed 12000 KB.");
                             }
                             return;
                         }
@@ -432,8 +432,8 @@ class ModuleEntryController extends Controller
                                     ])
                                 )
                                     $fail("The {$attribute} field has an invalid file type.");
-                                elseif ($value->getSize() > 5000 * 1024)
-                                    $fail("The {$attribute} field must not exceed 5000 KB.");
+                                elseif ($value->getSize() > 12000 * 1024)
+                                    $fail("The {$attribute} field must not exceed 12000 KB.");
                                 return;
                             }
                             $fail("The {$attribute} field must be a file or string.");
@@ -445,13 +445,10 @@ class ModuleEntryController extends Controller
 
         $validated = $request->validate($rules);
 
-        // Parse deleted files list
         $deletedFiles = [];
         if ($request->has('_deleted_files')) {
             $deletedFiles = json_decode($request->input('_deleted_files', '[]'), true) ?? [];
         }
-
-        // Parse explicitly cleared (nulled/emptied) fields
         $clearedFields = [];
         if ($request->has('_cleared_fields')) {
             $clearedFields = json_decode($request->input('_cleared_fields', '[]'), true) ?? [];
@@ -469,28 +466,21 @@ class ModuleEntryController extends Controller
 
             if ($isFileType) {
                 if (in_array($name, $deletedFiles)) {
-                    // Explicitly deleted file — clear it
                     $data[$name] = '';
                 } elseif ($value instanceof \Illuminate\Http\UploadedFile) {
-                    // New file uploaded — store it
                     $filePath = $this->uploadFile($value, $module->id);
                     $data[$name] = $filePath;
                 } elseif (is_string($value) && !empty($value)) {
-                    // Existing file path string passed back — keep it
                     $data[$name] = $value;
                 } else {
-                    // Nothing submitted — preserve old value
                     $data[$name] = $entry->data[$name] ?? '';
                 }
             } else {
                 if (in_array($name, $clearedFields)) {
-                    // Field was intentionally cleared by the user
                     $data[$name] = null;
                 } elseif (array_key_exists($name, $validated['data'] ?? [])) {
-                    // Field was submitted (even if empty string) — save as-is
                     $data[$name] = $validated['data'][$name];
                 } else {
-                    // Field was not submitted at all — preserve old value
                     $data[$name] = $entry->data[$name] ?? '';
                 }
             }
@@ -564,7 +554,6 @@ class ModuleEntryController extends Controller
             'is_published' => (bool) $request->boolean('is_published', $entry->is_published),
         ]);
 
-        // Keep module sub page slugs in sync with current entry slug prefix
         $entry->load('subPages');
         $entryPrefix = $entry->slug ?: ('entry-' . $entry->id);
         $entry->subPages
@@ -625,7 +614,6 @@ class ModuleEntryController extends Controller
         $payload = $this->modulePayloadWithSections($module);
         $sectionData = $entry->data['sections'] ?? [];
 
-        // Fetch the PageSection models for these section_ids to format active sections
         $sectionIds = collect($sectionData)->pluck('section_id')->toArray();
         $sectionsMap = PageSection::whereIn('id', $sectionIds)->get()->keyBy('id');
 
@@ -646,7 +634,7 @@ class ModuleEntryController extends Controller
                 'mapping_config' => $sec->mapping_config ?? [],
                 'mapping_enabled' => (bool) ($sec->mapping_enabled ?? false),
                 'pivot' => [
-                    'id' => null, // Omitted database record ID so client-side delete removes from state only
+                    'id' => null,
                     'order' => $index,
                     'section_data' => json_encode([
                         'data' => $sd['data'] ?? [],
@@ -693,7 +681,6 @@ class ModuleEntryController extends Controller
             $sectionId = (int) $sectionReq['section_id'];
             $parsedData = json_decode($sectionReq['section_data'], true) ?? [];
 
-            // Handle flat files — use isset() on the merged array, not hasFile()
             if (isset($sectionReq['files']) && is_array($sectionReq['files'])) {
                 foreach ($sectionReq['files'] as $fieldName => $file) {
                     if ($file instanceof \Illuminate\Http\UploadedFile) {
@@ -702,7 +689,6 @@ class ModuleEntryController extends Controller
                 }
             }
 
-            // Handle mapping files (including nested structures)
             if (isset($sectionReq['mapping_files']) && is_array($sectionReq['mapping_files'])) {
                 $mf = $sectionReq['mapping_files'];
                 foreach ($mf as $groupName => $itemsByIndex) {
@@ -758,7 +744,6 @@ class ModuleEntryController extends Controller
 
         $lists = [];
 
-        // Build Pages list with "Home" as the first item
         $homeItem = (object) ['id' => 'home', 'title' => 'Home', 'slug' => '/'];
         $pages = Page::select('id', 'title', 'slug')->where('page_type', 'modular')->get();
         $pagesWithHome = collect([$homeItem])->concat($pages);
@@ -818,7 +803,6 @@ class ModuleEntryController extends Controller
         }
 
         $entity = $entry->toArray();
-        // Build pages array — include virtual 'home' ID if mapped_to_homepage is true
         $mappedPageIds = $entry->pages->map(fn($p) => ['id' => $p->id]);
         if ((bool) $entry->mapped_to_homepage) {
             $mappedPageIds = collect([['id' => 'home']])->concat($mappedPageIds);
@@ -1091,7 +1075,6 @@ class ModuleEntryController extends Controller
 
         $validated = $request->validate($rules);
 
-        // Separate the virtual 'home' ID from real page IDs
         $allPageIds = $validated['page_ids'] ?? [];
         $mappedToHomepage = in_array('home', $allPageIds, true);
         $realPageIds = array_values(array_filter($allPageIds, fn($id) => $id !== 'home'));

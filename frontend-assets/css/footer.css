@@ -28,3 +28,6 @@
 .copyright>p>a:hover{color:var(--color-e5);}
 
 
+@media(max-width:991px){
+    .footer_right{display: none;}
+}

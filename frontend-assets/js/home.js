@@ -6,7 +6,7 @@ const heroSwiper = new Swiper('.hero_swiper', {
         loop: true,
         slidesPerView: 1,
         spaceBetween: 0,
-        speed: 1800,
+        speed: 800,
         // autoplay: {
         //     delay: 2500,
         //     disableOnInteraction: false,
@@ -26,7 +26,7 @@ const LandcrSwiper = new Swiper('.landcr_swiper', {
     loop: true,
     slidesPerView: 1,
     spaceBetween: 0,
-    speed: 1800,
+    speed: 800,
 
     // autoplay: {
     //     delay: 2500,
@@ -78,7 +78,7 @@ const BsnsSwiper = new Swiper('.bsns_swiper', {
     // },
     slidesPerView: 1,
     spaceBetween: 0,
-    speed: 1800,
+    speed: 800,
     grabCursor: true,
     watchOverflow: true,
     observer: true,
@@ -113,34 +113,10 @@ const BsnsSwiper = new Swiper('.bsns_swiper', {
     }
 });
 
-const SpeakSwiper = new Swiper('.speak_swiper', {
-    loop: true,
-    effect: 'fade',
-    fadeEffect: {
-        crossFade: true,
-    },
-
-    autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-    },
-
-    speed: 1800,
-    grabCursor: true,
-    watchOverflow: true,
-    observer: true,
-    observeParents: true,
-
-    navigation: {
-        nextEl: '.speak-next',
-        prevEl: '.speak-prev',
-    },
-});
 
 
 const SocialSwiper = new Swiper('.socwal_swiper', {
-    loop: true,
+    loop: false,
     // autoplay: {
     //     delay: 2500,
     //     disableOnInteraction: false,
@@ -148,7 +124,7 @@ const SocialSwiper = new Swiper('.socwal_swiper', {
     // },
     slidesPerView: 1,
     spaceBetween: 0,
-    speed: 1800,
+    speed: 800,
     grabCursor: true,
     watchOverflow: true,
     observer: true,

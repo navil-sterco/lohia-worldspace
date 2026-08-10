@@ -67,7 +67,7 @@
 
 /* According to 2545 resolution */
 
-html{font-size:min(0.39292vw,10px);}
+html{font-size:min(0.39292vw,10px); scroll-behavior: smooth;}
 .container-fluid{max-width:100%;padding-inline:1.5rem;margin-inline:auto;}
 .container-lg{max-width:min(1755px, 68.95874vw);padding-inline:1.5rem;margin-inline:auto;}
 .container-md{max-width:min(1690px, 66.40471vw);padding-inline:1.5rem;margin-inline:auto;}
@@ -88,23 +88,28 @@ main{padding-top: var(--header-height);}
     .container{max-width:100%;padding-inline:3.2rem;}
     .max-container{max-width:100%;padding-inline:3.2rem;}
     .max-content-lg{max-width:100%;padding-inline:3.2rem;}
+    .container-md{max-width:100%;padding-inline:3.2rem;}
 }
 
 @media(max-width:767px){
     :root{
         --font-461: var(--fw-700) 46.1rem/0.80 var(--circular);
         --font-93: var(--fw-normal) 4.6rem/0.95 var(--circular);
-        --font-60: var(--fw-400) 3.6rem/1 var(--circular);
+        --font-72: var(--fw-400) 3rem/1 var(--circular);
+        --font-60: var(--fw-400) 2.4rem/1 var(--circular);
         --font-48: var(--fw-400) 3rem/1 var(--circular);
         --font-41: var(--fw-700) 3rem/1.5 var(--circular);
+        --font-37: var(--fw-700) 2.4rem/1.4 var(--circular);
+        --font-36: var(--fw-700) 2.4rem/1.4 var(--circular);
         --font-31: var(--fw-700) 2.4rem/1.4 var(--circular);
         --font-30: var(--fw-300) 2.4rem/1.4 var(--circular);
         --font-24: var(--fw-300) 1.8rem/1.33 var(--circular);
         --font-21: var(--fw-700) 1.6rem/1.3 var(--circular);
         --font-18: var(--fw-300) 1.4rem/1.5 var(--circular);
-        --font-16: var(--fw-400) 1.2rem/1.3 var(--circular);
+        --font-16: var(--fw-300) 1.2rem/1.3 var(--circular);
         --font-13: var(--fw-300) 1.3rem/1.5 var(--circular);
         --font-12: var(--fw-400) 1.2rem/1.5 var(--circular);
+        --btn-height: 3rem;
     }    
     html{font-size:68.2%;}
 }

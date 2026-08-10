@@ -20,11 +20,14 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ChannelPartnerController;
 use App\Http\Controllers\Frontend\CMSController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Frontend\FaqController;
+use App\Http\Controllers\Frontend\GalleryPageController;
 use App\Http\Controllers\Frontend\ModularPageController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\PeopleController;
 use App\Http\Controllers\Frontend\ProjectsController;
+use App\Http\Controllers\Frontend\TestimonialController;
 use App\Models\Page;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -155,11 +158,20 @@ Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.s
 
 //News
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
-Route::get('/news/{slug}', [NewsController::class, 'detail'])->name('news.show');
+
+//Testimonials
+Route::get('/testimonials', [TestimonialController::class, 'index'])->name('testimonials.index');
+
+//Gallery
+Route::get('/gallery', [GalleryPageController::class, 'index'])->name('gallery.index');
 
 //Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'detail'])->name('blog.show');
+
+//Events
+Route::get('/events', [EventController::class, 'index'])->name('events.index');
+Route::get('/events/{slug}', [EventController::class, 'detail'])->name('events.show');
 
 //FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');

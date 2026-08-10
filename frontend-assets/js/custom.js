@@ -1,6 +1,27 @@
 (function ($) {
   "use strict";
 
+// =========================
+  // SCROLL TO
+  // =========================
+// $('html, body').animate({
+//   scrollTop: 200
+// }, 500);
+
+  // =========================
+  // Fancybox 
+  // =========================
+$("[data-fancybox='gallery']").fancybox({
+    loop: true,
+    hash: false,
+    buttons: [
+        "zoom",
+        "slideShow",
+        "thumbs",
+        "close"
+    ]
+});
+
   // =========================
   // AOS INIT
   // =========================
@@ -215,20 +236,6 @@ dropdownToggle(".dropdown_menu", ".dropdown_toggle", ".dropdown_item a");
 
 })();
 
-  // =========================
-  // GALLERY
-  // =========================
-$(document).ready(function () {
-    $('.gallery').each(function () {
-        const id = $(this).data('albumid');
-        $(this)
-            .find('.gallery_item')
-            .attr('rel', 'gallery' + id);
-    });
-    $('.gallery_item').rbox();
-});
-
-
 // Mobile Menu
 
 function togglePanel(targetId, activeBtn) {
@@ -296,7 +303,7 @@ const ProdcrSwiper = new Swiper('.prodcr_swiper', {
     loop: true,
     slidesPerView: 1,
     spaceBetween: 0,
-    speed: 1800,
+    speed: 800,
 
     // autoplay: {
     //     delay: 2500,
@@ -315,16 +322,16 @@ const ProdcrSwiper = new Swiper('.prodcr_swiper', {
     },
 
     breakpoints: {
-        576: {
-            slidesPerView: 1,
-            spaceBetween: 5,
+        0: {
+            slidesPerView: 1.2,
+            spaceBetween: 0,
         },
         768: {
-            slidesPerView: 1,
-            spaceBetween: 5,
+            slidesPerView: 1.8,
+            spaceBetween: 0,
         },
         992: {
-            slidesPerView: 1,
+            slidesPerView: 1.8,
             spaceBetween: 0,
         },
         1200: {
@@ -401,20 +408,20 @@ const GallerySwiper = new Swiper('.prj_gallery', {
     },
 
     breakpoints: {
-        768: {
-            slidesPerView: 1,
+        0: {
+            slidesPerView: 1.58,
             spaceBetween: 0,
         },
         768: {
-            slidesPerView: 1,
+            slidesPerView: 1.68,
             spaceBetween: 0,
         },
         992: {
-            slidesPerView: 2,
+            slidesPerView: 1.68,
             spaceBetween: 0,
         },
         1200: {
-            slidesPerView: 2,
+            slidesPerView: 1.68,
             spaceBetween: 0,
         },
         1900: {
@@ -424,12 +431,9 @@ const GallerySwiper = new Swiper('.prj_gallery', {
     }
 });
 
-const SpeakSwipertwo = new Swiper('.speak_swiper', {
+const SpeakSwiper = new Swiper('.speak_swiper', {
     loop: true,
-    effect: 'fade',
-    fadeEffect: {
-        crossFade: true,
-    },
+    // effect: 'slide', 
 
     // autoplay: {
     //     delay: 2500,
@@ -437,17 +441,18 @@ const SpeakSwipertwo = new Swiper('.speak_swiper', {
     //     pauseOnMouseEnter: true,
     // },
 
-    speed: 1800,
+    speed: 800,
     grabCursor: true,
     watchOverflow: true,
     observer: true,
     observeParents: true,
+
     navigation: {
         nextEl: '.speak-next',
         prevEl: '.speak-prev',
-        
     },
 });
+
 
 
 
@@ -638,4 +643,162 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
 });
+
+
+// On load View Play Wne Section Come
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const wrappers = document.querySelectorAll(".commonvideo_wraper");
+
+    if (!wrappers.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+
+        entries.forEach((entry) => {
+
+            const wrapper = entry.target;
+            const video = wrapper.querySelector("video");
+
+            if (!video) return;
+
+            if (entry.isIntersecting) {
+
+                video.muted = true;
+                video.setAttribute("muted", "");
+                video.setAttribute("playsinline", "");
+                video.setAttribute("webkit-playsinline", "");
+
+                const playPromise = video.play();
+
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            wrapper.classList.add("playing");
+                        })
+                        .catch((err) => {
+                            console.log("Safari autoplay blocked:", err);
+                        });
+                }
+
+            } else {
+
+                video.pause();
+
+                // DO NOT reset currentTime in Safari
+                wrapper.classList.remove("playing");
+            }
+
+        });
+
+    }, {
+        threshold: 0.4
+    });
+
+    wrappers.forEach((wrapper) => {
+
+        const video = wrapper.querySelector("video");
+        const btn = wrapper.querySelector(".play_btn");
+
+        if (!video || !btn) return;
+
+        video.muted = true;
+        video.defaultMuted = true;
+
+        observer.observe(wrapper);
+
+        btn.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            if (video.paused) {
+
+                video.play().then(() => {
+                    wrapper.classList.add("playing");
+                });
+
+            } else {
+
+                video.pause();
+                wrapper.classList.remove("playing");
+            }
+
+        });
+
+    });
+
+});
+
+
+// Video Play When Click
+document.querySelectorAll('.video-wrap').forEach(wrapper => {
+
+    const video = wrapper.querySelector('.custom-video');
+    const btn = wrapper.querySelector('.video_play_btn');
+
+    function resetVideo(targetVideo) {
+        targetVideo.pause();
+        targetVideo.currentTime = 0;
+        targetVideo.load(); // Poster show again
+
+        const parent = targetVideo.closest('.video-wrap');
+        if (parent) {
+            parent.classList.remove('playing');
+        }
+    }
+
+    function pauseOtherVideos(currentVideo) {
+        document.querySelectorAll('.custom-video').forEach(otherVideo => {
+            if (otherVideo !== currentVideo) {
+                resetVideo(otherVideo);
+            }
+        });
+    }
+
+    btn.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        if (video.paused) {
+            pauseOtherVideos(video);
+            video.play();
+        } else {
+            resetVideo(video);
+        }
+    });
+
+    video.addEventListener('click', function () {
+        if (video.paused) {
+            pauseOtherVideos(video);
+            video.play();
+        } else {
+            resetVideo(video);
+        }
+    });
+
+    video.addEventListener('play', function () {
+        pauseOtherVideos(video);
+        wrapper.classList.add('playing');
+    });
+
+    video.addEventListener('pause', function () {
+        wrapper.classList.remove('playing');
+    });
+
+    video.addEventListener('ended', function () {
+        resetVideo(video);
+    });
+
+});
+
+// If using Swiper
+if (typeof swiper !== "undefined") {
+    swiper.on('slideChange', function () {
+        document.querySelectorAll('.custom-video').forEach(video => {
+            video.pause();
+            video.currentTime = 0;
+            video.load(); // Poster show again
+            video.closest('.video-wrap')?.classList.remove('playing');
+        });
+    });
+}
 })(jQuery);
