@@ -97,8 +97,8 @@ main{padding-top: var(--header-height);}
         --font-93: var(--fw-normal) 4.6rem/0.95 var(--circular);
         --font-72: var(--fw-400) 3rem/1 var(--circular);
         --font-60: var(--fw-400) 2.4rem/1 var(--circular);
-        --font-48: var(--fw-400) 3rem/1 var(--circular);
-        --font-41: var(--fw-700) 3rem/1.5 var(--circular);
+        --font-48: var(--fw-400) 2.4rem/1 var(--circular);
+        --font-41: var(--fw-700) 2.4rem/1.5 var(--circular);
         --font-37: var(--fw-700) 2.4rem/1.4 var(--circular);
         --font-36: var(--fw-700) 2.4rem/1.4 var(--circular);
         --font-31: var(--fw-700) 2.4rem/1.4 var(--circular);
@@ -110,6 +110,7 @@ main{padding-top: var(--header-height);}
         --font-13: var(--fw-300) 1.3rem/1.5 var(--circular);
         --font-12: var(--fw-400) 1.2rem/1.5 var(--circular);
         --btn-height: 3rem;
+        --input-height: 4.2rem;
     }    
     html{font-size:68.2%;}
 }
@@ -118,7 +119,7 @@ main{padding-top: var(--header-height);}
     html {font-size: 62.5%;}
 }
 @media(max-width:330px){
-    html {font-size: 57.5%;}
+    html {font-size: 54.3%;}
 }
 
 

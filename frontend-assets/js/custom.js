@@ -370,7 +370,7 @@ const nwsrelatedSwiper = new Swiper('.nwsrelate_swiper', {
             spaceBetween: 10,
         },
         768: {
-            slidesPerView: 1,
+            slidesPerView: 2,
             spaceBetween: 10,
         },
         992: {

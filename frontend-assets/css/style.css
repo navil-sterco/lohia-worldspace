@@ -67,6 +67,12 @@ h6{font:var(--font-18);color: var(--color-black);}
 blockquote{font:var(--font-30);color:var(--color-black); margin:0;}
 
 
+@media(max-width:767px){
+    .title18{font:var(--fw-700) 1.8rem/1.33 var(--circular);}
+    .title21{font:var(--fw-bold) 1.8rem/1.33 var(--circular);}
+    .title48{font:var(--fw-400) 2.4rem/1 var(--circular);}
+}
+
 .dropdown_menu{position:relative;}
 .dropdown_item{pointer-events:none;position:absolute;top:100%;left:0;width:100%;margin:0;padding:2rem 0;background-color:var(--color-white);box-shadow:0px 15px 10px rgb(0 0 0 / 22%);opacity:0;visibility:hidden;transform:translateY(1.5rem);-webkit-transform:translateY(1.5rem);-moz-transform:translateY(1.5rem);-ms-transform:translateY(1.5rem);-o-transform:translateY(1.5rem);transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s linear 0.35s;-webkit-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s linear 0.35s;-moz-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s linear 0.35s;-ms-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s linear 0.35s;-o-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s linear 0.35s;}
 .dropdown_menu.active > .dropdown_item{z-index: 1;pointer-events:auto;opacity:1;visibility:visible;transform:translateY(0);-webkit-transform:translateY(0);-moz-transform:translateY(0);-ms-transform:translateY(0);-o-transform:translateY(0);transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s;-webkit-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s;-moz-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s;-ms-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s;-o-transition:opacity 0.35s ease,transform 0.35s ease,visibility 0s;}
@@ -142,20 +148,20 @@ blockquote{font:var(--font-30);color:var(--color-black); margin:0;}
 }
 @media(max-width:767px){
     .theme_btn{font:var(--fw-400) 1.2rem/1.3 var(--circular);padding-left:1.2rem;}
-    .theme_btn::after{margin-left:1.2rem;width:3rem;background-size:1rem;}
+    .theme_btn::after{margin-left:1.2rem;width:3.1rem;background-size:1rem;}
     .theme_btn::before{right:3rem;}
 
-    .btn_light{font:var(--fw-400) 1.2rem/1.3 var(--circular);padding-left:1.2rem;}
-    .btn_light::after{margin-left:1.2rem;width:3rem;background-size:1rem;}
+    .btn_light{font:var(--fw-400) 1.2rem/1 var(--circular);padding-left:1.2rem;}
+    .btn_light::after{margin-left:1.2rem;width:3.1rem;background-size:1rem;}
     .btn_light::before{right:3rem;}
 
     .btn_downdark{font:var(--fw-400) 1.2rem/1.3 var(--circular);padding-left:1.2rem;}
-    .btn_downdark::after{margin-left:1.2rem;width:3rem;background-size:1rem;}
+    .btn_downdark::after{margin-left:1.2rem;width:3rem;background-size:0.7rem;}
     .btn_downdark::before{right:3rem;}
 
-    .btn_downdark{font:var(--fw-400) 1.2rem/1.3 var(--circular);padding-left:1.2rem;}
-    .btn_downdark::after{margin-left:1.2rem;width:3rem;background-size:1rem;}
-    .btn_downdark::before{right:3rem;}
+    .btn_down{font:var(--fw-400) 1.2rem/1.3 var(--circular);padding-left:1.2rem;}
+    .btn_down::after{margin-left:1.2rem;width:3.1rem;background-size:0.7rem;}
+    .btn_down::before{right:3rem;}
     .arrow_btn>img{width:0.85rem;}
 }
 
@@ -177,10 +183,11 @@ blockquote{font:var(--font-30);color:var(--color-black); margin:0;}
 :is(.swiper-button-prev):hover::after{animation:arrowPassLeft .7s ease;-webkit-animation:arrowPassLeft .7s ease;}
 :is(.swiper-button-prev,.swiper-button-next):hover{background-color:var(--color-e5);color:var(--color-white);box-shadow:0px 5px 8px rgb(0 0 0 / 22%);}
 
+
 @media (max-width: 767px) {
-    :is(.swiper-button-prev,.swiper-button-next){width:2.6rem;height:2.6rem;}
-    :is(.swiper-button-prev,.swiper-button-next)::after{background-size: 1rem;}
-    :is(.swiper-button-next)::after{background-size: 1rem;}
+    :is(.swiper-button-prev,.swiper-button-next){width:3.5rem;height:3.5rem;}
+    :is(.swiper-button-prev,.swiper-button-next)::after{background-size: 1.25rem;}
+    :is(.swiper-button-next)::after{background-size: 1.25rem;}
 }
 @media (min-width: 992px) {
 /* Common */
@@ -203,9 +210,16 @@ blockquote{font:var(--font-30);color:var(--color-black); margin:0;}
 .upload_file input[type*="file"]{font-size:0;padding:0;opacity:0;background-color:transparent;height:100%;}
 .file-name{cursor:pointer;position:absolute;left:0;width:100%;display:flex;align-items:center;justify-content:start;text-align:left;height:100%;padding:0.5rem 2rem;padding-left:5.5rem;background-color:transparent;border-bottom:0.1rem solid rgb(255 255 255 / 28%);color:var(--color-white);font:var(--font-16);}
 .file-name::after{content:'';position:absolute;left:0.5rem;top:50%;width:3rem;height:3rem;background:url(../images/upload-file.svg) no-repeat center / 1.8rem;transform:translateY(-50%);}
-
 .form-control::placeholder{color:var(--color-white);transition:all 0.5s ease;-webkit-transition:all 0.5s ease;-moz-transition:all 0.5s ease;-ms-transition:all 0.5s ease;-o-transition:all 0.5s ease;}
 .form-control:focus::placeholder{transform-origin:left;transform:translateY(-100%);-webkit-transform:translateY(-100%);-moz-transform:translateY(-100%);-ms-transform:translateY(-100%);-o-transform:translateY(-100%);opacity:0;}
+.input-group{display:grid;grid-template-columns:12rem auto;gap:1rem;}
+@media(max-width:767px){
+    .form-select{padding-right: 2rem;background-position-x:calc(100% - 0.5rem);background-size:0.7rem;}
+    .input-group{grid-template-columns: 8rem auto;}
+    .file-name{padding:0.5rem 1rem;padding-left:3.5rem;}
+    .file-name::after{width:2rem;height:2rem;background-size:1.2rem;}
+}
+
 
 /* Custom List */
 .custom_bullets{padding:0 0 0 2rem;margin:0;}
@@ -215,6 +229,10 @@ blockquote{font:var(--font-30);color:var(--color-black); margin:0;}
 .custom_bullets>li>ul{padding:0 0 0 2rem;margin:2rem 0 0 0;;}
 .custom_bullets>li>ul>li{list-style:circle;font:var(--font-18);color:var(--color-black);margin-bottom:3rem;}
 .custom_bullets>li>ul>li::marker{font-size:1em;color:var(--color-e5);}
+
+@media(max-width:991px){
+    .custom_bullets{padding:0 0 0 1.5rem;}
+}
 
 /* Table Css */
 .table-responsive{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}

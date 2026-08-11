@@ -45,13 +45,13 @@ const LandcrSwiper = new Swiper('.landcr_swiper', {
     },
 
     breakpoints: {
-        576: {
-            slidesPerView: 1,
-            spaceBetween: 5,
+        0: {
+            slidesPerView: 1.1,
+            spaceBetween: 0,
         },
         768: {
-            slidesPerView: 1,
-            spaceBetween: 5,
+            slidesPerView: 1.2,
+            spaceBetween: 0,
         },
         992: {
             slidesPerView: 1,
@@ -90,12 +90,12 @@ const BsnsSwiper = new Swiper('.bsns_swiper', {
     },
 
     breakpoints: {
-        768: {
-            slidesPerView: 1,
+        0: {
+            slidesPerView: 1.13,
             spaceBetween: 10,
         },
         768: {
-            slidesPerView: 1,
+            slidesPerView: 2.2,
             spaceBetween: 10,
         },
         992: {
@@ -136,16 +136,16 @@ const SocialSwiper = new Swiper('.socwal_swiper', {
     },
 
     breakpoints: {
-        768: {
-            slidesPerView: 1,
-            spaceBetween: 10,
+        0: {
+            slidesPerView: 1.2,
+            spaceBetween: 0,
         },
         768: {
-            slidesPerView: 1,
-            spaceBetween: 10,
+            slidesPerView: 2.6,
+            spaceBetween: 0,
         },
         992: {
-            slidesPerView: 3,
+            slidesPerView: 3.6,
             spaceBetween: 0,
         },
         1200: {
