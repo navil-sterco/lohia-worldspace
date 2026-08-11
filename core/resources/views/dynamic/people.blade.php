@@ -1,5 +1,7 @@
 @include('includes.header')
 
+<x-menu />
+
 {!! $section['cms']['people_first_section_0'] ?? '' !!}
 {!! $section['cms']['people_second_section_1'] ?? '' !!}
 
@@ -9,8 +11,8 @@
         <div class="crntopen_wraper">
             <div class="crntopen_caption">
                 <h5 class="title21">Current Openings</h5>
-                <h3 class="title48">PLEASE FIND BELOW THE CURRENT OPENINGS ACROSS MULTIPLE CITIES.</h3>
-                <p>More roles are updated regularly.</p>
+                <h3 class="title48">COME BUILD WITH US</h3>
+                <p>We're always looking for people who hold themselves to the same standard we hold our spaces — <br>if that's you, we'd like to hear from you.</p>
             </div>
             <div class="crnt_victor">
                 <img src="{{ asset('frontend-assets/images/victor-dash13.svg') }}" alt="victor" class="img-fluid w-100">
@@ -39,6 +41,7 @@
                             {{ $locations }}
                         </li>
                         <li><strong>{{ $totalOpenings }}</strong> openings</li>
+                        <li><a href="{{ route('jobs.show', $job['slug']) }}" class="arrow_btn"><img src="{{ asset('frontend-assets/images/arrow-right-black.svg') }}" alt="icon" class="img-fluid"></a></li>
                     </ul>
                 </div>
             @empty

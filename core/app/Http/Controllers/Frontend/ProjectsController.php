@@ -83,17 +83,10 @@ class ProjectsController extends Controller
     {
         $projectDetail = ModuleEntry::where('slug', $slug)
             ->where('module_id', 3)
-            ->first();
-
-        if (!$projectDetail) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Project not found'
-            ], 404);
-        }
+            ->firstOrFail();
 
         $projectDetail = $projectDetail->getDetailData($projectDetail->id);
-        
+
 
         return view('dynamic.project-detail', [
             'projectDetail' => $projectDetail

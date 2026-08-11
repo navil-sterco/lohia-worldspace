@@ -23,6 +23,7 @@ use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\GalleryPageController;
+use App\Http\Controllers\Frontend\JobApplicationController;
 use App\Http\Controllers\Frontend\ModularPageController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\PeopleController;
@@ -168,6 +169,11 @@ Route::get('/gallery', [GalleryPageController::class, 'index'])->name('gallery.i
 //Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'detail'])->name('blog.show');
+
+//Job details
+Route::get('/jobs/{slug}', [PeopleController::class, 'detail'])->name('jobs.show');
+Route::get('/apply-job/{slug?}', [JobApplicationController::class, 'create'])->name('apply-job');
+Route::post('/apply-job', [JobApplicationController::class, 'store'])->name('apply-job.store');
 
 //Events
 Route::get('/events', [EventController::class, 'index'])->name('events.index');

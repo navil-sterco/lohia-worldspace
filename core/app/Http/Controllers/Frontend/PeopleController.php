@@ -31,4 +31,17 @@ class PeopleController extends Controller
             ], 500);
         }
     }
+
+    public function detail($slug)
+    {
+        $job = ModuleEntry::where('slug', $slug)
+            ->where('module_id', 4)
+            ->firstOrFail();
+
+        $job = $job->getDetailData($job->id);
+
+        return view('dynamic.job-detail', [
+            'job' => $job
+        ]);
+    }
 }

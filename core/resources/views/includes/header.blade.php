@@ -18,7 +18,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="author" content="Sterco Digitex">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="index, follow">
 
     <title>@yield('title', 'Lohia')</title>
     <meta name="description" content="@yield('description', 'Lohia Worldspace')">

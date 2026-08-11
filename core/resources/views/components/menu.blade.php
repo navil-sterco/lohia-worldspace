@@ -1,6 +1,12 @@
+@props(['slug' => null])
+
 @php
-    $currentPath = trim(request()->path(), '/');
-    $baseSlug = explode('/', $currentPath)[0] ?? '';
+    if (!empty($slug)) {
+        $baseSlug = $slug;
+    } else {
+        $currentPath = trim(request()->path(), '/');
+        $baseSlug = explode('/', $currentPath)[0] ?? '';
+    }
 
     $menu = insightMenu($baseSlug);
 @endphp
