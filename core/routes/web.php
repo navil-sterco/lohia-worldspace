@@ -20,6 +20,7 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ChannelPartnerController;
 use App\Http\Controllers\Frontend\CMSController;
 use App\Http\Controllers\Frontend\ContactController;
+use App\Http\Controllers\frontend\EmiController;
 use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\GalleryPageController;
@@ -60,7 +61,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    //Profile  
+    //Profile
     Route::prefix('profile')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
@@ -156,6 +157,9 @@ Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
 //Contact
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
+
+// Emi
+Route::get('/emi-calculator', [EmiController::class, 'index'])->name('emi.index');
 
 //News
 Route::get('/news', [NewsController::class, 'index'])->name('news.index');
