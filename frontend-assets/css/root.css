@@ -41,8 +41,8 @@
     --font-13: var(--fw-300) 1.3rem/1.5 var(--circular);
     --font-12: var(--fw-400) 1.2rem/1.5 var(--circular);
     --btn-height:4.6rem;
-    --header-height:27.8rem;
     --input-height:5.2rem;
+    --header-height:27.8rem;
     --mw2545:2545px;
     --mx1755:calc(100% - ((100% - min(1755px, 68.95874vw)) / 2));
     --mx1690:calc(100% - ((100% - min(1690px, 66.40471vw)) / 2));
@@ -80,8 +80,39 @@ section{width: 100%; max-width: var(--mw2545); margin-inline: auto;}
 
 main{padding-top: var(--header-height);}
 
-
-@media(max-width:991px){
+@media(min-width:1199px) and (max-width:1440px){
+    html{font-size:clamp(5px,0.520833vw, 5.5px);}
+    :root{
+        --font-461: var(--fw-700) clamp(120px, 46.1rem, 461px)/0.80 var(--circular);
+        --font-93: var(--fw-normal) clamp(36px, 9.3rem, 93px)/0.90 var(--circular);
+        --font-72: var(--fw-400) clamp(30px, 7.2rem, 72px)/1 var(--circular);
+        --font-60: var(--fw-400) clamp(26px, 6rem, 60px)/1 var(--circular);
+        --font-48: var(--fw-400) clamp(22px, 4.8rem, 48px)/1 var(--circular);
+        --font-41: var(--fw-700) clamp(20px, 4.1rem, 41px)/1.5 var(--circular);
+        --font-37: var(--fw-700) clamp(19px, 3.7rem, 37px)/1.6 var(--circular);
+        --font-36: var(--fw-700) clamp(18px, 3.6rem, 36px)/1.6 var(--circular);
+        --font-31: var(--fw-700) clamp(17px, 3.1rem, 31px)/1 var(--circular);
+        --font-30: var(--fw-300) clamp(17px, 3rem, 30px)/1.2 var(--circular);
+        --font-24: var(--fw-300) clamp(16px, 2.4rem, 24px)/1.41 var(--circular);
+        --font-21: var(--fw-700) clamp(16px, 2.1rem, 21px)/1.14 var(--circular);
+        --font-18: var(--fw-300) clamp(14px, 1.8rem, 18px)/1.66 var(--circular);
+        --font-16: var(--fw-300) clamp(14px, 1.6rem, 16px)/1.5 var(--circular);
+        --font-13: var(--fw-300) clamp(11px, 1.3rem, 13px)/1.5 var(--circular);
+        --font-12: var(--fw-400) clamp(11px, 1.2rem, 12px)/1.5 var(--circular);
+        --mx1755:calc(100% - ((100% - min(1755px,92.202vw)) / 2));
+        --mx1690:calc(100% - ((100% - min(1690px,87.861vw)) / 2));
+        --mx1450:calc(100% - ((100% - min(1450px,67.526vw)) / 2));            
+        --btn-height:6rem;
+        --input-height:7.2rem;
+    }
+    .container-lg{max-width:min(1755px,92.202vw);padding-inline:1.5rem;margin-inline:auto;}
+    .container-md{max-width:min(1690px,87.861vw);padding-inline:1.5rem;margin-inline:auto;}
+    .container{max-width:min(1450px,67.526vw);padding-inline:1.5rem;margin-inline:auto;}
+    .max-content-lg{width:100%;max-width:var(--mx1755);padding-right:0;margin-inline:auto 0;}
+    .max-content-md{width:100%;max-width:var(--mx1690);padding-right:0;margin-inline:auto 0;}
+    .max-container{width:100%;max-width:var(--mx1450);padding-right:0;margin-inline:auto 0;}
+}
+@media(max-width:1024px){
     :root{--header-height:18.8rem;}
     html {font-size: 50%;}
     .container-lg{max-width:100%;padding-inline:3.2rem;}
