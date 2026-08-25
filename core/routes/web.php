@@ -156,6 +156,7 @@ Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
 
 //Contact
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/become-a-vendor', [ContactController::class, 'vendor'])->name('vendor.index');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
 
 // Emi
