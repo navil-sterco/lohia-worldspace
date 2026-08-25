@@ -23,30 +23,35 @@
                     </div>
                 @endif
 
-                   <form action="{{ route('contact.store') }}" method="POST">
+                <form action="{{ route('contact.store') }}" method="POST">
                     @csrf
 
-                {{-- Purpose dropdown --}}
-                <div class="form-group">
-                    <!-- <select name="interest" id="interestSelect"
-                        class="form-select btn_down @error('interest') is-invalid @enderror">
-                        @foreach ($interestOptions as $value => $label)
-                            <option value="{{ $value }}" @selected(old('interest') === $value)>{{ $label }}
-                            </option>
-                        @endforeach
-                    </select> -->
-                    <div class="dropdown_menu">
-                    <button class="dropdown_toggle">Company Overview</button>
-                    <ul class="dropdown_item" id="interestSelect">
-                        <li><a href="#"></a></li>
-                    </ul>
-                </div>
-                    @error('interest')
-                        <span class="invalid-feedback">{{ $message }}</span>
-                    @enderror
-                </div>
+                    {{-- Purpose dropdown --}}
+                    <div class="form-group">
+                        <input type="hidden" name="interest" id="interestSelect" value="{{ old('interest') }}"
+                            class="@error('interest') is-invalid @enderror">
 
+                        <div class="dropdown_menu">
+                            <button type="button" class="dropdown_toggle" id="interestToggleBtn">
+                                {{ old('interest') ? $interestOptions[old('interest')] : 'BUYING A PROPERTY' }}
+                            </button>
+                            <ul class="dropdown_item" id="interestDropdownList">
+                                @foreach ($interestOptions as $value => $label)
+                                    <li>
+                                        @if ($value === 'vendor')
+                                            <a href="{{ route('vendor.index') }}">{{ $label }}</a>
+                                        @else
+                                            <a href="#" data-value="{{ $value }}">{{ $label }}</a>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
 
+                        @error('interest')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
 
                     {{-- =========================================================
                          SECTION: Buying A Property
@@ -73,8 +78,8 @@
                         <div class="form-group">
                             <div class="input_group">
                                 <div class="input_group_item">
-                                    <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Phone"
-                                        class="form-control @error('phone') is-invalid @enderror">
+                                    <input type="text" name="phone" value="{{ old('phone') }}"
+                                        placeholder="Phone" class="form-control @error('phone') is-invalid @enderror">
                                     @error('phone')
                                         <span class="invalid-feedback">{{ $message }}</span>
                                     @enderror
@@ -191,12 +196,9 @@
                     </div>
 
                     {{-- =========================================================
-                         SECTION: Become A Vendor
-                    ========================================================== --}}
-                    {{-- =========================================================
                         SECTION: Become A Vendor
                     ========================================================== --}}
-                    <div class="contactform_wrap" data-interest="vendor" style="display:none;">
+                    {{-- <div class="contactform_wrap" data-interest="vendor" style="display:none;">
                         <h3 class="title48">FILL UP TO A LOHIA WORLDSPACE VENDOR</h3>
 
                         <div class="form-group">
@@ -633,7 +635,7 @@
                                 <span class="invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
 
                     {{-- =========================================================
                          SECTION: Media Enquiries
@@ -748,21 +750,38 @@
 </section>
 
 <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var form = document.querySelector('.contactform_wrap');
-        var select = document.querySelector('#interestSelect');
+        var form = document.querySelector('form');
+        var hiddenInterest = document.querySelector('#interestSelect');
+        var toggleBtn = document.querySelector('#interestToggleBtn');
+        var dropdownLinks = document.querySelectorAll('#interestDropdownList a[data-value]'); // <-- changed
         var sections = document.querySelectorAll('.contactform_wrap');
 
+        // Default to the first option if nothing is set yet (fresh page load)
+        if (!hiddenInterest.value && dropdownLinks.length) {
+            hiddenInterest.value = dropdownLinks[0].dataset.value;
+        }
+
         function toggleSections() {
-            var current = select.value;
+            var current = hiddenInterest.value;
             sections.forEach(function(section) {
                 section.style.display = (section.dataset.interest === current) ? '' : 'none';
             });
         }
 
+        dropdownLinks.forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                var value = this.dataset.value;
+                hiddenInterest.value = value;
+                toggleBtn.textContent = this.textContent.trim();
+                toggleSections();
+            });
+        });
+
         toggleSections();
-        select.addEventListener('change', toggleSections);
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
