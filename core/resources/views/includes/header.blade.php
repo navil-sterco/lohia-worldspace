@@ -3,9 +3,7 @@
     $sidebar = sidebar();
     $footer = footerData();
     $socialIcons = socialIcons();
-
-    // Normalize current path once, reuse for every menu loop below
-    $currentPath = trim(request()->path(), '/'); // '' for home, 'about-us', 'projects/lohia-one', etc.
+    $currentPath = trim(request()->path(), '/');
 @endphp
 
 <!DOCTYPE html>

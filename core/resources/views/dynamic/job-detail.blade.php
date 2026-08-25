@@ -63,9 +63,9 @@
                                 <h5 class="title21">JOB DESCRIPTION</h5>
 
                                 {!! $editorHtml !!}
+                                <a href="{{ route('apply-job', ['slug' => $jobSlug]) }}" class="btn_light">Apply Job</a>
                             </div>
 
-                            <a href="{{ route('apply-job', ['slug' => $jobSlug]) }}" class="btn_light">Apply Job</a>
                         </div>
                     </div>
                 </div>
