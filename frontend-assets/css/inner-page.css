@@ -14,7 +14,7 @@
     .inner_menu{display: none;}
 }
 
-
+.invalid-feedback{font: var(--font-16);color: var(--color-white);margin-top: 0.7rem;display: inline-block;}
 /* About Area Start */
 .abtover_sec{position:relative;padding-top:6.4rem;}
 .abtover_grid{display:grid;grid-template-columns:784fr 1263fr;gap:5.6rem;}
@@ -138,9 +138,13 @@
 .ofc_bx:nth-child(2){margin-top:10.3rem;}
 .contact_form{padding:6.1rem 11.9rem 7.6rem;background-color:var(--color-4e);}
 .contact_form>*{color:var(--color-white);}
-.contact_form>.title48{max-width:50.2rem;}
-.contact_form>.btn_down{margin-block:5.2rem 2.5rem;}
-.contactform_wrap{display:flex;flex-direction:column;gap:3.5rem;margin-top:7.5rem;}
+.contact_form .title21{color:var(--color-white);}
+.contact_form .title48{max-width:50.2rem;color:var(--color-white);margin-bottom: 4rem;}
+.contact_form .dropdown_menu{margin-block:5.2rem 2.5rem;}
+.contact_form .dropdown_menu>.dropdown_toggle{color: var(--color-white);border-color: var(--color-white);min-width: 28rem;width: auto;}
+.contact_form .dropdown_menu>.dropdown_toggle::before{background-color: var(--color-white);}
+.contact_form .dropdown_menu>.dropdown_toggle::after{background: url(../images/arrow-right-down-white.svg) no-repeat center / 1.1rem;}
+.contactform_wrap{display:flex;flex-direction:column;gap:3.5rem;}
 .contactform_wrap .form-group .form-control,.contactform_wrap .form-group .form-select{color:var(--color-white);border-color:var(--color-white);}
 .contactform_wrap .form-group .form-control::placeholder{color:var(--color-white);}
 .contactform_wrap .form-group .form-select{background:url("../images/arrow-right-down-white.svg") no-repeat;background-position:right center;background-position-x:calc(100% - 1rem);background-size:1.1rem;}

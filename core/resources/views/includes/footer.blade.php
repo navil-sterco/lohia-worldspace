@@ -67,9 +67,7 @@
 <script src="{{ url('frontend-assets/js/aos.js') }}"></script>
 <script src="{{ url('frontend-assets/js/swiper-bundle.min.js') }}"></script>
 <script src="{{ url('frontend-assets/js/lenis.min.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"
-    integrity="sha512-uURl+ZXMBrF4AwGaWmEetzrd+J5/8NRkWAvJx5sbPSSuOb0bZLqf+tOzniObO00BjHa/dD7gub9oCGMLPQHtQA=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/6.1.14/fancybox/fancybox.umd.js" integrity="sha512-YnL214Fej6BefpeRYOeWviu5y5/cXvmYZKhi70eNz6mfSyucQK10Y2oLpUeeJr0ZzBdt9vZfTfCp1Hmy4iehrg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="{{ url('frontend-assets/js/custom.js') }}"></script>
 @if(request()->is('/') || request()->is('home'))
     <script src="{{ url('frontend-assets/js/home.js') }}"></script>
