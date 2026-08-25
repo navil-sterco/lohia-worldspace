@@ -23,18 +23,24 @@
                     </div>
                 @endif
 
-                   <form action="{{ route('contact.store') }}" method="POST" class="contactform_wrap">
+                   <form action="{{ route('contact.store') }}" method="POST">
                     @csrf
 
                 {{-- Purpose dropdown --}}
                 <div class="form-group">
-                    <select name="interest" id="interestSelect"
-                        class="form-select @error('interest') is-invalid @enderror">
+                    <!-- <select name="interest" id="interestSelect"
+                        class="form-select btn_down @error('interest') is-invalid @enderror">
                         @foreach ($interestOptions as $value => $label)
                             <option value="{{ $value }}" @selected(old('interest') === $value)>{{ $label }}
                             </option>
                         @endforeach
-                    </select>
+                    </select> -->
+                    <div class="dropdown_menu">
+                    <button class="dropdown_toggle">Company Overview</button>
+                    <ul class="dropdown_item" id="interestSelect">
+                        <li><a href="#"></a></li>
+                    </ul>
+                </div>
                     @error('interest')
                         <span class="invalid-feedback">{{ $message }}</span>
                     @enderror
@@ -45,7 +51,7 @@
                     {{-- =========================================================
                          SECTION: Buying A Property
                     ========================================================== --}}
-                    <div class="interest_section" data-interest="buying_property">
+                    <div class="contactform_wrap" data-interest="buying_property">
                         <h3 class="title48">LEAVE A MESSAGE TO BUY A PROPERTY</h3>
 
                         <div class="form-group">
@@ -138,7 +144,7 @@
                     {{-- =========================================================
                          SECTION: Land Proposal
                     ========================================================== --}}
-                    <div class="interest_section" data-interest="land_proposal" style="display:none;">
+                    <div class="contactform_wrap" data-interest="land_proposal" style="display:none;">
                         <h3 class="title48">LEAVE A MESSAGE FOR LAND PROPOSAL</h3>
 
                         <div class="form-group">
@@ -190,7 +196,7 @@
                     {{-- =========================================================
                         SECTION: Become A Vendor
                     ========================================================== --}}
-                    <div class="interest_section" data-interest="vendor" style="display:none;">
+                    <div class="contactform_wrap" data-interest="vendor" style="display:none;">
                         <h3 class="title48">FILL UP TO A LOHIA WORLDSPACE VENDOR</h3>
 
                         <div class="form-group">
@@ -632,7 +638,7 @@
                     {{-- =========================================================
                          SECTION: Media Enquiries
                     ========================================================== --}}
-                    <div class="interest_section" data-interest="media" style="display:none;">
+                    <div class="contactform_wrap" data-interest="media" style="display:none;">
                         <h3 class="title48">LEAVE A MESSAGE FOR A MEDIA ENQUIRY</h3>
 
                         <div class="form-group">
@@ -681,7 +687,7 @@
                     {{-- =========================================================
                          SECTION: Investor Enquiries
                     ========================================================== --}}
-                    <div class="interest_section" data-interest="investor" style="display:none;">
+                    <div class="contactform_wrap" data-interest="investor" style="display:none;">
                         <h3 class="title48">LEAVE A MESSAGE FOR INVESTOR ENQUIRIES</h3>
 
                         <div class="form-group">
@@ -746,7 +752,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         var form = document.querySelector('.contactform_wrap');
         var select = document.querySelector('#interestSelect');
-        var sections = document.querySelectorAll('.interest_section');
+        var sections = document.querySelectorAll('.contactform_wrap');
 
         function toggleSections() {
             var current = select.value;
