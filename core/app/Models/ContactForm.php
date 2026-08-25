@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ContactForm extends Model
 {
     protected $fillable = [
+        'interest',
         'name',
         'email',
         'phone',
@@ -16,7 +17,12 @@ class ContactForm extends Model
         'budget',
         'property_type',
         'comment',
+        'details',
         'ip_address',
+    ];
+
+    protected $casts = [
+        'details' => 'array',
     ];
 
     public function scopeFilter(Builder $query, $filters)

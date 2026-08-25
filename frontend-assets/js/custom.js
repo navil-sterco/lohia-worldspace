@@ -11,17 +11,26 @@
   // =========================
   // Fancybox 
   // =========================
-$("[data-fancybox='gallery']").fancybox({
-    loop: true,
-    hash: false,
-    buttons: [
-        "zoom",
-        "slideShow",
-        "thumbs",
-        "close"
-    ]
-});
+Fancybox.bind("[data-fancybox='gallery']", {
+    Hash: false,
 
+    Thumbs: {
+        type: "classic",
+        autoStart: false
+    },
+
+    Carousel: {
+        infinite: true,
+
+        Toolbar: {
+            display: {
+                left: ["counter"],
+                middle: ["zoomIn", "zoomOut"],
+                right: ["close"]
+            }
+        }
+    }
+});
   // =========================
   // AOS INIT
   // =========================
@@ -801,4 +810,142 @@ if (typeof swiper !== "undefined") {
         });
     });
 }
+
+
+const ctx = document.getElementById('paymentChart');
+
+const rootStyles = getComputedStyle(document.documentElement);
+
+const chartFont = rootStyles
+    .getPropertyValue('--font-21')
+    .trim();
+
+const tooltipFont = rootStyles
+    .getPropertyValue('--font-18')
+    .trim();
+
+const fontFamily = rootStyles
+    .getPropertyValue('--circular')
+    .trim();
+
+const fontSizeMatch = tooltipFont.match(/(\d*\.?\d+)rem/);
+const fontSize = fontSizeMatch
+    ? parseFloat(fontSizeMatch[1]) * parseFloat(rootStyles.fontSize)
+    : 14;
+
+new Chart(ctx, {
+    type: 'pie',
+
+    data: {
+        labels: [
+            'Principal Loan Amount',
+            'Total Interest'
+        ],
+
+        datasets: [{
+            data: [41.73, 58.27],
+
+            backgroundColor: [
+                '#96D020',
+                '#F9B64C'
+            ],
+
+            borderColor: '#fff',
+            borderWidth: 10,
+            spacing: 0
+        }]
+    },
+
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                display: false
+            },
+
+            tooltip: {
+                enabled: true,
+
+                backgroundColor: '#fff',
+                titleColor: '#111',
+                bodyColor: '#111',
+
+                borderColor: '#d9d9d9',
+                borderWidth: 1,
+
+                padding: 12,
+
+                titleFont: {
+                    family: fontFamily,
+                    size: fontSize,
+                    weight: '400'
+                },
+
+                bodyFont: {
+                    family: fontFamily,
+                    size: fontSize,
+                    weight: '400'
+                },
+
+                callbacks: {
+                    title: function(context) {
+                        return context[0].label;
+                    },
+
+                    label: function(context) {
+                        return context.raw + '%';
+                    }
+                }
+            }
+        }
+    },
+
+    plugins: [{
+        id: 'percentageLabels',
+
+        afterDraw(chart) {
+
+            const { ctx, data } = chart;
+            const meta = chart.getDatasetMeta(0);
+
+            ctx.save();
+
+            meta.data.forEach((arc, index) => {
+
+                const angle =
+                    (arc.startAngle + arc.endAngle) / 2;
+
+                const x =
+                    arc.x +
+                    Math.cos(angle) *
+                    (arc.outerRadius + 25);
+
+                const y =
+                    arc.y +
+                    Math.sin(angle) *
+                    (arc.outerRadius + 25);
+
+                ctx.fillStyle = '#111';
+
+                ctx.font = chartFont;
+
+                ctx.textAlign =
+                    x > arc.x ? 'left' : 'right';
+
+                ctx.textBaseline = 'middle';
+
+                ctx.fillText(
+                    data.datasets[0].data[index].toFixed(2) + '%',
+                    x,
+                    y
+                );
+            });
+
+            ctx.restore();
+        }
+    }]
+});
+
 })(jQuery);

@@ -29,16 +29,19 @@
 .site_dropdown:nth-last-child(2) > .site_dropdown_menu > .site_subdropdown > .site_subdropdown_menu{left:auto;right:30rem;}
 body:has(.side_hamburger.is-open) .site_nav{transform:translateY(var(--hamb-width));-webkit-transform:translateY(var(--hamb-width));-moz-transform:translateY(var(--hamb-width));-ms-transform:translateY(var(--hamb-width));-o-transform:translateY(var(--hamb-width));}
 
-
-@media(max-width:991px){
+@media(min-width:1199px) and (max-width:1440px){
+    .site_nav>li>a {font: var(--font-30);}
+}
+@media(max-width:1024px){
     .main_header{padding-block:3.3rem 0;}
     .main_header.sticky{padding-block:1rem;}
     .main_header>.container-fluid{padding-inline: 3.2rem;}
-    .site_nav, .hamb_btn{display: none;}
+    .site_nav{display: none;}
     .site_navbrand{max-width:30.2rem;margin-inline:0 auto;}
 }
 @media(max-width:767px){
     .site_navbrand{max-width:21.9rem;}
+    .hamb_btn{display: none;}
 }
 
 /* Hamburger Menu */
@@ -66,3 +69,12 @@ body:has(.side_hamburger.is-open) .site_nav{transform:translateY(var(--hamb-widt
 .hamb_social{display:flex;align-items:center;gap:1.5rem;margin-top:6.6rem;}
 .hamb_social>a{display:block;width:2.5rem;height:2.5rem;background-color:var(--color-f6);border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;-ms-border-radius:50%;-o-border-radius:50%;}
 .hamb_social>a:hover{background-color:var(--color-white);}
+@media(min-width:1199px) and (max-width:1440px){
+    .hamb_btn{width:3rem;height:3rem;}
+    .hamb_wrapper{max-width:54.2rem;}
+    .hamb_social>a{width:3rem;height:3rem;}
+}
+
+@media(max-width: 767px){
+    .hamb_header{display: none;}
+}

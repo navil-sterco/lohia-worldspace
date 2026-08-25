@@ -54,7 +54,7 @@ const LandcrSwiper = new Swiper('.landcr_swiper', {
             spaceBetween: 0,
         },
         992: {
-            slidesPerView: 1,
+            slidesPerView: 2.8,
             spaceBetween: 0,
         },
         1200: {
@@ -137,7 +137,7 @@ const SocialSwiper = new Swiper('.socwal_swiper', {
 
     breakpoints: {
         0: {
-            slidesPerView: 1.2,
+            slidesPerView: 1.12,
             spaceBetween: 0,
         },
         768: {
