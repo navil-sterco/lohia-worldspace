@@ -233,7 +233,7 @@ const paymentChart = new Chart(ctx, {
             data: [41.73, 58.27],
             backgroundColor: ['#96D020', '#F9B64C'],
             borderColor: '#fff',
-            borderWidth: 10,
+            borderWidth: 5,
             spacing: 0
         }]
     },
@@ -249,7 +249,7 @@ const paymentChart = new Chart(ctx, {
                 bodyColor: '#111',
                 borderColor: '#d9d9d9',
                 borderWidth: 1,
-                padding: 12,
+                padding: 5,
                 titleFont: { family: fontFamily, size: fontSize, weight: '400' },
                 bodyFont: { family: fontFamily, size: fontSize, weight: '400' },
                 callbacks: {
@@ -263,34 +263,49 @@ const paymentChart = new Chart(ctx, {
             }
         }
     },
-    plugins: [{
-        id: 'percentageLabels',
-        afterDraw(chart) {
-            const { ctx, data } = chart;
-            const meta = chart.getDatasetMeta(0);
+plugins: [{
+    id: 'percentageLabels',
+    afterDraw(chart) {
+        const { ctx, data } = chart;
+        const meta = chart.getDatasetMeta(0);
 
-            ctx.save();
+        ctx.save();
 
-            meta.data.forEach((arc, index) => {
-                const angle = (arc.startAngle + arc.endAngle) / 2;
-                const x = arc.x + Math.cos(angle) * (arc.outerRadius + 25);
-                const y = arc.y + Math.sin(angle) * (arc.outerRadius + 25);
+        meta.data.forEach((arc, index) => {
+            const angle = (arc.startAngle + arc.endAngle) / 2;
 
-                ctx.fillStyle = '#111';
-                ctx.font = chartFont;
-                ctx.textAlign = x > arc.x ? 'left' : 'right';
-                ctx.textBaseline = 'middle';
+            // Circle ke bahar label
+            let labelRadius = arc.outerRadius + 18;
 
-                ctx.fillText(
-                    data.datasets[0].data[index].toFixed(2) + '%',
-                    x,
-                    y
-                );
-            });
+            let x = arc.x + Math.cos(angle) * labelRadius;
+            let y = arc.y + Math.sin(angle) * labelRadius;
 
-            ctx.restore();
-        }
-    }]
+            ctx.fillStyle = '#111';
+            ctx.font = chartFont;
+            ctx.textAlign = x > arc.x ? 'left' : 'right';
+            ctx.textBaseline = 'middle';
+
+            // Top / bottom par label ko canvas ke andar adjust karo
+            const padding = 8;
+
+            if (y < padding) {
+                y = padding;
+            }
+
+            if (y > chart.height - padding) {
+                y = chart.height - padding;
+            }
+
+            ctx.fillText(
+                data.datasets[0].data[index].toFixed(2) + '%',
+                x,
+                y
+            );
+        });
+
+        ctx.restore();
+    }
+}]
 });
 
 function updateChart(principal, interest) {

@@ -53,8 +53,8 @@
 <section class="whatson_sec">
     <div class="container">
         <div class="sec_title">
-            <h5 class="title18">Our Blog</h5>
-            <h3 class="title48">
+            <h5 class="title18" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">Our Blog</h5>
+            <h3 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                 KEEP UP WITH OUR NEWEST DEVELOPMENTS AND CHECK OUT THE LATEST INDUSTRY TRENDS
             </h3>
         </div>
@@ -80,7 +80,7 @@
                 }
             @endphp
 
-            <div class="whatson_item">
+            <div class="whatson_item reveal-left">
                 <div class="whatson_caption">
                     @if ($victor)
                         <div class="whatson_victor">
