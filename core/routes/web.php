@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ChannelPartnerController;
 use App\Http\Controllers\Frontend\CMSController;
+use App\Http\Controllers\Frontend\CollectiveController;
 use App\Http\Controllers\Frontend\ContactController;
 use App\Http\Controllers\Frontend\EmiController;
 use App\Http\Controllers\Frontend\EventController;
@@ -150,6 +151,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 //Projects
 Route::get('/projects', [ProjectsController::class, 'index'])->name('projects.index');
 Route::get('/projects/{slug}', [ProjectsController::class, 'detail'])->name('projects.detail');
+
+//Collective
+
+Route::get('/collective', [CollectiveController::class, 'index'])->name('collective.index');
+Route::get('/collective/{slug}', [CollectiveController::class, 'detail'])->name('collective.detail');
+
 
 //People
 Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
