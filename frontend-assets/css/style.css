@@ -247,9 +247,9 @@ blockquote{font:var(--font-30);color:var(--color-black); margin:0;}
 .custom_bullets>li>ul>li{list-style:circle;font:var(--font-18);color:var(--color-black);margin-bottom:3rem;}
 .custom_bullets>li>ul>li::marker{font-size:1em;color:var(--color-e5);}
 
-@media(max-width:991px){
+/* @media(max-width:991px){
     .custom_bullets{padding:0 0 0 1.5rem;}
-}
+} */
 
 /* Table Css */
 .table-responsive{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
