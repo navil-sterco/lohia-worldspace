@@ -1,12 +1,17 @@
 <?php
 
+use App\Models\ModuleEntry;
 use App\Models\Page;
 use App\Models\SupportInformation;
 
 function headerData()
 {
     return Page::whereJsonContains('display_location', 'header')
-        ->with('children')
+        ->with([
+            'children' => function ($query) {
+                $query->orderBy('display_order', 'ASC');
+            }
+        ])
         ->orderBy('display_order', 'ASC')
         ->get()
         ->map(function ($page) {
@@ -14,6 +19,7 @@ function headerData()
                 'title' => $page->title,
                 'slug' => $page->slug,
                 'target_blank' => $page->target_blank,
+
                 'children' => $page->children->map(function ($child) {
                     return [
                         'title' => $child->title,
@@ -85,6 +91,11 @@ function socialIcons()
     });
 }
 
+function supportInfo($key)
+{
+    return SupportInformation::where('key', $key)->first()->value ?? '';
+}
+
 function insightMenu(string $slug): array
 {
     $page = Page::published()
@@ -120,3 +131,12 @@ function insightMenu(string $slug): array
     ];
 }
 
+function productMenu()
+{
+    return ModuleEntry::forModule(13, 'display_order', 'asc')->get()->map(fn($e) => $e->toCleanData());
+}
+
+function projects()
+{
+    return ModuleEntry::forModule(3, 'display_order', 'asc')->get()->map(fn($e) => $e->toCleanData());
+}
