@@ -6,8 +6,8 @@
             <div class="projt_left">
                 {!! $section['cms']['project_listing_0'] ?? '' !!}
                 <div class="projt_filter">
-                    <h6 class="title18">Filter by</h6>
-                    <div class="filter_group">
+                    <h6 class="title18" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">Filter by</h6>
+                    <div class="filter_group" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
                         <div class="dropdown_menu">
                             <button class="dropdown_toggle">
                                 {{ $activeFilters['type'] ?? 'Project Type' }}

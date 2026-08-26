@@ -9,10 +9,10 @@
                         class="img-fluid w-100">
                 </div>
                 <div class="prjtdtl_title">
-                    <h1 class="title21">Projects</h1>
-                    <h2 class="title72">{!! $projectDetail['detail']['name'] ?? '' !!}</h2>
+                    <h1 class="title21" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">Projects</h1>
+                    <h2 class="title72" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">{!! $projectDetail['detail']['name'] ?? '' !!}</h2>
                 </div>
-                <div class="prjtdtl_nav">
+                <div class="prjtdtl_nav" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                     <ul>
                         <li><a href="#overview">Overview</a></li>
                         <li><a href="#feature">Features & Amenities</a></li>
@@ -24,7 +24,7 @@
                     </ul>
                 </div>
 
-                <div class="prjtdtl_btns">
+                <div class="prjtdtl_btns" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
                     <a href="#" class="request_btn">Request Site Visit</a>
                     <a href="{!! $projectDetail['detail']['brochure'] ?? '' !!}" target="_blank"
                         class="pdf_btn">Brochure PDF</a>
