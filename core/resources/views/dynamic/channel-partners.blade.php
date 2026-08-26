@@ -10,8 +10,8 @@
         </div>
         <div class="container">
             <div class="lohchnlform_wrap">
-                <h3 class="title48">FILL UP TO REGISTER AS A CHANNEL PARTNER</h3>
-                <div class="lohchnlform">
+                <h3 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">FILL UP TO REGISTER AS A CHANNEL PARTNER</h3>
+                <div class="lohchnlform" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <h5 class="title21">Personal Information</h5>
                     <div class="row">
                         <div class="col-lg-6">
@@ -268,7 +268,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lohchnlform">
+                <div class="lohchnlform" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <h5 class="title21">Communication Address</h5>
                     <div class="row">
                         <div class="col-lg-12">
@@ -278,7 +278,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lohchnlform">
+                <div class="lohchnlform" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <h5 class="title21">Work Profile</h5>
                     <div class="row">
                         <div class="col-lg-12">
@@ -289,7 +289,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lohchnlform">
+                <div class="lohchnlform" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <h5 class="title21">Professional Relationship Details</h5>
                     <div class="row">
                         <div class="col-lg-12">
@@ -311,7 +311,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lohchnlform">
+                <div class="lohchnlform" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <h5 class="title21">Company Details</h5>
                     <div class="row">
                         <div class="col-lg-6">
@@ -398,7 +398,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lohchnl_btn">
+                <div class="lohchnl_btn" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <button type="button" class="btn_light">Submit</button>
                 </div>
             </div>
@@ -408,8 +408,8 @@
     <section class="lhequry_sec">
         <div class="container">
             <div class="lh_equry">
-                <h3 class="title30">For Enquiries:</h3>
-                <div class="btn_group">
+                <h3 class="title30" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">For Enquiries:</h3>
+                <div class="btn_group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <a href="mailto:partner@lohiaworldspace.com" class="btn_downdark">Email: partner@lohiaworldspace.com</a>
                     <a href="tel:(+91)-7900-790-790" class="btn_downdark">Tel: (+91)-7900-790-790</a>
                 </div>

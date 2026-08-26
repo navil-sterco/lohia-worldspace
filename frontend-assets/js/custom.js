@@ -38,7 +38,7 @@ Fancybox.bind("[data-fancybox='gallery']", {
     duration: 800,
     easing: "ease-out",
     once: false,
-    isMobile:false,
+    disable: "mobile",
   });
 
   // =========================
@@ -217,9 +217,11 @@ dropdownToggle(".dropdown_menu", ".dropdown_toggle", ".dropdown_item a");
             { selector: '.reveal-bottom', cls: 'revealed-bottom' }
         ];
 
+        let delayIndex = 0;
+
         items.forEach(item => {
 
-            document.querySelectorAll(item.selector).forEach((el, index) => {
+            document.querySelectorAll(item.selector).forEach(el => {
 
                 if (el.classList.contains(item.cls)) return;
 
@@ -227,9 +229,12 @@ dropdownToggle(".dropdown_menu", ".dropdown_toggle", ".dropdown_item a");
 
                 if (rect.top < window.innerHeight - 150) {
 
+                    const delay = delayIndex * 100;
+                    delayIndex++;
+
                     setTimeout(() => {
                         el.classList.add(item.cls);
-                    }, index * 250); // 250ms gap
+                    }, delay);
 
                 }
 
