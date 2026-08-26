@@ -136,3 +136,7 @@ function productMenu()
     return ModuleEntry::forModule(13, 'display_order', 'asc')->get()->map(fn($e) => $e->toCleanData());
 }
 
+function projects()
+{
+    return ModuleEntry::forModule(3, 'display_order', 'asc')->get()->map(fn($e) => $e->toCleanData());
+}
