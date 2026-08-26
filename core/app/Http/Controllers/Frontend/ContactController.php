@@ -185,6 +185,7 @@ class ContactController extends Controller
 
     public function store(Request $request)
     {
+
         $interest = $request->input('interest');
 
         $rules = $this->commonRules() + $this->sectionRules($interest);
@@ -193,13 +194,21 @@ class ContactController extends Controller
 
         unset($validated['g-recaptcha-response']);
 
-        // Columns that exist directly on contact_forms
+
+        if ($interest === 'vendor' && $request->filled('vendor_phone_code')) {
+            $code = trim($request->input('vendor_phone_code'));
+            $number = trim($validated['vendor_phone'] ?? '');
+            if (!str_starts_with($number, $code)) {
+                $validated['vendor_phone'] = trim($code . ' ' . $number);
+            }
+        }
+
+
         $common = collect($validated)
             ->only(['interest', 'name', 'email', 'phone', 'location', 'buyer_type', 'budget', 'property_type', 'comment'])
             ->toArray();
 
-        // Everything else (vendor_*, or any future section-specific field)
-        // gets stored as JSON in the `details` column
+
         $details = collect($validated)
             ->except(array_keys($common))
             ->toArray();
@@ -210,5 +219,10 @@ class ContactController extends Controller
         ]);
 
         return view('thank-you.thank-you');
+    }
+
+    public function vendor()
+    {
+        return view('dynamic.vendor-form');
     }
 }
