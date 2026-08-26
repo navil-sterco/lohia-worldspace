@@ -7,7 +7,18 @@ import DeleteConfirmationModal from '@/Components/DeleteConfirmationModal';
 import Pagination from '@/Components/Pagination';
 import { useDebouncedSearch } from '@/hooks/useSearch';
 
-const Index = ({ searchTerm, contactForms }) => {
+const formatLabel = (key) =>
+    key
+        .replace(/^vendor_/, '')
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+
+const formatInterest = (interest) =>
+    interest ? interest.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) : '—';
+
+
+const Index = ({ searchTerm, contactForms, interestLabels = {}, buyerTypeLabels = {}, budgetLabels = {}, propertyTypeLabels = {} }) => {
+    
     const [query, setQuery] = useState(searchTerm || "");
     const viewModalRef = useRef(null);
     const viewModalInstance = useRef(null);
@@ -16,28 +27,28 @@ const Index = ({ searchTerm, contactForms }) => {
     useFlashMessage();
 
     const showViewModal = (contactForm) => {
-      setSelectedContactForm(contactForm);
-      setTimeout(() => {
-        if (viewModalRef.current) {
-          const modalInstance = new window.bootstrap.Modal(viewModalRef.current);
-          viewModalInstance.current = modalInstance;
-          modalInstance.show();
-        }
-      }, 0);
+        setSelectedContactForm(contactForm);
+        setTimeout(() => {
+            if (viewModalRef.current) {
+                const modalInstance = new window.bootstrap.Modal(viewModalRef.current);
+                viewModalInstance.current = modalInstance;
+                modalInstance.show();
+            }
+        }, 0);
     };
 
     const closeViewModal = () => {
-      if (viewModalInstance.current) {
-        viewModalInstance.current.hide();
-        setTimeout(() => {
-			const backdrops = document.querySelectorAll('.modal-backdrop');
-			backdrops.forEach(backdrop => backdrop.remove());
-			document.body.classList.remove('modal-open');
-			document.body.style.overflow = '';
-			document.body.style.paddingRight = '';
-        }, 300);
-      }
-      setSelectedContactForm(null);
+        if (viewModalInstance.current) {
+            viewModalInstance.current.hide();
+            setTimeout(() => {
+                const backdrops = document.querySelectorAll('.modal-backdrop');
+                backdrops.forEach(backdrop => backdrop.remove());
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+                document.body.style.paddingRight = '';
+            }, 300);
+        }
+        setSelectedContactForm(null);
     };
     const { modalRef, itemToDelete, processing, confirmDelete, handleDelete } = useDeleteConfirmation('contact-forms.destroy');
 
@@ -63,7 +74,7 @@ const Index = ({ searchTerm, contactForms }) => {
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Property Type</th>
+                                <th>Interest</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -83,8 +94,11 @@ const Index = ({ searchTerm, contactForms }) => {
                                         {item.phone !== '' ? item.phone : <span className="text-muted">—</span>}
                                     </td>
                                     <td>
-                                        <i className="bx bx-building-house bx-sm me-3"></i>
-                                        {item.property_type !== '' ? item.property_type : <span className="text-muted">—</span>}
+                                        <span className="badge bg-label-primary">
+                                            {interestLabels[item.interest] || formatInterest(item.interest)}
+
+
+                                        </span>
                                     </td>
                                     <td>
                                         <div className="d-flex align-items-center gap-1">
@@ -96,19 +110,18 @@ const Index = ({ searchTerm, contactForms }) => {
                                                     <i className="bx bx-dots-vertical-rounded"></i>
                                                 </button>
                                                 <div className="dropdown-menu">
-                                                    <a
-                                                        href="#viewDetailsModal"
+
+
+                                                    <a href="#viewDetailsModal"
                                                         data-bs-toggle="modal"
                                                         onClick={() => showViewModal(item)}
-                                                        className="dropdown-item"
-                                                    >
+                                                        className="dropdown-item" >
                                                         <i className="bx bx-show me-1"></i> View
                                                     </a>
-                                                    <a
-                                                        onClick={() => confirmDelete(item.id, { name: item.name })}
+
+                                                    <a onClick={() => confirmDelete(item.id, { name: item.name })}
                                                         className="dropdown-item"
-                                                        href="#"
-                                                    >
+                                                        href="#" >
                                                         <i className="bx bx-trash me-1"></i> Delete
                                                     </a>
                                                 </div>
@@ -154,9 +167,9 @@ const Index = ({ searchTerm, contactForms }) => {
                                         </p>
                                     )}
                                 </div>
-                                <button 
-                                    type="button" 
-                                    className="btn-close" 
+                                <button
+                                    type="button"
+                                    className="btn-close"
                                     onClick={closeViewModal}
                                 ></button>
                             </div>
@@ -173,6 +186,15 @@ const Index = ({ searchTerm, contactForms }) => {
                                                 Contact Information
                                             </h6>
                                             <div className="row g-3">
+                                                <div className="col-12">
+                                                    <label className="form-label fw-semibold text-muted small">Interest / Purpose</label>
+                                                    <div className="border rounded p-3 bg-light">
+                                                        <span className="badge bg-primary">
+                                                            {interestLabels[selectedContactForm.interest] || formatInterest(selectedContactForm.interest)}
+                                                        </span>
+                                                    </div>
+                                                </div>
+
                                                 <div className="col-12">
                                                     <label className="form-label fw-semibold text-muted small">Full Name</label>
                                                     <div className="border rounded p-3 bg-light">
@@ -223,32 +245,65 @@ const Index = ({ searchTerm, contactForms }) => {
                                             </div>
                                         </div>
 
-                                        <div className="mb-4">
-                                            <h6 className="section-title text-uppercase text-muted fw-semibold mb-3">
-                                                <i className="bx bx-home-circle me-2"></i>
-                                                Property Preferences
-                                            </h6>
-                                            <div className="row g-3">
-                                                <div className="col-md-4">
-                                                    <label className="form-label fw-semibold text-muted small">Buyer Type</label>
-                                                    <div className="border rounded p-3 bg-light">
-                                                        <span className="fw-medium">{selectedContactForm.buyer_type || <span className="text-muted">—</span>}</span>
+                                        {(selectedContactForm.buyer_type || selectedContactForm.budget || selectedContactForm.property_type) && (
+                                            <div className="mb-4">
+                                                <h6 className="section-title text-uppercase text-muted fw-semibold mb-3">
+                                                    <i className="bx bx-home-circle me-2"></i>
+                                                    Property Preferences
+                                                </h6>
+                                                <div className="row g-3">
+                                                    <div className="col-md-4">
+                                                        <label className="form-label fw-semibold text-muted small">Buyer Type</label>
+                                                        <div className="border rounded p-3 bg-light">
+                                                            <span className="fw-medium">
+                                                                {buyerTypeLabels[selectedContactForm.buyer_type] || selectedContactForm.buyer_type || <span className="text-muted">—</span>}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <label className="form-label fw-semibold text-muted small">Budget</label>
-                                                    <div className="border rounded p-3 bg-light">
-                                                        <span className="fw-medium">{selectedContactForm.budget || <span className="text-muted">—</span>}</span>
+                                                    <div className="col-md-4">
+                                                        <label className="form-label fw-semibold text-muted small">Budget</label>
+                                                        <div className="border rounded p-3 bg-light">
+                                                            <span className="fw-medium">
+                                                                {budgetLabels[selectedContactForm.budget] || selectedContactForm.budget || <span className="text-muted">—</span>}
+                                                            </span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div className="col-md-4">
-                                                    <label className="form-label fw-semibold text-muted small">Property Type</label>
-                                                    <div className="border rounded p-3 bg-light">
-                                                        <span className="fw-medium">{selectedContactForm.property_type || <span className="text-muted">—</span>}</span>
+                                                    <div className="col-md-4">
+                                                        <label className="form-label fw-semibold text-muted small">Property Type</label>
+                                                        <div className="border rounded p-3 bg-light">
+                                                            <span className="fw-medium">
+                                                                {propertyTypeLabels[selectedContactForm.property_type] || selectedContactForm.property_type || <span className="text-muted">—</span>}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        )}
+
+                                        {/* Dynamically render every field in `details` JSON —
+                                            covers all vendor_* fields, or any other section-specific data */}
+                                        {selectedContactForm.details && Object.keys(selectedContactForm.details).length > 0 && (
+                                            <div className="mb-4">
+                                                <h6 className="section-title text-uppercase text-muted fw-semibold mb-3">
+                                                    <i className="bx bx-detail me-2"></i>
+                                                    {selectedContactForm.interest === 'vendor' ? 'Vendor Details' : 'Additional Details'}
+                                                </h6>
+                                                <div className="row g-3">
+                                                    {Object.entries(selectedContactForm.details).map(([key, value]) => (
+                                                        <div className="col-md-6" key={key}>
+                                                            <label className="form-label fw-semibold text-muted small">
+                                                                {formatLabel(key)}
+                                                            </label>
+                                                            <div className="border rounded p-3 bg-light">
+                                                                <span className="fw-medium">
+                                                                    {value !== null && value !== '' ? String(value) : <span className="text-muted">—</span>}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
 
                                         <div className="mb-4">
                                             <h6 className="section-title text-uppercase text-muted fw-semibold mb-3">
@@ -282,13 +337,21 @@ const Index = ({ searchTerm, contactForms }) => {
                                                         <code className="text-primary small">{selectedContactForm.id || '—'}</code>
                                                     </div>
                                                 </div>
+                                                {selectedContactForm.ip_address && (
+                                                    <div>
+                                                        <label className="form-label fw-semibold text-muted small mb-2">IP Address</label>
+                                                        <div className="p-2 bg-white rounded border">
+                                                            <code className="text-muted small">{selectedContactForm.ip_address}</code>
+                                                        </div>
+                                                    </div>
+                                                )}
                                                 <div>
                                                     <label className="form-label fw-semibold text-muted small mb-2">Submitted On</label>
                                                     <div className="p-2 bg-white rounded border">
                                                         <small className="text-muted">
                                                             <i className="bx bx-calendar me-1"></i>
-                                                            {selectedContactForm.created_at 
-                                                                ? new Date(selectedContactForm.created_at).toLocaleString() 
+                                                            {selectedContactForm.created_at
+                                                                ? new Date(selectedContactForm.created_at).toLocaleString()
                                                                 : '—'}
                                                         </small>
                                                     </div>
@@ -376,8 +439,8 @@ const Index = ({ searchTerm, contactForms }) => {
                         </div>
 
                         <div className="modal-footer bg-light">
-                            <button 
-                                type="button" 
+                            <button
+                                type="button"
                                 className="btn btn-secondary"
                                 onClick={closeViewModal}
                             >
