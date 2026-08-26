@@ -4,7 +4,8 @@
     $socialIcons = socialIcons();
     $header = headerData();
     $sidebar = sidebar();
-    $projects = \app\Models\ModuleEntry::forModule(3, 'display_order', 'asc')->get()->map(fn($e) => $e->toCleanData());
+
+    $projects = projects();
 @endphp
 
 <footer class="main_footer">
