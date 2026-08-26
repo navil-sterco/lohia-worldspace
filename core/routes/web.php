@@ -20,7 +20,7 @@ use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\ChannelPartnerController;
 use App\Http\Controllers\Frontend\CMSController;
 use App\Http\Controllers\Frontend\ContactController;
-use App\Http\Controllers\frontend\EmiController;
+use App\Http\Controllers\Frontend\EmiController;
 use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\GalleryPageController;
