@@ -142,7 +142,7 @@
 
                 <li>
 
-                    <a href="{{ $slug }}"
+                    <a href="{{ url($slug) }}"
                         @if ($targetBlank) target="_blank" rel="noopener noreferrer" @endif>
                         {{ $title }}
                     </a>
@@ -159,7 +159,7 @@
                         $targetBlank = !empty($menu['target_blank']);
 
                     @endphp
-                    <li><a href="{{ $slug }}">{{ $title }}</a></li>
+                    <li><a href="{{ url($slug) }}">{{ $title }}</a></li>
                 @endforeach
             </ul>
         </div>
