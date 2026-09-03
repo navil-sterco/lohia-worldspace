@@ -799,6 +799,13 @@
 .collective_offer>h5:has(+ *){margin-bottom:3.2rem;}
 .collective_offer>ul{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem 5rem;}
 .collective_offer>ul>li{margin-bottom: 0;}
+.collsustain_wrapper { margin-top: 5rem; padding-left: var(--leftpadding); }
+.collsustain_wrapper>h5:has(+ *) { margin-bottom: 3.2rem; }
+.sustainblity_bx{margin-bottom: 3rem;}
+.sustainblity_bx  strong { display: block; font: var(--font-18); font-weight: var(--fw-400); margin-bottom: 2rem; }
+.sustainblity_bx p{margin-bottom: 1.5rem;}
+.prj_approv.product_sec>a{text-decoration: none;cursor: auto;}
+
 
 
 
