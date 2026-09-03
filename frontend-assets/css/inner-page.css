@@ -690,6 +690,7 @@
     .prjtl_title>h3{font:var(--font-24);font-weight:var(--fw-400);}
     .collective_member{padding-top:8rem;max-width:calc(100% - 1.7rem);}
     .cm_grid{grid-template-columns:repeat(4,1fr);gap:2rem 2rem;}
+    .projt_filter{    margin-top: 3rem;}
 }
 @media(max-width:767px){
     .projt_sec{padding-block: 3.5rem 3.6rem;}
@@ -922,10 +923,12 @@
     .sitefloor_grid>.accordion-tabcontent{padding-left:0;border-left:0;}
     .aria_grid>li{padding-right: 2rem;}
     .aria_grid{gap:2rem;margin:0 0 5rem;}
+    
 }
 @media(max-width:991px){
     .collective_offer>ul{gap:2rem 4rem;}
     .collective_offer>h5:has(+ *){margin-bottom:2.2rem;}
+    .prjtdtl_left::before{left: 0rem;}
 }
 @media(max-width:767px){
     .prjtdtl_sec{padding-block: 3.4rem 3.8rem;}
@@ -995,7 +998,8 @@
     .prj_collab{margin-top:3rem;margin-bottom:3rem;}
     .prj_collab>h5:has(+ *){margin-bottom:2.2rem;}
     .collab_logo{flex-wrap:wrap;gap:2rem;}
-
+    .collsustain_wrapper>h5:has(+ *) { margin-bottom: 2.2rem; }
+    .collsustain_wrapper { margin-top: 2rem; }
 
 
 }
@@ -1403,3 +1407,4 @@
     .emiform_wrap{gap:2.5rem;margin-top:2.5rem;}
     .emiyr_btn>button{width:4rem;}
 }
+
