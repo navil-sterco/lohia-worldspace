@@ -10,12 +10,12 @@
     <div class="container">
         <div class="crntopen_wraper">
             <div class="crntopen_caption">
-                <h5 class="title21">Current Openings</h5>
-                <h3 class="title48">COME BUILD WITH US</h3>
-                <p>We're always looking for people who hold themselves to the same standard we hold our spaces — <br>if that's you, we'd like to hear from you.</p>
+                <h5 class="title21" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">Current Openings</h5>
+                <h3 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">COME BUILD WITH US</h3>
+                <p data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">We're always looking for people who hold themselves to the same standard we hold our spaces — <br>if that's you, we'd like to hear from you.</p>
             </div>
             <div class="crnt_victor">
-                <img src="{{ asset('frontend-assets/images/victor-dash13.svg') }}" alt="victor" class="img-fluid w-100">
+                <img src="{{ asset('frontend-assets/images/victor-dash13.svg') }}" alt="victor" class="img-fluid w-100 reveal-left">
             </div>
         </div>
 
@@ -32,7 +32,7 @@
                     $totalOpenings = collect($openingList)->sum(fn($o) => (int) ($o['count'] ?? 0));
                 @endphp
 
-                <div class="vacancy_bx">
+                <div class="vacancy_bx" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                     <h6>{{ $job['title'] }}</h6>
                     <ul>
                         <li>Dept. - <strong>{{ $job['department'] }}</strong></li>

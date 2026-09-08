@@ -29,6 +29,7 @@ use App\Http\Controllers\Frontend\JobApplicationController;
 use App\Http\Controllers\Frontend\ModularPageController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\PeopleController;
+use App\Http\Controllers\Frontend\MediaCoveragreController;
 use App\Http\Controllers\Frontend\ProjectsController;
 use App\Http\Controllers\Frontend\TestimonialController;
 use App\Models\Page;
@@ -190,6 +191,8 @@ Route::post('/apply-job', [JobApplicationController::class, 'store'])->name('app
 //Events
 Route::get('/events', [EventController::class, 'index'])->name('events.index');
 Route::get('/events/{slug}', [EventController::class, 'detail'])->name('events.show');
+
+Route::get('/media-coverage', [MediaCoveragreController::class, 'index'])->name('events.index');
 
 //FAQ
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
