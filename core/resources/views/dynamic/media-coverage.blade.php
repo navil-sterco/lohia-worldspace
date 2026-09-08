@@ -10,16 +10,13 @@
                 </div>
                 <div class="mediacovr_grid">
 
-                    @foreach($media as $item)
-
-
+                    @foreach ($media as $item)
                         <div class="mediacovr_bx">
                             <figure>
                                 <img src="{{ $item['image'] }}" alt="media coverage"
                                     class="img-fluid reveal-left w-100">
                             </figure>
-                            <a data-fancybox="gallery" href="{{ $item['image'] }}"
-                                class="overlap_btn"></a>
+                            <a data-fancybox="gallery" href="{{ $item['image'] }}" class="overlap_btn"></a>
                         </div>
                     @endforeach
 

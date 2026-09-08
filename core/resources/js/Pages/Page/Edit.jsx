@@ -31,6 +31,7 @@ const Edit = ({ page, tabs, parentPages }) => {
         title: page.title || "",
         slug: page.slug || "",
         meta_description: page.meta_description || "",
+        overwrite_url: page.overwrite_url || "",
         page_type: page.page_type || "modular",
         display_location: normalizeDisplayLocation(page.display_location),
         is_published: page.is_published || true,
@@ -40,10 +41,10 @@ const Edit = ({ page, tabs, parentPages }) => {
         parent_page_id: page.parent_page_id || "",
         sections: page.sections
             ? page.sections.map((section) => ({
-                  section_id: section.id,
-                  order: section.pivot.order,
-                  data: safeJsonParse(section.pivot.section_data),
-              }))
+                section_id: section.id,
+                order: section.pivot.order,
+                data: safeJsonParse(section.pivot.section_data),
+            }))
             : [],
     });
 
@@ -234,6 +235,29 @@ const Edit = ({ page, tabs, parentPages }) => {
                                     {hasParentPage
                                         ? "Disabled because this page uses the selected parent page tab context"
                                         : "Choose a tab to group this page under"}
+                                </div>
+                            </div>
+
+                            <div className="mb-3 col-md-6">
+                                <label className="form-label">
+                                    OVER WRITE URL
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={data.overwrite_url}
+                                    onChange={(e) =>
+                                        setData("overwrite_url", e.target.value)
+                                    }
+                                    placeholder="Overwrite Url"
+                                />
+                                {errors.overwrite_url && (
+                                    <div className="text-danger small">
+                                        {errors.overwrite_url}
+                                    </div>
+                                )}
+                                <div className="form-text">
+                                    If a redirect URL is specified, the page will automatically redirect to the specified URL.
                                 </div>
                             </div>
 

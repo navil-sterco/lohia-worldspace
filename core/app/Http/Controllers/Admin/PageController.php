@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Tab;
@@ -26,7 +27,7 @@ class PageController extends Controller
         if ($search) {
 
             $matchedPages = Page::query()
-                ->with(['tab', 'parent.parent'])
+                ->with(['tab', 'parent.parent', 'children'])
                 ->where(function ($q) use ($search) {
                     $q->where('title', 'like', "%{$search}%")
                         ->orWhere('slug', 'like', "%{$search}%")
@@ -49,6 +50,10 @@ class PageController extends Controller
                 while ($parent) {
                     $pageIds->push($parent->id);
                     $parent = $parent->parent;
+                }
+
+                foreach ($page->children as $child) {
+                    $pageIds->push($child->id);
                 }
             }
 
@@ -189,7 +194,9 @@ class PageController extends Controller
             'tab_id' => 'nullable|exists:tabs,id',
             'display_order' => 'integer',
             'parent_page_id' => 'nullable|exists:pages,id',
+            'overwrite_url' => 'nullable|url|max:255',
         ]);
+
 
         $parentPage = null;
         if (!empty($validated['parent_page_id'])) {
@@ -225,6 +232,7 @@ class PageController extends Controller
             'display_location' => $validated['display_location'] ?? [],
             'is_published' => $validated['is_published'] ?? true,
             'target_blank' => $validated['target_blank'] ?? false,
+            'overwrite_url' => $validated['overwrite_url'] ?? null,
             'tab_id' => $validated['tab_id'] ?? null,
             'display_order' => $validated['display_order'] ?? 1000,
             'parent_page_id' => $validated['parent_page_id'] ?? null,
@@ -284,6 +292,7 @@ class PageController extends Controller
             'tab_id' => 'nullable|exists:tabs,id',
             'display_order' => 'integer',
             'parent_page_id' => 'nullable|exists:pages,id',
+            'overwrite_url' => 'nullable|url|max:255',
         ]);
 
         $parentPage = null;
@@ -318,6 +327,7 @@ class PageController extends Controller
             'display_location' => $validated['display_location'] ?? [],
             'is_published' => $validated['is_published'] ?? true,
             'target_blank' => $validated['target_blank'] ?? false,
+            'overwrite_url' => $validated['overwrite_url'] ?? null,
             'tab_id' => $validated['tab_id'] ?? null,
             'display_order' => $validated['display_order'] ?? 1000,
             'parent_page_id' => $validated['parent_page_id'] ?? null,

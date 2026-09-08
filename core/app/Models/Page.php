@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use App\Models\ModuleEntry;
@@ -21,7 +22,8 @@ class Page extends Model
         'display_location',
         'tab_id',
         'display_order',
-        'parent_page_id'
+        'parent_page_id',
+        'overwrite_url'
     ];
 
     protected $casts = [
