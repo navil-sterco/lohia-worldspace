@@ -61,12 +61,14 @@
     </div>
     <div class="whatson_grid">
         @foreach (array_slice($modular['blogs'] ?? [], 0, 4) as $index => $blog)
+
             @php
                 $date = !empty($blog['date'])
                     ? \Carbon\Carbon::parse($blog['date'])
                     : null;
 
                 $name = $blog['name'] ?? '';
+                $category = $blog['category'] ?? '';
                 $description = $blog['description'] ?? '';
                 $image = $blog['home_image'] ?? '';
                 $slug = $blog['slug'] ?? '';
@@ -98,9 +100,10 @@
                             </div>
                         @endif
                         <div class="whatson_write">
-                            {{ $name }}
+                            {{ $category }}
                         </div>
                     </div>
+                    <p>{{ $name }}</p>
                 </div>
                 @if ($image)
                     <figure>
