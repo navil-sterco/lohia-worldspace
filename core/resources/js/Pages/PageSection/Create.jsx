@@ -1,80 +1,109 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useForm } from '@inertiajs/react';
-import CodeEditor from '@/Components/Fields/CodeEditor';
-import JsonEditor from '@/Components/Fields/JsonEditor';
-import RichTextEditor from '@/Components/Fields/RichTextEditor';
-import useCtrlSSubmit from '@/hooks/useCtrlSSubmit';
+import React, { useEffect, useRef, useState } from "react";
+import { Link, useForm } from "@inertiajs/react";
+import CodeEditor from "@/Components/Fields/CodeEditor";
+import JsonEditor from "@/Components/Fields/JsonEditor";
+import RichTextEditor from "@/Components/Fields/RichTextEditor";
+import useCtrlSSubmit from "@/hooks/useCtrlSSubmit";
+import { usePage } from "@inertiajs/react";
+import { ToastContainer, toast } from "react-toastify";
 
 const Create = () => {
     const { data, setData, post, errors, processing } = useForm({
-        name: '',
-        identifier: '',
-        html_template: '',
-        fields_config: '[]',
-        mapping_config: '[]',
+        name: "",
+        identifier: "",
+        html_template: "",
+        fields_config: "[]",
+        mapping_config: "[]",
         mapping_enabled: false,
-        css_styles: '',
-        is_active: true
+        css_styles: "",
+        is_active: true,
     });
 
-    const [jsonError, setJsonError] = useState('');
-    const [mappingJsonError, setMappingJsonError] = useState('');
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash?.success) toast.success(flash.success);
+        if (flash?.error) toast.error(flash.error);
+    }, [flash]);
+
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            toast.error(Object.values(errors)[0]);
+        }
+    }, [errors]);
+
+    const [jsonError, setJsonError] = useState("");
+    const [mappingJsonError, setMappingJsonError] = useState("");
     const [fields, setFields] = useState([]);
     const [mappingGroups, setMappingGroups] = useState([]);
     const [activeMappingGroupIndex, setActiveMappingGroupIndex] = useState(0);
     const [newGroup, setNewGroup] = useState({
-        group_label: '',
-        group_name: '',
-        parent_group: '',
+        group_label: "",
+        group_name: "",
+        parent_group: "",
     });
     const [newField, setNewField] = useState({
-        name: '',
-        type: 'text',
-        label: '',
+        name: "",
+        type: "text",
+        label: "",
         required: false,
-        placeholder: '',
-        options: ''
+        placeholder: "",
+        options: "",
     });
     const [newMappingField, setNewMappingField] = useState({
-        name: '',
-        type: 'text',
-        label: '',
+        name: "",
+        type: "text",
+        label: "",
         required: false,
-        placeholder: '',
-        options: ''
+        placeholder: "",
+        options: "",
     });
     const [fieldErrors, setFieldErrors] = useState({
-        label: '',
-        name: ''
+        label: "",
+        name: "",
     });
     const [mappingFieldErrors, setMappingFieldErrors] = useState({
-        label: '',
-        name: ''
+        label: "",
+        name: "",
     });
     const [groupErrors, setGroupErrors] = useState({
-        group_label: '',
-        group_name: '',
+        group_label: "",
+        group_name: "",
     });
+    const htmlEditorRef = useRef(null);
 
-    const isAssocObject = (obj) => obj && typeof obj === 'object' && !Array.isArray(obj);
+    const isAssocObject = (obj) =>
+        obj && typeof obj === "object" && !Array.isArray(obj);
 
     const normalizeMappingConfig = (raw) => {
         if (!Array.isArray(raw)) return [];
         if (raw[0] && isAssocObject(raw[0]) && Array.isArray(raw[0].fields)) {
             return raw.map((g) => ({
-                group_label: g.group_label || 'Repeatable Items',
-                group_name: g.group_name || 'items',
-                parent_group: typeof g.parent_group === 'string' && g.parent_group.trim() ? g.parent_group.trim() : '',
+                group_label: g.group_label || "Repeatable Items",
+                group_name: g.group_name || "items",
+                parent_group:
+                    typeof g.parent_group === "string" && g.parent_group.trim()
+                        ? g.parent_group.trim()
+                        : "",
                 fields: Array.isArray(g.fields) ? g.fields : [],
+                default_items: Array.isArray(g.default_items)
+                    ? g.default_items
+                    : [],
             }));
         }
-        if (raw[0] && isAssocObject(raw[0]) && typeof raw[0].name === 'string') {
-            return [{
-                group_label: 'Repeatable Items',
-                group_name: 'items',
-                parent_group: '',
-                fields: raw,
-            }];
+        if (
+            raw[0] &&
+            isAssocObject(raw[0]) &&
+            typeof raw[0].name === "string"
+        ) {
+            return [
+                {
+                    group_label: "Repeatable Items",
+                    group_name: "items",
+                    parent_group: "",
+                    fields: raw,
+                },
+            ];
         }
         return [];
     };
@@ -90,42 +119,119 @@ const Create = () => {
     };
 
     const generateGroupName = (label) => {
-        return (label || '')
-            .toLowerCase()
-            .trim()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '_')
-            .replace(/_+/g, '_')
-            .replace(/^_+|_+$/g, '') || 'items';
+        return (
+            (label || "")
+                .toLowerCase()
+                .trim()
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "_")
+                .replace(/_+/g, "_")
+                .replace(/^_+|_+$/g, "") || "items"
+        );
     };
 
     const fieldTypes = [
-        { value: 'text', label: 'Text Input', icon: 'bx-text' },
-        { value: 'textarea', label: 'Text Area', icon: 'bx-align-left' },
-        { value: 'code', label: 'Code Editor', icon: 'bx-edit' },
-        { value: 'number', label: 'Number', icon: 'bx-hash' },
-        { value: 'email', label: 'Email', icon: 'bx-envelope' },
-        { value: 'url', label: 'URL', icon: 'bx-link' },
-        { value: 'select', label: 'Dropdown Select', icon: 'bx-chevron-down' },
-        { value: 'checkbox', label: 'Checkbox', icon: 'bx-check-square' },
-        { value: 'radio', label: 'Radio Button', icon: 'bx-radio-circle' },
-        { value: 'file', label: 'File Upload', icon: 'bx-upload' },
-        { value: 'image', label: 'Image Upload', icon: 'bx-image' },
-        { value: 'date', label: 'Date', icon: 'bx-calendar' },
-        { value: 'color', label: 'Color Picker', icon: 'bx-palette' },
+        { value: "text", label: "Text Input", icon: "bx-text" },
+        { value: "textarea", label: "Text Area", icon: "bx-align-left" },
+        { value: "code", label: "Code Editor", icon: "bx-edit" },
+        { value: "number", label: "Number", icon: "bx-hash" },
+        { value: "email", label: "Email", icon: "bx-envelope" },
+        { value: "url", label: "URL", icon: "bx-link" },
+        { value: "link", label: "Link", icon: "bx-link-external" },
+        { value: "select", label: "Dropdown Select", icon: "bx-chevron-down" },
+        { value: "checkbox", label: "Checkbox", icon: "bx-check-square" },
+        { value: "radio", label: "Radio Button", icon: "bx-radio-circle" },
+        { value: "file", label: "File Upload", icon: "bx-upload" },
+        { value: "image", label: "Image Upload", icon: "bx-image" },
+        { value: "date", label: "Date", icon: "bx-calendar" },
+        { value: "color", label: "Color Picker", icon: "bx-palette" },
     ];
-    
+
+    const cmsAttributeTypes = [
+        ["text", "Text"],
+        ["textarea", "Textarea"],
+        ["image", "Image"],
+        ["number", "Number"],
+        ["email", "Email"],
+        ["date", "Date"],
+        ["url", "URL"],
+        ["select", "Select"],
+        ["checkbox", "Checkbox"],
+        ["code", "Code"],
+        ["link", "Link"],
+        ["repeatable", "Repeatable"],
+    ];
+
+    const insertCmsAttribute = (type) => {
+        const editor = htmlEditorRef.current;
+        if (!editor) return;
+
+        const model = editor.getModel();
+        const position = editor.getPosition();
+        if (!model || !position) return;
+
+        const value = model.getValue();
+        const offset = model.getOffsetAt(position);
+        const openingStart = value.lastIndexOf("<", offset);
+        const openingEnd = value.indexOf(">", offset);
+        if (openingStart < 0 || openingEnd < 0) {
+            toast.error("Place the cursor inside an opening HTML tag first.");
+            return;
+        }
+
+        const openingTag = value.slice(openingStart, openingEnd + 1);
+        const tagMatch = openingTag.match(/^<([a-z][a-z0-9-]*)\b/i);
+        if (!tagMatch || /^<\//.test(openingTag) || /^<!/.test(openingTag)) {
+            toast.error("Place the cursor inside an opening HTML tag first.");
+            return;
+        }
+
+        const tagName = tagMatch[1].toLowerCase();
+        const defaults = {
+            h1: "heading",
+            h2: "heading",
+            h3: "heading",
+            h4: "heading",
+            h5: "heading",
+            h6: "heading",
+            p: "description",
+            a: "link",
+            img: "image",
+            li: "item",
+        };
+        const name = defaults[tagName] || `${tagName}_field`;
+        const attribute = `data-${type}`;
+        if (new RegExp(`\\b${attribute}\\s*=`, "i").test(openingTag)) {
+            toast.error(`This element already has ${attribute}.`);
+            return;
+        }
+
+        const insertOffset = openingStart + tagMatch[0].length;
+        const insertPosition = model.getPositionAt(insertOffset);
+        editor.executeEdits("insert-cms-attribute", [
+            {
+                range: {
+                    startLineNumber: insertPosition.lineNumber,
+                    startColumn: insertPosition.column,
+                    endLineNumber: insertPosition.lineNumber,
+                    endColumn: insertPosition.column,
+                },
+                text: ` ${attribute}="${type === "repeatable" ? "list" : name}"`,
+            },
+        ]);
+    };
+
     useEffect(() => {
         if (data.name) {
             const generatedIdentifier = data.name
                 .toLowerCase()
                 .trim()
-                .replace(/[^a-z0-9\s-]/g, '')
-                .replace(/\s+/g, '_')
-                .replace(/_+/g, '_')
-                .replace(/^_+|_+$/g, '');
-            
-            setData('identifier', generatedIdentifier);
+                .replace(/[^a-z0-9\s-]/g, "")
+                .replace(/\s+/g, "_")
+                .replace(/_+/g, "_")
+                .replace(/^_+|_+$/g, "");
+
+            setData("identifier", generatedIdentifier);
         }
     }, [data.name]);
 
@@ -138,7 +244,7 @@ const Create = () => {
                 }
             }
         } catch (error) {
-            console.error('Error parsing fields config:', error);
+            console.error("Error parsing fields config:", error);
         }
     }, [data.fields_config]);
 
@@ -151,24 +257,26 @@ const Create = () => {
                     setMappingGroups(groups);
                     // Only adjust if current index is out of bounds
                     if (activeMappingGroupIndex >= groups.length) {
-                        setActiveMappingGroupIndex(Math.max(0, groups.length - 1));
+                        setActiveMappingGroupIndex(
+                            Math.max(0, groups.length - 1),
+                        );
                     }
                 }
             }
         } catch (error) {
-            console.error('Error parsing mapping config:', error);
+            console.error("Error parsing mapping config:", error);
         }
     }, [data.mapping_config]);
 
     const updateFieldsConfig = (updatedFields) => {
         const jsonString = JSON.stringify(updatedFields, null, 2);
-        setData('fields_config', jsonString);
+        setData("fields_config", jsonString);
         setFields(updatedFields);
     };
 
     const updateMappingConfig = (updatedGroups) => {
         const jsonString = JSON.stringify(updatedGroups, null, 2);
-        setData('mapping_config', jsonString);
+        setData("mapping_config", jsonString);
         setMappingGroups(updatedGroups);
         if (activeMappingGroupIndex >= updatedGroups.length) {
             setActiveMappingGroupIndex(Math.max(0, updatedGroups.length - 1));
@@ -179,11 +287,11 @@ const Create = () => {
         let baseName = label
             .toLowerCase()
             .trim()
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '_')
-            .replace(/_+/g, '_')
-            .replace(/^_+|_+$/g, '');
-        
+            .replace(/[^a-z0-9\s-]/g, "")
+            .replace(/\s+/g, "_")
+            .replace(/_+/g, "_")
+            .replace(/^_+|_+$/g, "");
+
         if (isMapping) {
             const existingNames = flattenGroupFieldNames(mappingGroups);
             let counter = 1;
@@ -194,7 +302,7 @@ const Create = () => {
             }
             return finalName;
         }
-        
+
         return baseName;
     };
 
@@ -203,9 +311,9 @@ const Create = () => {
         setNewField({
             ...newField,
             label,
-            name: generatedName
+            name: generatedName,
         });
-        setFieldErrors({...fieldErrors, label: '', name: ''});
+        setFieldErrors({ ...fieldErrors, label: "", name: "" });
     };
 
     const handleMappingLabelChange = (label) => {
@@ -213,22 +321,27 @@ const Create = () => {
         setNewMappingField({
             ...newMappingField,
             label,
-            name: generatedName
+            name: generatedName,
         });
-        setMappingFieldErrors({...mappingFieldErrors, label: '', name: ''});
+        setMappingFieldErrors({ ...mappingFieldErrors, label: "", name: "" });
     };
 
     const addField = () => {
         const errors = {};
-        if (!newField.label.trim()) errors.label = 'Label is required';
-        if (!newField.name.trim()) errors.name = 'Field name is required';
-        else if (fields.some(f => f.name === newField.name)) errors.name = 'Field name already exists';
-        else if (!/^[a-z][a-z0-9_]*$/.test(newField.name)) errors.name = 'Invalid field name format';
-        
-        if ((newField.type === 'select' || newField.type === 'radio') && !newField.options.trim()) {
-            errors.options = 'Options are required';
+        if (!newField.label.trim()) errors.label = "Label is required";
+        if (!newField.name.trim()) errors.name = "Field name is required";
+        else if (fields.some((f) => f.name === newField.name))
+            errors.name = "Field name already exists";
+        else if (!/^[a-z][a-z0-9_]*$/.test(newField.name))
+            errors.name = "Invalid field name format";
+
+        if (
+            (newField.type === "select" || newField.type === "radio") &&
+            !newField.options.trim()
+        ) {
+            errors.options = "Options are required";
         }
-        
+
         if (Object.keys(errors).length > 0) {
             setFieldErrors(errors);
             return;
@@ -239,29 +352,48 @@ const Create = () => {
             type: newField.type,
             label: newField.label,
             required: newField.required || false,
-            placeholder: newField.placeholder || '',
+            placeholder: newField.placeholder || "",
         };
 
-        if (['select', 'radio'].includes(newField.type) && newField.options) {
-            field.options = newField.options.split(',').map(opt => opt.trim()).filter(opt => opt);
+        if (["select", "radio"].includes(newField.type) && newField.options) {
+            field.options = newField.options
+                .split(",")
+                .map((opt) => opt.trim())
+                .filter((opt) => opt);
         }
 
         updateFieldsConfig([...fields, field]);
-        setNewField({ name: '', type: 'text', label: '', required: false, placeholder: '', options: '' });
-        setFieldErrors({ label: '', name: '', options: '' });
+        setNewField({
+            name: "",
+            type: "text",
+            label: "",
+            required: false,
+            placeholder: "",
+            options: "",
+        });
+        setFieldErrors({ label: "", name: "", options: "" });
     };
 
     const addMappingField = () => {
         const errors = {};
-        if (!newMappingField.label.trim()) errors.label = 'Label is required';
-        if (!newMappingField.name.trim()) errors.name = 'Field name is required';
-        else if (flattenGroupFieldNames(mappingGroups).has(newMappingField.name)) errors.name = 'Field name already exists';
-        else if (!/^[a-z][a-z0-9_]*$/.test(newMappingField.name)) errors.name = 'Invalid field name format';
-        
-        if ((newMappingField.type === 'select' || newMappingField.type === 'radio') && !newMappingField.options.trim()) {
-            errors.options = 'Options are required';
+        if (!newMappingField.label.trim()) errors.label = "Label is required";
+        if (!newMappingField.name.trim())
+            errors.name = "Field name is required";
+        else if (
+            flattenGroupFieldNames(mappingGroups).has(newMappingField.name)
+        )
+            errors.name = "Field name already exists";
+        else if (!/^[a-z][a-z0-9_]*$/.test(newMappingField.name))
+            errors.name = "Invalid field name format";
+
+        if (
+            (newMappingField.type === "select" ||
+                newMappingField.type === "radio") &&
+            !newMappingField.options.trim()
+        ) {
+            errors.options = "Options are required";
         }
-        
+
         if (Object.keys(errors).length > 0) {
             setMappingFieldErrors(errors);
             return;
@@ -272,23 +404,43 @@ const Create = () => {
             type: newMappingField.type,
             label: newMappingField.label,
             required: newMappingField.required || false,
-            placeholder: newMappingField.placeholder || '',
+            placeholder: newMappingField.placeholder || "",
         };
 
-        if (['select', 'radio'].includes(newMappingField.type) && newMappingField.options) {
-            field.options = newMappingField.options.split(',').map(opt => opt.trim()).filter(opt => opt);
+        if (
+            ["select", "radio"].includes(newMappingField.type) &&
+            newMappingField.options
+        ) {
+            field.options = newMappingField.options
+                .split(",")
+                .map((opt) => opt.trim())
+                .filter((opt) => opt);
         }
 
         const next = [...mappingGroups];
         if (!next[activeMappingGroupIndex]) {
-            next.push({ group_label: 'Repeatable Items', group_name: 'items', fields: [] });
+            next.push({
+                group_label: "Repeatable Items",
+                group_name: "items",
+                fields: [],
+            });
             setActiveMappingGroupIndex(next.length - 1);
         }
         const group = next[activeMappingGroupIndex];
-        next[activeMappingGroupIndex] = { ...group, fields: [...(group.fields || []), field] };
+        next[activeMappingGroupIndex] = {
+            ...group,
+            fields: [...(group.fields || []), field],
+        };
         updateMappingConfig(next);
-        setNewMappingField({ name: '', type: 'text', label: '', required: false, placeholder: '', options: '' });
-        setMappingFieldErrors({ label: '', name: '', options: '' });
+        setNewMappingField({
+            name: "",
+            type: "text",
+            label: "",
+            required: false,
+            placeholder: "",
+            options: "",
+        });
+        setMappingFieldErrors({ label: "", name: "", options: "" });
     };
 
     const removeField = (index, isMapping = false) => {
@@ -296,7 +448,10 @@ const Create = () => {
             const next = [...mappingGroups];
             const group = next[activeMappingGroupIndex];
             if (!group) return;
-            next[activeMappingGroupIndex] = { ...group, fields: (group.fields || []).filter((_, i) => i !== index) };
+            next[activeMappingGroupIndex] = {
+                ...group,
+                fields: (group.fields || []).filter((_, i) => i !== index),
+            };
             updateMappingConfig(next);
         } else {
             const updated = fields.filter((_, i) => i !== index);
@@ -310,19 +465,31 @@ const Create = () => {
             const group = next[activeMappingGroupIndex];
             if (!group) return;
             const updated = [...(group.fields || [])];
-            if (direction === 'up' && index > 0) {
-                [updated[index], updated[index - 1]] = [updated[index - 1], updated[index]];
-            } else if (direction === 'down' && index < updated.length - 1) {
-                [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+            if (direction === "up" && index > 0) {
+                [updated[index], updated[index - 1]] = [
+                    updated[index - 1],
+                    updated[index],
+                ];
+            } else if (direction === "down" && index < updated.length - 1) {
+                [updated[index], updated[index + 1]] = [
+                    updated[index + 1],
+                    updated[index],
+                ];
             }
             next[activeMappingGroupIndex] = { ...group, fields: updated };
             updateMappingConfig(next);
         } else {
             const updated = [...fields];
-            if (direction === 'up' && index > 0) {
-                [updated[index], updated[index - 1]] = [updated[index - 1], updated[index]];
-            } else if (direction === 'down' && index < updated.length - 1) {
-                [updated[index], updated[index + 1]] = [updated[index + 1], updated[index]];
+            if (direction === "up" && index > 0) {
+                [updated[index], updated[index - 1]] = [
+                    updated[index - 1],
+                    updated[index],
+                ];
+            } else if (direction === "down" && index < updated.length - 1) {
+                [updated[index], updated[index + 1]] = [
+                    updated[index + 1],
+                    updated[index],
+                ];
             }
             updateFieldsConfig(updated);
         }
@@ -338,8 +505,8 @@ const Create = () => {
                 type: field.type,
                 label: field.label,
                 required: field.required || false,
-                placeholder: field.placeholder || '',
-                options: field.options ? field.options.join(', ') : '',
+                placeholder: field.placeholder || "",
+                options: field.options ? field.options.join(", ") : "",
             });
             removeField(index, true);
         } else {
@@ -349,54 +516,54 @@ const Create = () => {
                 type: field.type,
                 label: field.label,
                 required: field.required || false,
-                placeholder: field.placeholder || '',
-                options: field.options ? field.options.join(', ') : ''
+                placeholder: field.placeholder || "",
+                options: field.options ? field.options.join(", ") : "",
             });
             removeField(index, false);
         }
     };
 
     const getFieldIcon = (type) => {
-        const typeConfig = fieldTypes.find(t => t.value === type);
-        return typeConfig ? typeConfig.icon : 'bx-cube';
+        const typeConfig = fieldTypes.find((t) => t.value === type);
+        return typeConfig ? typeConfig.icon : "bx-cube";
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
         try {
             let parsedFieldsConfig = [];
             let parsedMappingConfig = [];
-            
+
             if (data.fields_config && data.fields_config.trim()) {
                 parsedFieldsConfig = JSON.parse(data.fields_config);
                 if (!Array.isArray(parsedFieldsConfig)) {
-                    throw new Error('Fields config must be an array');
+                    throw new Error("Fields config must be an array");
                 }
             }
-            
+
             if (data.mapping_config && data.mapping_config.trim()) {
                 parsedMappingConfig = JSON.parse(data.mapping_config);
                 if (!Array.isArray(parsedMappingConfig)) {
-                    throw new Error('Mapping config must be an array');
+                    throw new Error("Mapping config must be an array");
                 }
             }
-            
-            setJsonError('');
-            setMappingJsonError('');
-            
-            post(route('page-sections.store'), {
+
+            setJsonError("");
+            setMappingJsonError("");
+
+            post(route("page-sections.store"), {
                 ...data,
                 fields_config: parsedFieldsConfig,
-                mapping_config: parsedMappingConfig
+                mapping_config: parsedMappingConfig,
             });
-            
         } catch (error) {
-            if (error.message.includes('Mapping')) {
+            if (error.message.includes("Mapping")) {
                 setMappingJsonError(error.message);
             } else {
                 setJsonError(error.message);
             }
+            toast.error(error.message);
         }
     };
 
@@ -428,78 +595,93 @@ const Create = () => {
 </section>
 `,
 
-        fields_config: JSON.stringify([
-            {
-                name: "title",
-                type: "text",
-                label: "Section Title",
-                required: true,
-                placeholder: "Our Services"
-            },
-            {
-                name: "subtitle",
-                type: "textarea",
-                label: "Section Subtitle",
-                required: false,
-                placeholder: "What we offer"
-            }
-        ], null, 2),
-
-        mapping_config: JSON.stringify([
-            {
-                group_label: "Items",
-                group_name: "items",
-                fields: [
+            fields_config: JSON.stringify(
+                [
                     {
-                        name: "icon",
+                        name: "title",
                         type: "text",
-                        label: "Icon URL",
+                        label: "Section Title",
                         required: true,
-                        placeholder: "assets/icons/service.svg"
+                        placeholder: "Our Services",
                     },
                     {
-                        name: "heading",
-                        type: "text",
-                        label: "Item Heading",
-                        required: true,
-                        placeholder: "Service Name"
-                    },
-                    {
-                        name: "description",
+                        name: "subtitle",
                         type: "textarea",
-                        label: "Item Description",
-                        required: true,
-                        placeholder: "Service description"
-                    }
-                ]
-            }
-        ], null, 2),
+                        label: "Section Subtitle",
+                        required: false,
+                        placeholder: "What we offer",
+                    },
+                ],
+                null,
+                2,
+            ),
 
-        css_styles: `
+            mapping_config: JSON.stringify(
+                [
+                    {
+                        group_label: "Items",
+                        group_name: "items",
+                        fields: [
+                            {
+                                name: "icon",
+                                type: "text",
+                                label: "Icon URL",
+                                required: true,
+                                placeholder: "assets/icons/service.svg",
+                            },
+                            {
+                                name: "heading",
+                                type: "text",
+                                label: "Item Heading",
+                                required: true,
+                                placeholder: "Service Name",
+                            },
+                            {
+                                name: "description",
+                                type: "textarea",
+                                label: "Item Description",
+                                required: true,
+                                placeholder: "Service description",
+                            },
+                        ],
+                    },
+                ],
+                null,
+                2,
+            ),
+
+            css_styles: `
 .example-section {
     padding: 60px 0;
 }`,
         });
     };
 
-
     const getAllFieldNames = () => {
-        const regularFields = fields.map(f => ({ 
-            name: f.name, 
-            type: 'regular',
-            label: f.label 
+        const regularFields = fields.map((f) => ({
+            name: f.name,
+            type: "regular",
+            label: f.label,
         }));
-        const mappingFieldsList = (mappingGroups || []).flatMap((g) => (g.fields || []).map((mf) => ({
-            name: `item.${mf.name}`,
-            type: 'mapping',
-            label: `${mf.label}${g?.group_name ? ` (${g.group_name})` : ''}`,
-        })));
+        const mappingFieldsList = (mappingGroups || []).flatMap((g) =>
+            (g.fields || []).map((mf) => ({
+                name: `item.${mf.name}`,
+                type: "mapping",
+                label: `${mf.label}${g?.group_name ? ` (${g.group_name})` : ""}`,
+            })),
+        );
         return [...regularFields, ...mappingFieldsList];
     };
 
-    const renderFieldInput = (field, value, onChange, placeholder, required) => {
+    const renderFieldInput = (
+        field,
+        value,
+        onChange,
+        placeholder,
+        required,
+    ) => {
         switch (field.type) {
-            case 'richtext':
+            case "richtext":
                 return (
                     <RichTextEditor
                         value={value}
@@ -508,7 +690,7 @@ const Create = () => {
                         height="200px"
                     />
                 );
-            case 'textarea':
+            case "textarea":
                 return (
                     <textarea
                         className="form-control"
@@ -519,7 +701,7 @@ const Create = () => {
                         placeholder={placeholder}
                     />
                 );
-            case 'select':
+            case "select":
                 return (
                     <select
                         className="form-control"
@@ -535,7 +717,7 @@ const Create = () => {
                         ))}
                     </select>
                 );
-            case 'checkbox':
+            case "checkbox":
                 return (
                     <div className="form-check">
                         <input
@@ -550,15 +732,15 @@ const Create = () => {
                         </label>
                     </div>
                 );
-            case 'color':
+            case "color":
                 return (
                     <input
                         type="color"
                         className="form-control form-control-color"
-                        value={value || '#000000'}
+                        value={value || "#000000"}
                         onChange={onChange}
                         required={required}
-                        style={{ height: '38px', width: '100%' }}
+                        style={{ height: "38px", width: "100%" }}
                     />
                 );
             default:
@@ -580,10 +762,15 @@ const Create = () => {
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     <h1 className="text-muted mb-1">Create Page Section</h1>
-                    <p className="text-muted mb-0">Create a reusable section template with dynamic fields and repeatable content</p>
+                    <p className="text-muted mb-0">
+                        Create a reusable section template with dynamic fields
+                        and repeatable content
+                    </p>
                 </div>
             </div>
-            
+
+            <ToastContainer />
+
             <div className="card mb-4">
                 <div className="card-header">
                     <h5 className="card-title mb-0">Quick Start Templates</h5>
@@ -609,27 +796,45 @@ const Create = () => {
                 <div className="card-body">
                     <div className="row">
                         <div className="mb-3 col-md-6">
-                            <label className="form-label">Section Name <span className='text-danger'>*</span></label>
+                            <label className="form-label">
+                                Section Name{" "}
+                                <span className="text-danger">*</span>
+                            </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 value={data.name}
-                                onChange={e => setData('name', e.target.value)}
+                                onChange={(e) =>
+                                    setData("name", e.target.value)
+                                }
                                 placeholder="Facts Section"
                             />
-                            {errors.name && <div className="text-danger small">{errors.name}</div>}
+                            {errors.name && (
+                                <div className="text-danger small">
+                                    {errors.name}
+                                </div>
+                            )}
                         </div>
 
                         <div className="mb-3 col-md-6">
-                            <label className="form-label">Unique Identifier <span className='text-danger'>*</span></label>
+                            <label className="form-label">
+                                Unique Identifier{" "}
+                                <span className="text-danger">*</span>
+                            </label>
                             <input
                                 type="text"
                                 className="form-control"
                                 value={data.identifier}
-                                onChange={e => setData('identifier', e.target.value)}
+                                onChange={(e) =>
+                                    setData("identifier", e.target.value)
+                                }
                                 placeholder="facts_section"
                             />
-                            {errors.identifier && <div className="text-danger small">{errors.identifier}</div>}
+                            {errors.identifier && (
+                                <div className="text-danger small">
+                                    {errors.identifier}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -638,91 +843,150 @@ const Create = () => {
             {/* Regular Fields Configuration */}
             <div className="card mb-4">
                 <div className="card-header">
-                    <h5 className="card-title mb-0">Regular Fields Configuration</h5>
+                    <h5 className="card-title mb-0">
+                        Regular Fields Configuration
+                    </h5>
                 </div>
                 <div className="card-body">
                     <div className="border rounded p-3 mb-4 bg-light">
                         <h6 className="mb-3">Add Regular Field</h6>
                         <div className="row g-3">
                             <div className="col-md-6">
-                                <label className="form-label">Field Label *</label>
+                                <label className="form-label">
+                                    Field Label *
+                                </label>
                                 <input
                                     type="text"
-                                    className={`form-control ${fieldErrors.label ? 'is-invalid' : ''}`}
+                                    className={`form-control ${fieldErrors.label ? "is-invalid" : ""}`}
                                     value={newField.label}
-                                    onChange={e => handleLabelChange(e.target.value)}
+                                    onChange={(e) =>
+                                        handleLabelChange(e.target.value)
+                                    }
                                     placeholder="Section Title"
                                 />
-                                {fieldErrors.label && <div className="invalid-feedback">{fieldErrors.label}</div>}
+                                {fieldErrors.label && (
+                                    <div className="invalid-feedback">
+                                        {fieldErrors.label}
+                                    </div>
+                                )}
                             </div>
-                            
+
                             <div className="col-md-6">
-                                <label className="form-label">Field Name *</label>
+                                <label className="form-label">
+                                    Field Name *
+                                </label>
                                 <input
                                     type="text"
-                                    className={`form-control ${fieldErrors.name ? 'is-invalid' : ''}`}
+                                    className={`form-control ${fieldErrors.name ? "is-invalid" : ""}`}
                                     value={newField.name}
-                                    onChange={e => {
-                                        setNewField({...newField, name: e.target.value});
-                                        if (fieldErrors.name) setFieldErrors({...fieldErrors, name: ''});
+                                    onChange={(e) => {
+                                        setNewField({
+                                            ...newField,
+                                            name: e.target.value,
+                                        });
+                                        if (fieldErrors.name)
+                                            setFieldErrors({
+                                                ...fieldErrors,
+                                                name: "",
+                                            });
                                     }}
                                     placeholder="section_title"
                                 />
-                                {fieldErrors.name && <div className="invalid-feedback d-block">{fieldErrors.name}</div>}
+                                {fieldErrors.name && (
+                                    <div className="invalid-feedback d-block">
+                                        {fieldErrors.name}
+                                    </div>
+                                )}
                             </div>
-                            
+
                             <div className="col-md-6">
-                                <label className="form-label">Field Type *</label>
+                                <label className="form-label">
+                                    Field Type *
+                                </label>
                                 <select
                                     className="form-select"
                                     value={newField.type}
-                                    onChange={e => setNewField({...newField, type: e.target.value})}
+                                    onChange={(e) =>
+                                        setNewField({
+                                            ...newField,
+                                            type: e.target.value,
+                                        })
+                                    }
                                 >
-                                    {fieldTypes.map(type => (
-                                        <option key={type.value} value={type.value}>
+                                    {fieldTypes.map((type) => (
+                                        <option
+                                            key={type.value}
+                                            value={type.value}
+                                        >
                                             {type.label}
                                         </option>
                                     ))}
                                 </select>
                             </div>
-                            
+
                             <div className="col-md-6">
-                                <label className="form-label">Placeholder Text</label>
+                                <label className="form-label">
+                                    Placeholder Text
+                                </label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     value={newField.placeholder}
-                                    onChange={e => setNewField({...newField, placeholder: e.target.value})}
+                                    onChange={(e) =>
+                                        setNewField({
+                                            ...newField,
+                                            placeholder: e.target.value,
+                                        })
+                                    }
                                     placeholder="Enter section title..."
                                 />
                             </div>
-                            
-                            {(newField.type === 'select' || newField.type === 'radio') && (
+
+                            {(newField.type === "select" ||
+                                newField.type === "radio") && (
                                 <div className="col-md-12">
-                                    <label className="form-label">Options (comma separated) *</label>
+                                    <label className="form-label">
+                                        Options (comma separated) *
+                                    </label>
                                     <input
                                         type="text"
-                                        className={`form-control ${fieldErrors.options ? 'is-invalid' : ''}`}
+                                        className={`form-control ${fieldErrors.options ? "is-invalid" : ""}`}
                                         value={newField.options}
-                                        onChange={e => setNewField({...newField, options: e.target.value})}
+                                        onChange={(e) =>
+                                            setNewField({
+                                                ...newField,
+                                                options: e.target.value,
+                                            })
+                                        }
                                         placeholder="Option 1, Option 2, Option 3"
                                     />
-                                    {fieldErrors.options && <div className="invalid-feedback">{fieldErrors.options}</div>}
+                                    {fieldErrors.options && (
+                                        <div className="invalid-feedback">
+                                            {fieldErrors.options}
+                                        </div>
+                                    )}
                                 </div>
                             )}
-                            
+
                             <div className="col-md-12">
                                 <div className="form-check">
                                     <input
                                         type="checkbox"
                                         className="form-check-input"
                                         checked={newField.required}
-                                        onChange={e => setNewField({...newField, required: e.target.checked})}
+                                        onChange={(e) =>
+                                            setNewField({
+                                                ...newField,
+                                                required: e.target.checked,
+                                            })
+                                        }
                                     />
-                                    <label className="form-check-label">Required Field</label>
+                                    <label className="form-check-label">
+                                        Required Field
+                                    </label>
                                 </div>
                             </div>
-                            
+
                             <div className="col-md-12">
                                 <button
                                     type="button"
@@ -738,8 +1002,10 @@ const Create = () => {
 
                     {/* Regular Fields List */}
                     <div className="mb-4">
-                        <h6 className="mb-3">Regular Fields ({fields.length})</h6>
-                        
+                        <h6 className="mb-3">
+                            Regular Fields ({fields.length})
+                        </h6>
+
                         {fields.length === 0 ? (
                             <div className="alert alert-info">
                                 <i className="bx bx-info-circle me-2"></i>
@@ -765,21 +1031,30 @@ const Create = () => {
                                                 <td>
                                                     <code>{field.name}</code>
                                                     {field.placeholder && (
-                                                        <small className="d-block text-muted">Placeholder: {field.placeholder}</small>
+                                                        <small className="d-block text-muted">
+                                                            Placeholder:{" "}
+                                                            {field.placeholder}
+                                                        </small>
                                                     )}
                                                 </td>
                                                 <td>{field.label}</td>
                                                 <td>
                                                     <span className="badge bg-light text-dark">
-                                                        <i className={`bx ${getFieldIcon(field.type)} me-1`}></i>
+                                                        <i
+                                                            className={`bx ${getFieldIcon(field.type)} me-1`}
+                                                        ></i>
                                                         {field.type}
                                                     </span>
                                                 </td>
                                                 <td>
                                                     {field.required ? (
-                                                        <span className="badge bg-danger">Required</span>
+                                                        <span className="badge bg-danger">
+                                                            Required
+                                                        </span>
                                                     ) : (
-                                                        <span className="badge bg-secondary">Optional</span>
+                                                        <span className="badge bg-secondary">
+                                                            Optional
+                                                        </span>
                                                     )}
                                                 </td>
                                                 <td>
@@ -787,7 +1062,12 @@ const Create = () => {
                                                         <button
                                                             type="button"
                                                             className="btn btn-outline-primary"
-                                                            onClick={() => editField(index, false)}
+                                                            onClick={() =>
+                                                                editField(
+                                                                    index,
+                                                                    false,
+                                                                )
+                                                            }
                                                             title="Edit"
                                                         >
                                                             <i className="bx bx-edit"></i>
@@ -795,8 +1075,16 @@ const Create = () => {
                                                         <button
                                                             type="button"
                                                             className="btn btn-outline-secondary"
-                                                            onClick={() => moveField(index, 'up', false)}
-                                                            disabled={index === 0}
+                                                            onClick={() =>
+                                                                moveField(
+                                                                    index,
+                                                                    "up",
+                                                                    false,
+                                                                )
+                                                            }
+                                                            disabled={
+                                                                index === 0
+                                                            }
                                                             title="Move Up"
                                                         >
                                                             <i className="bx bx-up-arrow-alt"></i>
@@ -804,8 +1092,18 @@ const Create = () => {
                                                         <button
                                                             type="button"
                                                             className="btn btn-outline-secondary"
-                                                            onClick={() => moveField(index, 'down', false)}
-                                                            disabled={index === fields.length - 1}
+                                                            onClick={() =>
+                                                                moveField(
+                                                                    index,
+                                                                    "down",
+                                                                    false,
+                                                                )
+                                                            }
+                                                            disabled={
+                                                                index ===
+                                                                fields.length -
+                                                                    1
+                                                            }
                                                             title="Move Down"
                                                         >
                                                             <i className="bx bx-down-arrow-alt"></i>
@@ -813,7 +1111,12 @@ const Create = () => {
                                                         <button
                                                             type="button"
                                                             className="btn btn-outline-danger"
-                                                            onClick={() => removeField(index, false)}
+                                                            onClick={() =>
+                                                                removeField(
+                                                                    index,
+                                                                    false,
+                                                                )
+                                                            }
                                                             title="Remove"
                                                         >
                                                             <i className="bx bx-trash"></i>
@@ -830,14 +1133,22 @@ const Create = () => {
 
                     {/* Regular Fields JSON */}
                     <div>
-                        <h6 className="mb-3">Regular Fields JSON Configuration</h6>
+                        <h6 className="mb-3">
+                            Regular Fields JSON Configuration
+                        </h6>
                         <JsonEditor
                             value={data.fields_config}
-                            onChange={(value) => setData('fields_config', value)}
+                            onChange={(value) =>
+                                setData("fields_config", value)
+                            }
                             placeholder="[]"
                             height="200px"
                         />
-                        {jsonError && <div className="text-danger small mt-2">{jsonError}</div>}
+                        {jsonError && (
+                            <div className="text-danger small mt-2">
+                                {jsonError}
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -846,16 +1157,21 @@ const Create = () => {
             <div className="card mb-4">
                 <div className="card-header">
                     <div className="d-flex justify-content-between align-items-center">
-                        <h5 className="card-title mb-0">Repeatable Items Configuration</h5>
+                        <h5 className="card-title mb-0">
+                            Repeatable Items Configuration
+                        </h5>
                         <div className="form-check form-switch">
                             <input
                                 type="checkbox"
                                 className="form-check-input"
                                 checked={data.mapping_enabled}
                                 onChange={(e) => {
-                                    setData('mapping_enabled', e.target.checked);
+                                    setData(
+                                        "mapping_enabled",
+                                        e.target.checked,
+                                    );
                                     if (!e.target.checked) {
-                                        setData('mapping_config', '[]');
+                                        setData("mapping_config", "[]");
                                         setMappingGroups([]);
                                         setActiveMappingGroupIndex(0);
                                     }
@@ -863,21 +1179,31 @@ const Create = () => {
                                 role="switch"
                             />
                             <label className="form-check-label fw-medium">
-                                {data.mapping_enabled ? 'Repeatable Items Enabled' : 'Enable Repeatable Items'}
+                                {data.mapping_enabled
+                                    ? "Repeatable Items Enabled"
+                                    : "Enable Repeatable Items"}
                             </label>
                         </div>
                     </div>
                 </div>
-                
+
                 {data.mapping_enabled && (
                     <div className="card-body">
                         <div className="alert alert-info mb-4">
                             <div className="d-flex">
                                 <i className="bx bx-info-circle me-2 mt-1"></i>
                                 <div>
-                                    <strong>Repeatable Items:</strong> 
-                                    <p className="mb-1">Users can add multiple items (like facts, features, testimonials) to this section.</p>
-                                    <p className="mb-0">In your HTML template, use <code>{'{item.field_name}'}</code> for item fields.</p>
+                                    <strong>Repeatable Items:</strong>
+                                    <p className="mb-1">
+                                        Users can add multiple items (like
+                                        facts, features, testimonials) to this
+                                        section.
+                                    </p>
+                                    <p className="mb-0">
+                                        In your HTML template, use{" "}
+                                        <code>{"{item.field_name}"}</code> for
+                                        item fields.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -887,76 +1213,166 @@ const Create = () => {
                             <h6 className="mb-3">Repeatable Groups</h6>
                             <div className="row g-3 align-items-start">
                                 <div className="col-md-4">
-                                    <label className="form-label">Group Label *</label>
+                                    <label className="form-label">
+                                        Group Label *
+                                    </label>
                                     <input
                                         type="text"
-                                        className={`form-control ${groupErrors.group_label ? 'is-invalid' : ''}`}
+                                        className={`form-control ${groupErrors.group_label ? "is-invalid" : ""}`}
                                         value={newGroup.group_label}
                                         onChange={(e) => {
                                             const v = e.target.value;
-                                            setNewGroup((g) => ({ ...g, group_label: v, group_name: generateGroupName(v) }));
-                                            if (groupErrors.group_label) setGroupErrors((ge) => ({ ...ge, group_label: '' }));
+                                            setNewGroup((g) => ({
+                                                ...g,
+                                                group_label: v,
+                                                group_name:
+                                                    generateGroupName(v),
+                                            }));
+                                            if (groupErrors.group_label)
+                                                setGroupErrors((ge) => ({
+                                                    ...ge,
+                                                    group_label: "",
+                                                }));
                                         }}
                                         placeholder="Slider Items"
                                     />
-                                    {groupErrors.group_label && <div className="invalid-feedback d-block">{groupErrors.group_label}</div>}
+                                    {groupErrors.group_label && (
+                                        <div className="invalid-feedback d-block">
+                                            {groupErrors.group_label}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="col-md-4">
-                                    <label className="form-label">Group Name *</label>
+                                    <label className="form-label">
+                                        Group Name *
+                                    </label>
                                     <input
                                         type="text"
-                                        className={`form-control ${groupErrors.group_name ? 'is-invalid' : ''}`}
+                                        className={`form-control ${groupErrors.group_name ? "is-invalid" : ""}`}
                                         value={newGroup.group_name}
                                         onChange={(e) => {
-                                            setNewGroup((g) => ({ ...g, group_name: e.target.value }));
-                                            if (groupErrors.group_name) setGroupErrors((ge) => ({ ...ge, group_name: '' }));
+                                            setNewGroup((g) => ({
+                                                ...g,
+                                                group_name: e.target.value,
+                                            }));
+                                            if (groupErrors.group_name)
+                                                setGroupErrors((ge) => ({
+                                                    ...ge,
+                                                    group_name: "",
+                                                }));
                                         }}
                                         placeholder="slider_items"
                                     />
-                                    {groupErrors.group_name && <div className="invalid-feedback d-block">{groupErrors.group_name}</div>}
+                                    {groupErrors.group_name && (
+                                        <div className="invalid-feedback d-block">
+                                            {groupErrors.group_name}
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="col-md-4">
-                                    <label className="form-label">Nest inside parent (optional)</label>
+                                    <label className="form-label">
+                                        Nest inside parent (optional)
+                                    </label>
                                     <select
                                         className="form-select"
-                                        value={newGroup.parent_group || ''}
-                                        onChange={(e) => setNewGroup((g) => ({ ...g, parent_group: e.target.value }))}
+                                        value={newGroup.parent_group || ""}
+                                        onChange={(e) =>
+                                            setNewGroup((g) => ({
+                                                ...g,
+                                                parent_group: e.target.value,
+                                            }))
+                                        }
                                     >
-                                        <option value="">None — top-level repeatable</option>
+                                        <option value="">
+                                            None — top-level repeatable
+                                        </option>
                                         {mappingGroups.map((g) => (
-                                            <option key={g.group_name} value={g.group_name}>
+                                            <option
+                                                key={g.group_name}
+                                                value={g.group_name}
+                                            >
                                                 {g.group_label} ({g.group_name})
                                             </option>
                                         ))}
                                     </select>
-                                    <small className="text-muted">Nested groups are edited inside each parent row (e.g. table cells per row).</small>
+                                    <small className="text-muted">
+                                        Nested groups are edited inside each
+                                        parent row (e.g. table cells per row).
+                                    </small>
                                 </div>
                                 <div className="col-md-12 col-lg-2">
-                                    <button type="button" className="btn btn-primary w-100" onClick={() => {
-                                        const errors = {};
-                                        const group_label = (newGroup.group_label || '').trim();
-                                        const group_name = (newGroup.group_name || '').trim();
-                                        if (!group_label) errors.group_label = 'Group label is required';
-                                        if (!group_name) errors.group_name = 'Group name is required';
-                                        else if (!/^[a-z][a-z0-9_]*$/.test(group_name)) errors.group_name = 'Invalid group name format';
-                                        else if (mappingGroups.some((g) => g.group_name === group_name)) errors.group_name = 'Group name already exists';
-                                        const pg = (newGroup.parent_group || '').trim();
-                                        if (pg && pg === group_name) errors.group_name = 'Group cannot be its own parent';
-                                        if (Object.keys(errors).length > 0) {
-                                            setGroupErrors(errors);
-                                            return;
-                                        }
-                                        const next = [...mappingGroups, {
-                                            group_label,
-                                            group_name,
-                                            parent_group: pg && pg !== group_name ? pg : '',
-                                            fields: [],
-                                        }];
-                                        updateMappingConfig(next);
-                                        setActiveMappingGroupIndex(next.length - 1);
-                                        setNewGroup({ group_label: '', group_name: '', parent_group: '' });
-                                        setGroupErrors({ group_label: '', group_name: '' });
-                                    }}>
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary w-100"
+                                        onClick={() => {
+                                            const errors = {};
+                                            const group_label = (
+                                                newGroup.group_label || ""
+                                            ).trim();
+                                            const group_name = (
+                                                newGroup.group_name || ""
+                                            ).trim();
+                                            if (!group_label)
+                                                errors.group_label =
+                                                    "Group label is required";
+                                            if (!group_name)
+                                                errors.group_name =
+                                                    "Group name is required";
+                                            else if (
+                                                !/^[a-z][a-z0-9_]*$/.test(
+                                                    group_name,
+                                                )
+                                            )
+                                                errors.group_name =
+                                                    "Invalid group name format";
+                                            else if (
+                                                mappingGroups.some(
+                                                    (g) =>
+                                                        g.group_name ===
+                                                        group_name,
+                                                )
+                                            )
+                                                errors.group_name =
+                                                    "Group name already exists";
+                                            const pg = (
+                                                newGroup.parent_group || ""
+                                            ).trim();
+                                            if (pg && pg === group_name)
+                                                errors.group_name =
+                                                    "Group cannot be its own parent";
+                                            if (
+                                                Object.keys(errors).length > 0
+                                            ) {
+                                                setGroupErrors(errors);
+                                                return;
+                                            }
+                                            const next = [
+                                                ...mappingGroups,
+                                                {
+                                                    group_label,
+                                                    group_name,
+                                                    parent_group:
+                                                        pg && pg !== group_name
+                                                            ? pg
+                                                            : "",
+                                                    fields: [],
+                                                },
+                                            ];
+                                            updateMappingConfig(next);
+                                            setActiveMappingGroupIndex(
+                                                next.length - 1,
+                                            );
+                                            setNewGroup({
+                                                group_label: "",
+                                                group_name: "",
+                                                parent_group: "",
+                                            });
+                                            setGroupErrors({
+                                                group_label: "",
+                                                group_name: "",
+                                            });
+                                        }}
+                                    >
                                         <i className="bx bx-plus me-2"></i>
                                         Add Group
                                     </button>
@@ -965,16 +1381,25 @@ const Create = () => {
 
                             {mappingGroups.length > 0 && (
                                 <div className="mt-3">
-                                    <label className="form-label">Active Group</label>
+                                    <label className="form-label">
+                                        Active Group
+                                    </label>
                                     <div className="d-flex gap-2 flex-wrap">
                                         {mappingGroups.map((g, idx) => (
                                             <button
                                                 key={g.group_name || idx}
                                                 type="button"
-                                                className={`btn btn-sm ${idx === activeMappingGroupIndex ? 'btn-success' : 'btn-outline-secondary'}`}
-                                                onClick={() => setActiveMappingGroupIndex(idx)}
+                                                className={`btn btn-sm ${idx === activeMappingGroupIndex ? "btn-success" : "btn-outline-secondary"}`}
+                                                onClick={() =>
+                                                    setActiveMappingGroupIndex(
+                                                        idx,
+                                                    )
+                                                }
                                             >
-                                                {g.group_label} <small className="ms-1">({g.group_name})</small>
+                                                {g.group_label}{" "}
+                                                <small className="ms-1">
+                                                    ({g.group_name})
+                                                </small>
                                             </button>
                                         ))}
                                         {mappingGroups.length > 1 && (
@@ -982,7 +1407,12 @@ const Create = () => {
                                                 type="button"
                                                 className="btn btn-sm btn-outline-danger"
                                                 onClick={() => {
-                                                    const next = mappingGroups.filter((_, i) => i !== activeMappingGroupIndex);
+                                                    const next =
+                                                        mappingGroups.filter(
+                                                            (_, i) =>
+                                                                i !==
+                                                                activeMappingGroupIndex,
+                                                        );
                                                     updateMappingConfig(next);
                                                 }}
                                             >
@@ -992,27 +1422,54 @@ const Create = () => {
                                     </div>
                                     {mappingGroups[activeMappingGroupIndex] && (
                                         <div className="mt-3">
-                                            <label className="form-label">Nesting for active group</label>
+                                            <label className="form-label">
+                                                Nesting for active group
+                                            </label>
                                             <select
                                                 className="form-select form-select-sm"
-                                                style={{ maxWidth: '22rem' }}
-                                                value={mappingGroups[activeMappingGroupIndex]?.parent_group || ''}
+                                                style={{ maxWidth: "22rem" }}
+                                                value={
+                                                    mappingGroups[
+                                                        activeMappingGroupIndex
+                                                    ]?.parent_group || ""
+                                                }
                                                 onChange={(e) => {
                                                     const v = e.target.value;
-                                                    const next = mappingGroups.map((g, i) =>
-                                                        i === activeMappingGroupIndex
-                                                            ? { ...g, parent_group: v && v !== g.group_name ? v : '' }
-                                                            : g
-                                                    );
+                                                    const next =
+                                                        mappingGroups.map(
+                                                            (g, i) =>
+                                                                i ===
+                                                                activeMappingGroupIndex
+                                                                    ? {
+                                                                          ...g,
+                                                                          parent_group:
+                                                                              v &&
+                                                                              v !==
+                                                                                  g.group_name
+                                                                                  ? v
+                                                                                  : "",
+                                                                      }
+                                                                    : g,
+                                                        );
                                                     updateMappingConfig(next);
                                                 }}
                                             >
-                                                <option value="">Top-level (not nested)</option>
+                                                <option value="">
+                                                    Top-level (not nested)
+                                                </option>
                                                 {mappingGroups
-                                                    .filter((_, i) => i !== activeMappingGroupIndex)
+                                                    .filter(
+                                                        (_, i) =>
+                                                            i !==
+                                                            activeMappingGroupIndex,
+                                                    )
                                                     .map((g) => (
-                                                        <option key={g.group_name} value={g.group_name}>
-                                                            {g.group_label} ({g.group_name})
+                                                        <option
+                                                            key={g.group_name}
+                                                            value={g.group_name}
+                                                        >
+                                                            {g.group_label} (
+                                                            {g.group_name})
                                                         </option>
                                                     ))}
                                             </select>
@@ -1032,90 +1489,153 @@ const Create = () => {
                             )}
                             <div className="row g-3">
                                 <div className="col-md-6">
-                                    <label className="form-label">Field Label *</label>
+                                    <label className="form-label">
+                                        Field Label *
+                                    </label>
                                     <input
                                         type="text"
-                                        className={`form-control ${mappingFieldErrors.label ? 'is-invalid' : ''}`}
+                                        className={`form-control ${mappingFieldErrors.label ? "is-invalid" : ""}`}
                                         value={newMappingField.label}
-                                        onChange={e => handleMappingLabelChange(e.target.value)}
+                                        onChange={(e) =>
+                                            handleMappingLabelChange(
+                                                e.target.value,
+                                            )
+                                        }
                                         placeholder="Icon URL"
                                         disabled={mappingGroups.length === 0}
                                     />
-                                    {mappingFieldErrors.label && <div className="invalid-feedback">{mappingFieldErrors.label}</div>}
+                                    {mappingFieldErrors.label && (
+                                        <div className="invalid-feedback">
+                                            {mappingFieldErrors.label}
+                                        </div>
+                                    )}
                                 </div>
-                                
+
                                 <div className="col-md-6">
-                                    <label className="form-label">Field Name *</label>
+                                    <label className="form-label">
+                                        Field Name *
+                                    </label>
                                     <input
                                         type="text"
-                                        className={`form-control ${mappingFieldErrors.name ? 'is-invalid' : ''}`}
+                                        className={`form-control ${mappingFieldErrors.name ? "is-invalid" : ""}`}
                                         value={newMappingField.name}
-                                        onChange={e => {
-                                            setNewMappingField({...newMappingField, name: e.target.value});
-                                            if (mappingFieldErrors.name) setMappingFieldErrors({...mappingFieldErrors, name: ''});
+                                        onChange={(e) => {
+                                            setNewMappingField({
+                                                ...newMappingField,
+                                                name: e.target.value,
+                                            });
+                                            if (mappingFieldErrors.name)
+                                                setMappingFieldErrors({
+                                                    ...mappingFieldErrors,
+                                                    name: "",
+                                                });
                                         }}
                                         placeholder="icon_url"
                                         disabled={mappingGroups.length === 0}
                                     />
-                                    {mappingFieldErrors.name && <div className="invalid-feedback d-block">{mappingFieldErrors.name}</div>}
+                                    {mappingFieldErrors.name && (
+                                        <div className="invalid-feedback d-block">
+                                            {mappingFieldErrors.name}
+                                        </div>
+                                    )}
                                 </div>
-                                
+
                                 <div className="col-md-6">
-                                    <label className="form-label">Field Type *</label>
+                                    <label className="form-label">
+                                        Field Type *
+                                    </label>
                                     <select
                                         className="form-select"
                                         value={newMappingField.type}
-                                        onChange={e => setNewMappingField({...newMappingField, type: e.target.value})}
+                                        onChange={(e) =>
+                                            setNewMappingField({
+                                                ...newMappingField,
+                                                type: e.target.value,
+                                            })
+                                        }
                                         disabled={mappingGroups.length === 0}
                                     >
-                                        {fieldTypes.map(type => (
-                                            <option key={type.value} value={type.value}>
+                                        {fieldTypes.map((type) => (
+                                            <option
+                                                key={type.value}
+                                                value={type.value}
+                                            >
                                                 {type.label}
                                             </option>
                                         ))}
                                     </select>
                                 </div>
-                                
+
                                 <div className="col-md-6">
-                                    <label className="form-label">Placeholder Text</label>
+                                    <label className="form-label">
+                                        Placeholder Text
+                                    </label>
                                     <input
                                         type="text"
                                         className="form-control"
                                         value={newMappingField.placeholder}
-                                        onChange={e => setNewMappingField({...newMappingField, placeholder: e.target.value})}
+                                        onChange={(e) =>
+                                            setNewMappingField({
+                                                ...newMappingField,
+                                                placeholder: e.target.value,
+                                            })
+                                        }
                                         placeholder="assets/images/icon.svg"
                                         disabled={mappingGroups.length === 0}
                                     />
                                 </div>
-                                
-                                {(newMappingField.type === 'select' || newMappingField.type === 'radio') && (
+
+                                {(newMappingField.type === "select" ||
+                                    newMappingField.type === "radio") && (
                                     <div className="col-md-12">
-                                        <label className="form-label">Options (comma separated) *</label>
+                                        <label className="form-label">
+                                            Options (comma separated) *
+                                        </label>
                                         <input
                                             type="text"
-                                            className={`form-control ${mappingFieldErrors.options ? 'is-invalid' : ''}`}
+                                            className={`form-control ${mappingFieldErrors.options ? "is-invalid" : ""}`}
                                             value={newMappingField.options}
-                                            onChange={e => setNewMappingField({...newMappingField, options: e.target.value})}
+                                            onChange={(e) =>
+                                                setNewMappingField({
+                                                    ...newMappingField,
+                                                    options: e.target.value,
+                                                })
+                                            }
                                             placeholder="Option 1, Option 2, Option 3"
-                                            disabled={mappingGroups.length === 0}
+                                            disabled={
+                                                mappingGroups.length === 0
+                                            }
                                         />
-                                        {mappingFieldErrors.options && <div className="invalid-feedback">{mappingFieldErrors.options}</div>}
+                                        {mappingFieldErrors.options && (
+                                            <div className="invalid-feedback">
+                                                {mappingFieldErrors.options}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
-                                
+
                                 <div className="col-md-12">
                                     <div className="form-check">
                                         <input
                                             type="checkbox"
                                             className="form-check-input"
                                             checked={newMappingField.required}
-                                            onChange={e => setNewMappingField({...newMappingField, required: e.target.checked})}
-                                            disabled={mappingGroups.length === 0}
+                                            onChange={(e) =>
+                                                setNewMappingField({
+                                                    ...newMappingField,
+                                                    required: e.target.checked,
+                                                })
+                                            }
+                                            disabled={
+                                                mappingGroups.length === 0
+                                            }
                                         />
-                                        <label className="form-check-label">Required Field</label>
+                                        <label className="form-check-label">
+                                            Required Field
+                                        </label>
                                     </div>
                                 </div>
-                                
+
                                 <div className="col-md-12">
                                     <button
                                         type="button"
@@ -1133,13 +1653,34 @@ const Create = () => {
                         {/* Mapping Fields List */}
                         <div className="mb-4">
                             <h6 className="mb-3">
-                                Item Fields ({(mappingGroups[activeMappingGroupIndex]?.fields || []).length})
-                                {mappingGroups[activeMappingGroupIndex]?.group_name ? (
-                                    <small className="text-muted ms-2">Active group: <code>{mappingGroups[activeMappingGroupIndex].group_name}</code></small>
+                                Item Fields (
+                                {
+                                    (
+                                        mappingGroups[activeMappingGroupIndex]
+                                            ?.fields || []
+                                    ).length
+                                }
+                                )
+                                {mappingGroups[activeMappingGroupIndex]
+                                    ?.group_name ? (
+                                    <small className="text-muted ms-2">
+                                        Active group:{" "}
+                                        <code>
+                                            {
+                                                mappingGroups[
+                                                    activeMappingGroupIndex
+                                                ].group_name
+                                            }
+                                        </code>
+                                    </small>
                                 ) : null}
                             </h6>
-                            
-                            {(!mappingGroups[activeMappingGroupIndex] || (mappingGroups[activeMappingGroupIndex].fields || []).length === 0) ? (
+
+                            {!mappingGroups[activeMappingGroupIndex] ||
+                            (
+                                mappingGroups[activeMappingGroupIndex].fields ||
+                                []
+                            ).length === 0 ? (
                                 <div className="alert alert-info">
                                     <i className="bx bx-info-circle me-2"></i>
                                     No item fields added yet.
@@ -1158,27 +1699,44 @@ const Create = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {(mappingGroups[activeMappingGroupIndex]?.fields || []).map((field, index) => (
+                                            {(
+                                                mappingGroups[
+                                                    activeMappingGroupIndex
+                                                ]?.fields || []
+                                            ).map((field, index) => (
                                                 <tr key={index}>
                                                     <td>{index + 1}</td>
                                                     <td>
-                                                        <code>item.{field.name}</code>
+                                                        <code>
+                                                            item.{field.name}
+                                                        </code>
                                                         {field.placeholder && (
-                                                            <small className="d-block text-muted">Placeholder: {field.placeholder}</small>
+                                                            <small className="d-block text-muted">
+                                                                Placeholder:{" "}
+                                                                {
+                                                                    field.placeholder
+                                                                }
+                                                            </small>
                                                         )}
                                                     </td>
                                                     <td>{field.label}</td>
                                                     <td>
                                                         <span className="badge bg-light text-dark">
-                                                            <i className={`bx ${getFieldIcon(field.type)} me-1`}></i>
+                                                            <i
+                                                                className={`bx ${getFieldIcon(field.type)} me-1`}
+                                                            ></i>
                                                             {field.type}
                                                         </span>
                                                     </td>
                                                     <td>
                                                         {field.required ? (
-                                                            <span className="badge bg-danger">Required</span>
+                                                            <span className="badge bg-danger">
+                                                                Required
+                                                            </span>
                                                         ) : (
-                                                            <span className="badge bg-secondary">Optional</span>
+                                                            <span className="badge bg-secondary">
+                                                                Optional
+                                                            </span>
                                                         )}
                                                     </td>
                                                     <td>
@@ -1186,7 +1744,12 @@ const Create = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-outline-primary"
-                                                                onClick={() => editField(index, true)}
+                                                                onClick={() =>
+                                                                    editField(
+                                                                        index,
+                                                                        true,
+                                                                    )
+                                                                }
                                                                 title="Edit"
                                                             >
                                                                 <i className="bx bx-edit"></i>
@@ -1194,8 +1757,16 @@ const Create = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-outline-secondary"
-                                                                onClick={() => moveField(index, 'up', true)}
-                                                                disabled={index === 0}
+                                                                onClick={() =>
+                                                                    moveField(
+                                                                        index,
+                                                                        "up",
+                                                                        true,
+                                                                    )
+                                                                }
+                                                                disabled={
+                                                                    index === 0
+                                                                }
                                                                 title="Move Up"
                                                             >
                                                                 <i className="bx bx-up-arrow-alt"></i>
@@ -1203,8 +1774,24 @@ const Create = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-outline-secondary"
-                                                                onClick={() => moveField(index, 'down', true)}
-                                                            disabled={index === (mappingGroups[activeMappingGroupIndex]?.fields || []).length - 1}
+                                                                onClick={() =>
+                                                                    moveField(
+                                                                        index,
+                                                                        "down",
+                                                                        true,
+                                                                    )
+                                                                }
+                                                                disabled={
+                                                                    index ===
+                                                                    (
+                                                                        mappingGroups[
+                                                                            activeMappingGroupIndex
+                                                                        ]
+                                                                            ?.fields ||
+                                                                        []
+                                                                    ).length -
+                                                                        1
+                                                                }
                                                                 title="Move Down"
                                                             >
                                                                 <i className="bx bx-down-arrow-alt"></i>
@@ -1212,7 +1799,12 @@ const Create = () => {
                                                             <button
                                                                 type="button"
                                                                 className="btn btn-outline-danger"
-                                                                onClick={() => removeField(index, true)}
+                                                                onClick={() =>
+                                                                    removeField(
+                                                                        index,
+                                                                        true,
+                                                                    )
+                                                                }
                                                                 title="Remove"
                                                             >
                                                                 <i className="bx bx-trash"></i>
@@ -1229,14 +1821,22 @@ const Create = () => {
 
                         {/* Mapping Fields JSON */}
                         <div>
-                            <h6 className="mb-3">Item Fields JSON Configuration</h6>
+                            <h6 className="mb-3">
+                                Item Fields JSON Configuration
+                            </h6>
                             <JsonEditor
                                 value={data.mapping_config}
-                                onChange={(value) => setData('mapping_config', value)}
+                                onChange={(value) =>
+                                    setData("mapping_config", value)
+                                }
                                 placeholder="[]"
                                 height="200px"
                             />
-                            {mappingJsonError && <div className="text-danger small mt-2">{mappingJsonError}</div>}
+                            {mappingJsonError && (
+                                <div className="text-danger small mt-2">
+                                    {mappingJsonError}
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -1252,34 +1852,78 @@ const Create = () => {
                                 <small className="text-muted">
                                     Available fields:&nbsp;
                                     {getAllFieldNames().length > 0 ? (
-                                        getAllFieldNames().map((field, index) => (
-                                            <span key={index} className="me-1">
-                                                <code title={field.label}>{field.name}</code>
-                                            </span>
-                                        ))
+                                        getAllFieldNames().map(
+                                            (field, index) => (
+                                                <span
+                                                    key={index}
+                                                    className="me-1"
+                                                >
+                                                    <code title={field.label}>
+                                                        {field.name}
+                                                    </code>
+                                                </span>
+                                            ),
+                                        )
                                     ) : (
-                                        <span className="text-danger">No fields defined</span>
+                                        <span className="text-danger">
+                                            No fields defined
+                                        </span>
                                     )}
                                 </small>
                             </label>
-                            
+
                             <div className="alert alert-success mb-3">
                                 <div className="d-flex">
                                     <i className="bx bx-code-alt me-2 mt-1"></i>
                                     <div>
                                         <strong>Template Syntax:</strong>
                                         <ul className="mb-1">
-                                            <li>Regular fields: <code>{'{field_name}'}</code></li>
-                                            <li>Repeatable item fields: <code>{'{item.field_name}'}</code></li>
-                                            <li>Use comments to mark repeatable block: <code>&lt;!-- START REPEATABLE group_name --&gt;</code> and <code>&lt;!-- END REPEATABLE group_name --&gt;</code></li>
+                                            <li>
+                                                Regular fields:{" "}
+                                                <code>{"{field_name}"}</code>
+                                            </li>
+                                            <li>
+                                                Repeatable item fields:{" "}
+                                                <code>
+                                                    {"{item.field_name}"}
+                                                </code>
+                                            </li>
+                                            <li>
+                                                Use comments to mark repeatable
+                                                block:{" "}
+                                                <code>
+                                                    &lt;!-- START REPEATABLE
+                                                    group_name --&gt;
+                                                </code>{" "}
+                                                and{" "}
+                                                <code>
+                                                    &lt;!-- END REPEATABLE
+                                                    group_name --&gt;
+                                                </code>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            
+
+                            <div className="d-flex flex-wrap gap-2 mb-3">
+                                {cmsAttributeTypes.map(([type, label]) => (
+                                    <button
+                                        key={type}
+                                        type="button"
+                                        className="btn btn-outline-primary btn-sm"
+                                        onClick={() => insertCmsAttribute(type)}
+                                    >
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+
                             <CodeEditor
                                 value={data.html_template}
-                                onChange={(value) => setData('html_template', value)}
+                                onChange={(value) =>
+                                    setData("html_template", value)
+                                }
                                 language="html"
                                 placeholder={`<section class="hero_overview">
     <div class="container">
@@ -1295,15 +1939,24 @@ const Create = () => {
     </div>
 </section>`}
                                 height="400px"
+                                onMount={(editor) => {
+                                    htmlEditorRef.current = editor;
+                                }}
                             />
-                            {errors.html_template && <div className="text-danger small">{errors.html_template}</div>}
+                            {errors.html_template && (
+                                <div className="text-danger small">
+                                    {errors.html_template}
+                                </div>
+                            )}
                         </div>
 
                         <div className="mb-3 col-12">
                             <label className="form-label">CSS Styles</label>
                             <CodeEditor
                                 value={data.css_styles}
-                                onChange={(value) => setData('css_styles', value)}
+                                onChange={(value) =>
+                                    setData("css_styles", value)
+                                }
                                 language="css"
                                 placeholder=".section { color: #333; }"
                                 height="200px"
@@ -1316,16 +1969,20 @@ const Create = () => {
                                     type="checkbox"
                                     className="form-check-input"
                                     checked={data.is_active}
-                                    onChange={e => setData('is_active', e.target.checked)}
+                                    onChange={(e) =>
+                                        setData("is_active", e.target.checked)
+                                    }
                                     role="switch"
                                 />
-                                <label className="form-check-label fw-medium">Active Section</label>
+                                <label className="form-check-label fw-medium">
+                                    Active Section
+                                </label>
                             </div>
                         </div>
 
                         <div className="mt-4 pt-3 border-top">
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 className="btn btn-primary me-2 px-4"
                                 disabled={processing}
                             >
@@ -1342,7 +1999,7 @@ const Create = () => {
                                 )}
                             </button>
                             <Link
-                                href={route('page-sections.index')} 
+                                href={route("page-sections.index")}
                                 className="btn btn-secondary px-4"
                             >
                                 <i className="bx bx-arrow-back me-2"></i>
