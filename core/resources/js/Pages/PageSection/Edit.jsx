@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link, useForm } from '@inertiajs/react';
 import CodeEditor from '@/Components/Fields/CodeEditor';
 import JsonEditor from '@/Components/Fields/JsonEditor';
 import RichTextEditor from '@/Components/Fields/RichTextEditor';
 import useCtrlSSubmit from '@/hooks/useCtrlSSubmit';
+import { usePage } from "@inertiajs/react";
+import { ToastContainer, toast } from "react-toastify";
 
 const Edit = ({ section }) => {
     const getConfigValue = (config, defaultValue = '[]') => {
@@ -21,6 +23,9 @@ const Edit = ({ section }) => {
         return defaultValue;
     };
 
+
+
+
     const { data, setData, put, errors, processing } = useForm({
         name: section?.name || '',
         identifier: section?.identifier || '',
@@ -31,6 +36,20 @@ const Edit = ({ section }) => {
         css_styles: section?.css_styles || '',
         is_active: section?.is_active ?? true
     });
+
+
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash?.success) toast.success(flash.success);
+        if (flash?.error) toast.error(flash.error);
+    }, [flash]);
+
+    useEffect(() => {
+        if (Object.keys(errors).length > 0) {
+            toast.error(Object.values(errors)[0]);
+        }
+    }, [errors]);
 
     const [jsonError, setJsonError] = useState('');
     const [mappingJsonError, setMappingJsonError] = useState('');
@@ -70,6 +89,7 @@ const Edit = ({ section }) => {
         group_label: '',
         group_name: '',
     });
+    const htmlEditorRef = useRef(null);
 
     const isAssocObject = (obj) => obj && typeof obj === 'object' && !Array.isArray(obj);
 
@@ -81,6 +101,7 @@ const Edit = ({ section }) => {
                 group_name: g.group_name || 'items',
                 parent_group: typeof g.parent_group === 'string' && g.parent_group.trim() ? g.parent_group.trim() : '',
                 fields: Array.isArray(g.fields) ? g.fields : [],
+                default_items: Array.isArray(g.default_items) ? g.default_items : [],
             }));
         }
         if (raw[0] && isAssocObject(raw[0]) && typeof raw[0].name === 'string') {
@@ -121,6 +142,7 @@ const Edit = ({ section }) => {
         { value: 'number', label: 'Number', icon: 'bx-hash' },
         { value: 'email', label: 'Email', icon: 'bx-envelope' },
         { value: 'url', label: 'URL', icon: 'bx-link' },
+        { value: 'link', label: 'Link', icon: 'bx-link-external' },
         { value: 'select', label: 'Dropdown Select', icon: 'bx-chevron-down' },
         { value: 'checkbox', label: 'Checkbox', icon: 'bx-check-square' },
         { value: 'radio', label: 'Radio Button', icon: 'bx-radio-circle' },
@@ -129,6 +151,44 @@ const Edit = ({ section }) => {
         { value: 'date', label: 'Date', icon: 'bx-calendar' },
         { value: 'color', label: 'Color Picker', icon: 'bx-palette' },
     ];
+
+    const cmsAttributeTypes = [
+        ['text', 'Text'], ['textarea', 'Textarea'], ['image', 'Image'],
+        ['number', 'Number'], ['email', 'Email'], ['date', 'Date'],
+        ['url', 'URL'], ['select', 'Select'], ['checkbox', 'Checkbox'],
+        ['code', 'Code'], ['link', 'Link'], ['repeatable', 'Repeatable'],
+    ];
+
+    const insertCmsAttribute = (type) => {
+        const editor = htmlEditorRef.current;
+        if (!editor) return;
+        const model = editor.getModel();
+        const position = editor.getPosition();
+        if (!model || !position) return;
+        const value = model.getValue();
+        const offset = model.getOffsetAt(position);
+        const openingStart = value.lastIndexOf('<', offset);
+        const openingEnd = value.indexOf('>', offset);
+        const openingTag = openingStart >= 0 && openingEnd >= 0
+            ? value.slice(openingStart, openingEnd + 1) : '';
+        const tagMatch = openingTag.match(/^<([a-z][a-z0-9-]*)\b/i);
+        if (!tagMatch || /^<\//.test(openingTag) || /^<!/.test(openingTag)) {
+            toast.error('Place the cursor inside an opening HTML tag first.');
+            return;
+        }
+        const defaults = { h1: 'heading', h2: 'heading', h3: 'heading', h4: 'heading', h5: 'heading', h6: 'heading', p: 'description', a: 'link', img: 'image', li: 'item' };
+        const name = defaults[tagMatch[1].toLowerCase()] || `${tagMatch[1].toLowerCase()}_field`;
+        const attribute = `data-${type}`;
+        if (new RegExp(`\\b${attribute}\\s*=`, 'i').test(openingTag)) {
+            toast.error(`This element already has ${attribute}.`);
+            return;
+        }
+        const insertPosition = model.getPositionAt(openingStart + tagMatch[0].length);
+        editor.executeEdits('insert-cms-attribute', [{
+            range: { startLineNumber: insertPosition.lineNumber, startColumn: insertPosition.column, endLineNumber: insertPosition.lineNumber, endColumn: insertPosition.column },
+            text: ` ${attribute}="${type === 'repeatable' ? 'list' : name}"`,
+        }]);
+    };
 
     const generateFieldName = (label, isMapping = false) => {
         let baseName = label
@@ -398,6 +458,8 @@ const Edit = ({ section }) => {
             } else {
                 setJsonError(error.message);
             }
+
+            toast.error(error.message);
         }
     };
 
@@ -409,22 +471,22 @@ const Edit = ({ section }) => {
             mapping_enabled: true,
             html_template:
                 `<section class="hero_overview">
-    <div class="container">
-        <div class="herover_grid">
-            <div class="herover_left">
-                <!-- START REPEATABLE ITEM -->
-                <div class="fact_bx">
-                    <figure>
-                        <img src="{item.icon_image}" alt="{item.alt_text}" class="img-fluid">
-                    </figure>
-                    <strong class="counter" data-count="{item.start_count}" data-target="{item.final_count}">{item.display_count}</strong>
-                    <p>{item.description}</p>
-                </div>
-                <!-- END REPEATABLE ITEM -->
-            </div>
-        </div>
-    </div>
-</section>`,
+                    <div class="container">
+                        <div class="herover_grid">
+                            <div class="herover_left">
+                                <!-- START REPEATABLE ITEM -->
+                                <div class="fact_bx">
+                                    <figure>
+                                        <img src="{item.icon_image}" alt="{item.alt_text}" class="img-fluid">
+                                    </figure>
+                                    <strong class="counter" data-count="{item.start_count}" data-target="{item.final_count}">{item.display_count}</strong>
+                                    <p>{item.description}</p>
+                                </div>
+                                <!-- END REPEATABLE ITEM -->
+                            </div>
+                        </div>
+                    </div>
+                </section>`,
             fields_config: JSON.stringify([
                 {
                     name: "section_title",
@@ -480,10 +542,10 @@ const Edit = ({ section }) => {
             ], null, 2),
             css_styles:
                 `h1 {
-  font-size: 35px;
-  font-weight: normal;
-  margin-top: 5px;
-}`,
+                    font-size: 35px;
+                    font-weight: normal;
+                    margin-top: 5px;
+                    }`,
         });
     };
 
@@ -505,7 +567,7 @@ const Edit = ({ section }) => {
         const group = mappingGroups[activeMappingGroupIndex];
         const fieldsForGroup = group?.fields || [];
         if (fieldsForGroup.length === 0) {
-            alert('Please add mapping fields first');
+            toast.error('Please add mapping fields first');
             return;
         }
 
@@ -517,19 +579,19 @@ const Edit = ({ section }) => {
         ).join('\n');
 
         const template = `<!-- Regular Section Fields -->
-<div class="section-header">
-  <h1>{title}</h1>
-  <p>{description}</p>
-</div>
+            <div class="section-header">
+            <h1>{title}</h1>
+            <p>{description}</p>
+            </div>
 
-<!-- Repeatable Items Section (${group?.group_name || 'items'}) -->
-<div class="items-container">
-  <!-- START REPEATABLE ${group?.group_name || 'items'} -->
-  <div class="item">
-${itemTemplate}
-  </div>
-  <!-- END REPEATABLE ${group?.group_name || 'items'} -->
-</div>`;
+            <!-- Repeatable Items Section (${group?.group_name || 'items'}) -->
+            <div class="items-container">
+            <!-- START REPEATABLE ${group?.group_name || 'items'} -->
+            <div class="item">
+            ${itemTemplate}
+            </div>
+            <!-- END REPEATABLE ${group?.group_name || 'items'} -->
+            </div>`;
 
         setData('html_template', template);
     };
@@ -573,6 +635,8 @@ ${itemTemplate}
                     Back to Sections
                 </Link>
             </div>
+
+            <ToastContainer />
 
             {/* Quick Templates Card */}
             <div className="card mb-4">
@@ -1280,24 +1344,33 @@ ${itemTemplate}
                                 </div>
                             </div>
 
+                            <div className="d-flex flex-wrap gap-2 mb-3">
+                                {cmsAttributeTypes.map(([type, label]) => (
+                                    <button key={type} type="button" className="btn btn-outline-primary btn-sm" onClick={() => insertCmsAttribute(type)}>
+                                        {label}
+                                    </button>
+                                ))}
+                            </div>
+
                             <CodeEditor
                                 value={data.html_template}
                                 onChange={(value) => setData('html_template', value)}
                                 language="html"
                                 placeholder={`<section class="hero_overview">
-    <div class="container">
-        <div class="herover_left">
-            <!-- START REPEATABLE ITEM -->
-            <div class="fact_bx">
-                <img src="{item.icon_image}" alt="{item.alt_text}">
-                <strong>{item.display_count}</strong>
-                <p>{item.description}</p>
-            </div>
-            <!-- END REPEATABLE ITEM -->
-        </div>
-    </div>
-</section>`}
+                                    <div class="container">
+                                        <div class="herover_left">
+                                            <!-- START REPEATABLE ITEM -->
+                                            <div class="fact_bx">
+                                                <img src="{item.icon_image}" alt="{item.alt_text}">
+                                                <strong>{item.display_count}</strong>
+                                                <p>{item.description}</p>
+                                            </div>
+                                            <!-- END REPEATABLE ITEM -->
+                                        </div>
+                                    </div>
+                                </section>`}
                                 height="400px"
+                                onMount={(editor) => { htmlEditorRef.current = editor; }}
                             />
                             {errors.html_template && <div className="text-danger small">{errors.html_template}</div>}
                         </div>
@@ -1384,3 +1457,4 @@ ${itemTemplate}
 };
 
 export default Edit;
+
