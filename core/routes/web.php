@@ -91,6 +91,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
         Route::get('/{module}/entries/create', [ModuleEntryController::class, 'create'])->name('modules.entries.create');
         Route::post('/{module}/entries', [ModuleEntryController::class, 'store'])->name('modules.entries.store');
         Route::get('/{module}/entries/{entry}', [ModuleEntryController::class, 'show'])->name('modules.entries.show');
+        Route::post('/{module}/entries/{entry}/duplicate', [ModuleEntryController::class, 'duplicate'])->name('modules.entries.duplicate');
         Route::get('/{module}/entries/{entry}/edit', [ModuleEntryController::class, 'edit'])->name('modules.entries.edit');
         Route::post('/{module}/entries/{entry}', [ModuleEntryController::class, 'update'])->name('modules.entries.update');
         Route::delete('/{module}/entries/{entry}', [ModuleEntryController::class, 'destroy'])->name('modules.entries.destroy');

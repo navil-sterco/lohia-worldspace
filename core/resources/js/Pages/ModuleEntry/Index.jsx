@@ -180,6 +180,30 @@ const Index = ({
                             {entries.data.length > 0 ? (
                                 entries.data.map((entry) => {
                                     const actions = [
+                                        ...(moduleCan.create
+                                            ? [
+                                                  {
+                                                      label: "Duplicate",
+                                                      icon: "bx-copy",
+                                                      onClick: (event) => {
+                                                          event.preventDefault();
+                                                          router.post(
+                                                              route(
+                                                                  "modules.entries.duplicate",
+                                                                  {
+                                                                      module: module.id,
+                                                                      entry: entry.id,
+                                                                  },
+                                                              ),
+                                                              {},
+                                                              {
+                                                                  preserveScroll: true,
+                                                              },
+                                                          );
+                                                      },
+                                                  },
+                                              ]
+                                            : []),
                                         ...(moduleCan.subPages
                                             ? [
                                                   {
