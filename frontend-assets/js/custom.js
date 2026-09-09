@@ -468,6 +468,52 @@ const SpeakSwiper = new Swiper('.speak_swiper', {
 });
 
 
+const MilestoneSwiper = new Swiper('.milestone_swiper', {
+    loop: false,
+    slidesPerView: 1,
+    spaceBetween: 0,
+    speed: 800,
+
+    // autoplay: {
+    //     delay: 2500,
+    //     disableOnInteraction: false,
+    //     pauseOnMouseEnter: true,
+    // },
+
+    grabCursor: true,
+    watchOverflow: true,
+    observer: true,
+    observeParents: true,
+
+    navigation: {
+        nextEl: ".miles-next",
+        prevEl: ".miles-prev",
+    },
+
+    breakpoints: {
+        0: {
+            slidesPerView: 1.2,
+            spaceBetween: 0,
+        },
+        768: {
+            slidesPerView: 2.8,
+            spaceBetween: 0,
+        },
+        992: {
+            slidesPerView: 2.8,
+            spaceBetween: 0,
+        },
+        1200: {
+            slidesPerView: 3.8,
+            spaceBetween: 0,
+        },
+        1900: {
+            slidesPerView: 3.8,
+            spaceBetween: 0,
+        }
+    }
+});
+
 
 
 // Custom Tab Area
