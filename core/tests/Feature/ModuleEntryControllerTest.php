@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ModuleEntryController;
+use App\Http\Controllers\Admin\ModuleEntryController;
 
 test('normalize mapping config preserves nested parent_group metadata', function () {
     $controller = new ModuleEntryController();

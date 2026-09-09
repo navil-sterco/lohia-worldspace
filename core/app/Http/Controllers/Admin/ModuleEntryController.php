@@ -20,7 +20,7 @@ class ModuleEntryController extends Controller
     public function __construct()
     {
         $this->middleware('module.permission:entries.view')->only(['index', 'show']);
-        $this->middleware('module.permission:entries.create')->only(['create', 'store']);
+        $this->middleware('module.permission:entries.create')->only(['create', 'store', 'duplicate']);
         $this->middleware('module.permission:entries.update')->only(['edit', 'update']);
         $this->middleware('module.permission:entries.delete')->only(['destroy']);
         $this->middleware('module.permission:entries.detail')->only(['detail', 'storeDetail']);
@@ -72,16 +72,20 @@ class ModuleEntryController extends Controller
         $entries = $module->entries()
             ->when($search, function ($query, $search) use ($module) {
                 return $query->where(function ($q) use ($search, $module) {
+                    $q->orWhere('slug', 'like', "%{$search}%");
                     foreach (($module->fields_config ?? []) as $field) {
                         $name = $field['name'] ?? null;
-                        if (!$name)
+
+                        if (!$name) {
                             continue;
+                        }
+
                         $q->orWhere("data->$name", 'like', "%{$search}%");
                     }
-
                     if ($module->mapping_enabled && !empty($module->mapping_config)) {
                         foreach ($this->flattenMappingFields($module->mapping_config) as $mf) {
                             $name = $mf['name'] ?? null;
+
                             if ($name) {
                                 $q->orWhere("data->$name", 'like', "%{$search}%");
                             }
@@ -177,7 +181,7 @@ class ModuleEntryController extends Controller
             if (!$name)
                 continue;
             if (in_array($field['type'] ?? 'text', ['file', 'image'])) {
-                $rules["data.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:12000';
+                $rules["data.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:15000';
             }
         }
 
@@ -189,7 +193,7 @@ class ModuleEntryController extends Controller
                 if (!$name)
                     continue;
                 if (in_array($field['type'] ?? 'text', ['file', 'image'])) {
-                    $rules["mapping_data.{$groupName}.*.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:12000';
+                    $rules["mapping_data.{$groupName}.*.{$name}"] = 'nullable|file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:15000';
                 }
             }
         }
@@ -281,6 +285,103 @@ class ModuleEntryController extends Controller
                 'created_at' => optional($entry->created_at)?->format('M d, Y'),
             ],
         ]);
+    }
+
+    public function duplicate(Module $module, ModuleEntry $entry)
+    {
+        abort_unless((int) $entry->module_id === $module->id, 404);
+
+        $duplicate = DB::transaction(function () use ($module, $entry) {
+            $sourceSlug = trim((string) $entry->slug);
+            if ($sourceSlug === '') {
+                $sourceSlug = 'entry-' . $entry->id;
+            }
+
+            $baseSlug = trim($sourceSlug, '/') . '-copy';
+            $slug = $baseSlug;
+            $counter = 2;
+            while (
+                ModuleEntry::withTrashed()
+                    ->where('module_id', $module->id)
+                    ->where('slug', $slug)
+                    ->exists()
+            ) {
+                $slug = $baseSlug . '-' . $counter++;
+            }
+
+            $duplicate = ModuleEntry::create([
+                'module_id' => $module->id,
+                'slug' => strtolower($slug),
+                'data' => $entry->data ?? [],
+                'sort_order' => $entry->sort_order,
+                'is_published' => false,
+                'mapped_to_homepage' => (bool) $entry->mapped_to_homepage,
+            ]);
+
+            $pageMappings = DB::table('module_entry_page')
+                ->where('module_entry_id', $entry->id)
+                ->get(['page_id']);
+            foreach ($pageMappings as $mapping) {
+                $duplicate->pages()->attach($mapping->page_id);
+            }
+
+            $relatedMappings = DB::table('module_entry_mapping')
+                ->where('module_entry_id', $entry->id)
+                ->get(['related_module_entry_id']);
+            foreach ($relatedMappings as $mapping) {
+                DB::table('module_entry_mapping')->insert([
+                    'module_entry_id' => $duplicate->id,
+                    'related_module_entry_id' => $mapping->related_module_entry_id,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            $entry->load('subPages');
+            foreach ($entry->subPages as $sourcePage) {
+                $childSlug = trim((string) Str::afterLast((string) $sourcePage->slug, '/'), '/');
+                if ($childSlug === '') {
+                    $childSlug = Str::slug((string) $sourcePage->title);
+                }
+                $fullSlug = $this->composeEntryPageSlug($slug, $childSlug);
+
+                $newPage = Page::create([
+                    'title' => $sourcePage->title,
+                    'slug' => $fullSlug,
+                    'meta_description' => $sourcePage->meta_description,
+                    'is_published' => (bool) $sourcePage->is_published,
+                    'target_blank' => (bool) $sourcePage->target_blank,
+                    'page_type' => $sourcePage->page_type,
+                    'display_location' => $sourcePage->display_location,
+                    'tab_id' => $sourcePage->tab_id,
+                    'display_order' => $sourcePage->display_order,
+                    'parent_page_id' => $sourcePage->parent_page_id,
+                    'overwrite_url' => $sourcePage->overwrite_url,
+                ]);
+
+                $duplicate->subPages()->attach($newPage->id);
+
+                $sectionRows = DB::table('page_section')
+                    ->where('page_id', $sourcePage->id)
+                    ->get(['page_section_id', 'order', 'section_data', 'created_at', 'updated_at']);
+                foreach ($sectionRows as $sectionRow) {
+                    DB::table('page_section')->insert([
+                        'page_id' => $newPage->id,
+                        'page_section_id' => $sectionRow->page_section_id,
+                        'order' => $sectionRow->order,
+                        'section_data' => $sectionRow->section_data,
+                        'created_at' => $sectionRow->created_at ?? now(),
+                        'updated_at' => $sectionRow->updated_at ?? now(),
+                    ]);
+                }
+            }
+
+            return $duplicate;
+        });
+
+        return redirect()
+            ->route('modules.entries.edit', ['module' => $module->id, 'entry' => $duplicate->id])
+            ->with('success', 'Entry duplicated successfully.');
     }
 
     public function edit(Module $module, ModuleEntry $entry)
@@ -388,8 +489,8 @@ class ModuleEntryController extends Controller
                                 ])
                             ) {
                                 $fail("The {$attribute} field has an invalid file type.");
-                            } elseif ($value->getSize() > 12000 * 1024) {
-                                $fail("The {$attribute} field must not exceed 12000 KB.");
+                            } elseif ($value->getSize() > 15000 * 1024) {
+                                $fail("The {$attribute} field must not exceed 15000 KB.");
                             }
                             return;
                         }
@@ -432,8 +533,8 @@ class ModuleEntryController extends Controller
                                     ])
                                 )
                                     $fail("The {$attribute} field has an invalid file type.");
-                                elseif ($value->getSize() > 12000 * 1024)
-                                    $fail("The {$attribute} field must not exceed 12000 KB.");
+                                elseif ($value->getSize() > 15000 * 1024)
+                                    $fail("The {$attribute} field must not exceed 15000 KB.");
                                 return;
                             }
                             $fail("The {$attribute} field must be a file or string.");
@@ -744,14 +845,12 @@ class ModuleEntryController extends Controller
 
         $lists = [];
 
-        $homeItem = (object) ['id' => 'home', 'title' => 'Home', 'slug' => '/'];
         $pages = Page::select('id', 'title', 'slug')->where('page_type', 'modular')->get();
-        $pagesWithHome = collect([$homeItem])->concat($pages);
         $lists[] = [
             'field' => 'page_ids',
             'label' => 'Pages',
             'icon' => '📄',
-            'items' => $pagesWithHome->values(),
+            'items' => $pages,
             'displayField' => 'title',
             'relationshipKey' => 'pages',
             'colClass' => 'col-lg-4 col-md-6 mb-3',

@@ -45,7 +45,6 @@ const filterMenuItem = (item, userPermissions) => {
 
 const Sidebar = () => {
     const { appLogo, modulesForSidebar = [], auth } = usePage().props;
-    console.log(modulesForSidebar);
     const permissions = auth?.permissions ?? [];
 
     const enhancedMenuData = menuData
@@ -91,7 +90,7 @@ const Sidebar = () => {
                     href={route("dashboard")}
                     className="app-brand-link"
                     style={{
-                        border: "1px solid #ccc",
+                        border: "1px solid #8a8a8a",
                         padding: "10px 20px",
                         borderRadius: "8px",
                     }}

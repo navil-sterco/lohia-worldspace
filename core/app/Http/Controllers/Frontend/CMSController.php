@@ -11,11 +11,6 @@ class CMSController extends Controller
     {
         $page = Page::published()->where('page_type', 'cms')->bySlug($slug)->firstOrFail();
 
-
-        if (!empty($page->overwrite_url)) {
-            return redirect($page->overwrite_url);
-        }
-
         if ($page->parent_page_id) {
             $relatedPages = Page::published()
                 ->where('page_type', 'cms')
@@ -33,11 +28,12 @@ class CMSController extends Controller
         }
 
         if ($page->sections->isEmpty()) {
-            return view('coming-soon.coming-soon');
+            return view('coming-soon.coming-soon', [
+                'page' => $page,
+            ]);
         }
 
-
-
+        return $page->getRenderedHtml();
 
         return view('cms.show', [
             'page' => $page,
