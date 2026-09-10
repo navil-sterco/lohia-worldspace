@@ -250,6 +250,11 @@ dropdownToggle(".dropdown_menu", ".dropdown_toggle", ".dropdown_item a");
 
 })();
 
+
+$(document).on('click', '.prjtdtl_nav > ul > li > a', function () {
+    $('.prjtdtl_nav > ul > li > a').removeClass('active');
+    $(this).addClass('active');
+});
 // Mobile Menu
 
 function togglePanel(targetId, activeBtn) {
@@ -403,11 +408,11 @@ const nwsrelatedSwiper = new Swiper('.nwsrelate_swiper', {
 });
 const GallerySwiper = new Swiper('.prj_gallery', {
     loop: true,
-    // autoplay: {
-    //     delay: 2500,
-    //     disableOnInteraction: false,
-    //     pauseOnMouseEnter: true,
-    // },
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+    },
     slidesPerView: 1,
     spaceBetween: 0,
     speed: 1800,
@@ -417,8 +422,8 @@ const GallerySwiper = new Swiper('.prj_gallery', {
     observeParents: true,
 
     navigation: {
-        nextEl: ".glry-next",
-        prevEl: ".glry-prev",
+        nextEl: ".gallery-next",
+        prevEl: ".gallery-prev",
     },
 
     breakpoints: {

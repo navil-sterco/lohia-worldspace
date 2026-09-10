@@ -17,11 +17,11 @@
                         <li><a href="#overview">Overview</a></li>
                         <li><a href="#offer">Offer</a></li>
                         <li><a href="#collaborators">Collaborators</a></li>
-                        <li><a href="#collective-gallery">Gallery</a></li>
+                        <li><a href="#project-gallery">Gallery</a></li>
                     </ul>
                 </div>
                 <div class="prjtdtl_btns">
-                    <a href="#" class="request_btn">Enquire Now</a>
+                    <a href="{{ url('contact-us') }}" class="request_btn">Enquire Now</a>
                 </div>
             </div>
             <div class="prjtdtl_right">

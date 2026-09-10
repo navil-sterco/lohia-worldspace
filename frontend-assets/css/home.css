@@ -2,7 +2,7 @@
 .hero_title{position:relative;padding-inline:7.9rem 16rem;display:flex;flex-direction:column;align-items:start;justify-content:end;}
 .hero_title>h1{font: var(--font-93);color: var(--color-black);}
 .hero_title>h1>strong{font:inherit; font-weight: inherit; color: var(--color-e5);}
-.hero_title>p{margin-top: 2rem;}
+.hero_title>p{margin-top: 2rem;font-weight:var(--fw-400);}
 .hero_bnrarea{position: relative; display: grid; width:100%;padding-left: 4.6rem;}
 .hero_swiper{width:100%;}
 .hero_swiper .swiper-slide{display:flex;height:auto;aspect-ratio:1863/900;}
@@ -320,7 +320,7 @@
 
 /* Customers Speak */
 .speak_sec{padding-block:20rem 10rem;}
-.speak_sec .sec_title{display:grid;grid-template-columns:310fr 700fr;gap:12rem;align-items:center;max-width:97rem;margin-inline:auto;margin-bottom:5.5rem;}
+.speak_sec .sec_title{display:grid;grid-template-columns:310fr 700fr;gap:12rem;align-items:center;max-width:113rem;margin-inline:auto;margin-bottom:5.5rem;}
 .speak_title{display:grid;gap:4rem;}
 .speak_wrapper{position: relative;padding-inline:10rem;}
 .speak_wrapper>:is(.speak-prev, .speak-next){position: absolute; top: 50%; left: 0;}
