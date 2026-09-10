@@ -61,7 +61,7 @@
 
                     <div class="copyright">
                         <p>Copyright © {{ date('Y') }}</p>
-                        <p>Website Design and Development by <a href="#" target="_blank">Sterco</a></p>
+                        <p>Website Design and Development by <a href="https://www.stercodigitex.com/" target="_blank">Sterco</a></p>
                     </div>
                 </div>
             </div>

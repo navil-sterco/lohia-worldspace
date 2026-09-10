@@ -16,7 +16,7 @@
                     <ul>
                         <li><a href="#overview">Overview</a></li>
                         <li><a href="#feature">Features & Amenities</a></li>
-                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#project-gallery">Gallery</a></li>
                         <li><a href="#customer-speak">Customer Speak</a></li>
                         <li><a href="#floor-plans">Site and Floor Plans</a></li>
                         <li><a href="#construction">Construction Updates</a></li>
@@ -36,7 +36,7 @@
                 {!! $projectDetail['cms']['project_detail_gallery_section'] ?? '' !!}
 
                 @if(!empty($projectDetail['modular']['testimonials']))
-                    <div class="speak_wrapper" id="customer-testimonials">
+                    <div class="speak_wrapper" id="customer-speak">
                         <h5 class="title21">Customers Speak</h5>
                         <div class="speak_swiper swiper">
                             <div class="swiper-wrapper">
