@@ -31,7 +31,7 @@ class RequestSiteVisit extends Model
     {
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', "%{$filters['search']}%")
+                $q->where('first_name', 'like', "%{$filters['search']}%")
                     ->orWhere('email', 'like', "%{$filters['search']}%");
             });
         }
