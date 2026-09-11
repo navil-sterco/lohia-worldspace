@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('request_site_visits', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('first_name');
             $table->string('email');
-            $table->string('phone', 20);
-            $table->string('location');
-            $table->string('buyer_type');
-            $table->string('budget');
-            $table->string('property_type');
-            $table->text('comment')->nullable();
+            $table->string('mobile_phone', 20);
+            $table->string('city_desc');
+            $table->string('udf_16')->nullable();
+            $table->decimal('budget_from', 15, 3)->nullable();
+            $table->decimal('budget_to', 15, 3)->nullable();
+            $table->string('udf_17')->nullable();
+            $table->string('udf_18')->nullable();
+            $table->date('udf_6')->nullable();
+            $table->text('comments')->nullable();
+            $table->string('origin_from')->default('WEBSITE L1');
             $table->string('ip_address', 45)->nullable();
             $table->timestamps();
         });

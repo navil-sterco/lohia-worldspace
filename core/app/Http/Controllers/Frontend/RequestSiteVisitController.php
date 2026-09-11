@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Models\Page;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Page;
+use App\Models\RequestSiteVisit;
+use Illuminate\Http\Request;
 
 class RequestSiteVisitController extends Controller
 {
@@ -12,202 +13,126 @@ class RequestSiteVisitController extends Controller
     {
         $page = Page::published()->bySlug('request-site-visit')->firstOrFail();
         $viewData = $page->getModularPageData();
+
         return view('dynamic.request-site-visit', [
             'page' => $page,
             'section' => $viewData,
-            'interestOptions' => $this->interestOptions(),
-            'buyerTypes' => $this->buyerTypes(),
-            'budgetRanges' => $this->budgetRanges(),
-            'propertyTypes' => $this->propertyTypes(),
+            'purposeOptions' => $this->purposeOptions(),
+            'budgetFromOptions' => $this->budgetFromOptions(),
+            'budgetToOptions' => $this->budgetToOptions(),
+            'timelineOptions' => $this->timelineOptions(),
+            'hearAboutUsOptions' => $this->hearAboutUsOptions(),
         ]);
     }
 
-    protected function interestOptions(): array
+    protected function purposeOptions(): array
     {
         return [
-            'buying_property' => 'BUYING A PROPERTY',
-            'land_proposal'   => 'LAND PROPOSAL',
-            'vendor'          => 'BECOME A LOHIA WORLDSPACE VENDOR',
-            'media'           => 'MEDIA ENQUIRIES',
-            'investor'        => 'INVESTOR ENQUIRIES',
+            'Buying for Self-Use' => 'Buying for Self-Use',
+            'Buying for Parents/Family' => 'Buying for Parents/Family',
+            'Investment Purpose' => 'Investment Purpose',
+            'Just Exploring' => 'Just Exploring',
         ];
     }
 
-    protected function buyerTypes(): array
+    protected function budgetFromOptions(): array
     {
         return [
-            'first_time_buyer' => 'First-Time Buyer',
-            'investor'         => 'Investor',
-            'upgrading'        => 'Upgrading',
-            'downsizing'       => 'Downsizing',
+            '5000000.000' => '50L',
+            '10000000.000' => '1Cr',
+            '15000000.000' => '1.5Cr',
+            '20000000.000' => '2Cr',
         ];
     }
 
-    protected function budgetRanges(): array
+    protected function budgetToOptions(): array
     {
         return [
-            'under_250k' => 'Under $250,000',
-            '250k_500k'  => '$250,000 - $500,000',
-            '500k_1m'    => '$500,000 - $1,000,000',
-            '1m_plus'    => '$1,000,000+',
+            '10000000.000' => '1Cr',
+            '15000000.000' => '1.5Cr',
+            '20000000.000' => '2Cr',
+            '50000000.000' => '5Cr',
         ];
     }
 
-    protected function propertyTypes(): array
+    protected function timelineOptions(): array
     {
         return [
-            'single_family' => 'Single Family Home',
-            'condo'         => 'Condo / Apartment',
-            'townhouse'     => 'Townhouse',
-            'land'          => 'Land',
-            'commercial'    => 'Commercial',
+            'Within 3 months' => 'Within 3 months',
+            '3–6 months' => '3–6 months',
+            '6–12 months' => '6–12 months',
+            'Not Decided / Just Exploring' => 'Not Decided / Just Exploring',
         ];
     }
 
-    protected function vendorCategories(): array
+    protected function hearAboutUsOptions(): array
     {
         return [
-            'Manufacturer' => 'Manufacturer',
-            'Trader'       => 'Trader',
-            'Dealer'       => 'Dealer',
+            'Facebook / Instagram' => 'Facebook / Instagram',
+            'Google Search' => 'Google Search',
+            'Friend / Family' => 'Friend / Family',
+            'Newspaper / Outdoor' => 'Newspaper / Outdoor',
+            'Other' => 'Other',
         ];
     }
 
-    protected function commonRules(): array
+    protected function rules(): array
     {
         return [
-            'interest' => ['required', 'string', 'in:' . implode(',', array_keys($this->interestOptions()))],
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'email', 'max:255'],
-            'phone'    => ['required', 'string', 'max:20'],
-            'comment'  => ['nullable', 'string', 'max:2000'],
+            'firstName' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'mobilePhone' => ['required', 'string', 'max:20'],
+            'cityDesc' => ['required', 'string', 'max:255'],
+            'udF_16' => ['required', 'string', 'in:' . implode(',', array_keys($this->purposeOptions()))],
+            'budgetFrom' => ['nullable', 'string', 'in:' . implode(',', array_keys($this->budgetFromOptions()))],
+            'budgetTo' => ['nullable', 'string', 'in:' . implode(',', array_keys($this->budgetToOptions()))],
+            'udF_17' => ['required', 'string', 'in:' . implode(',', array_keys($this->timelineOptions()))],
+            'udF_18' => ['required', 'string', 'in:' . implode(',', array_keys($this->hearAboutUsOptions()))],
+            'udF_6' => ['required', 'date'],
+            'comments' => ['required', 'string', 'max:2000'],
+            'g-recaptcha-response' => ['required'],
         ];
-    }
-    protected function sectionRules(?string $interest): array
-    {
-        return match ($interest) {
-            'buying_property' => [
-                'location'      => ['required', 'string', 'max:255'],
-                'buyer_type'    => ['required', 'string', 'in:' . implode(',', array_keys($this->buyerTypes()))],
-                'budget'        => ['required', 'string', 'in:' . implode(',', array_keys($this->budgetRanges()))],
-                'property_type' => ['required', 'string', 'in:' . implode(',', array_keys($this->propertyTypes()))],
-            ],
-
-            'land_proposal' => [
-                'location' => ['required', 'string', 'max:255'],
-            ],
-
-            'vendor' => [
-                'vendor_company_name'            => ['required', 'string', 'max:255'],
-                'vendor_address'                 => ['required', 'string', 'max:255'],
-                'vendor_contact_person'          => ['required', 'string', 'max:255'],
-                'vendor_phone'                   => ['required', 'string', 'max:20'],
-                'vendor_fax'                      => ['required', 'string', 'max:20'],
-                'vendor_email'                   => ['required', 'email', 'max:255'],
-                'vendor_ownership_detail'        => ['required', 'string', 'max:255'],
-                'vendor_category'                => ['required', 'string', 'in:' . implode(',', array_keys($this->vendorCategories()))],
-                'vendor_registration_no'         => ['required', 'string', 'max:100'],
-                'vendor_registration_date'       => ['required', 'date'],
-                'vendor_gst'                      => ['required', 'string', 'max:50'],
-                'vendor_pan'                      => ['required', 'string', 'max:20'],
-                'vendor_pf'                        => ['required', 'string', 'max:50'],
-                'vendor_esi'                       => ['required', 'string', 'max:50'],
-                'vendor_bank_name'                => ['required', 'string', 'max:255'],
-                'vendor_bank_branch'              => ['required', 'string', 'max:255'],
-                'vendor_bank_account'             => ['required', 'string', 'max:100'],
-                'vendor_account_type'             => ['required', 'string', 'max:50'],
-                'vendor_ifsc'                     => ['required', 'string', 'max:20'],
-                'vendor_trade_member'             => ['required', 'string', 'max:500'],
-                'vendor_parent_companies'         => ['required', 'string', 'max:500'],
-                'vendor_facility_area'            => ['required', 'string', 'max:255'],
-                'vendor_total_employees'          => ['required', 'string', 'max:20'],
-                'vendor_permanent_staff'          => ['required', 'string', 'max:20'],
-                'vendor_audited_accounts'         => ['required', 'in:YES,NO'],
-                'vendor_service_backup'           => ['required', 'string', 'max:500'],
-                'vendor_credit_period'            => ['required', 'string', 'max:255'],
-                'vendor_years_experience'         => ['required', 'string', 'max:255'],
-                'vendor_other_industries'         => ['required', 'string', 'max:500'],
-                'vendor_qms_since'                => ['required', 'string', 'max:255'],
-                'vendor_certification_authority'  => ['required', 'string', 'max:255'],
-                'vendor_iso14001'                  => ['required', 'string', 'max:255'],
-                'vendor_ohsas18001'                => ['required', 'string', 'max:255'],
-                'vendor_quality_tools'             => ['required', 'string', 'max:500'],
-                'vendor_other_info'                => ['nullable', 'string', 'max:500'],
-                'vendor_completed_by'             => ['required', 'string', 'max:255'],
-                'vendor_completed_by_mobile'      => ['required', 'string', 'max:20'],
-            ],
-
-            'media' => [
-                'location' => ['required', 'string', 'max:255'],
-            ],
-
-            'investor' => [
-                'location' => ['required', 'string', 'max:255'],
-            ],
-
-            default => [],
-        };
     }
 
     protected function validationMessages(): array
     {
         return [
-            'interest.required' => 'Please select what we can help you with.',
-            'name.required'     => 'Please enter your name.',
-            'email.required'    => 'Please enter your email address.',
-            'email.email'       => 'Please enter a valid email address.',
-            'phone.required'    => 'Please enter your phone number.',
-            'location.required' => 'Please enter your location.',
-            'buyer_type.required'    => 'Please select what type of buyer you are.',
-            'budget.required'        => 'Please select your budget.',
-            'property_type.required' => 'Please select a property type.',
-            'vendor_category.required' => 'Please select the category you belong to.',
-            'vendor_registration_date.date' => 'Please enter a valid registration date.',
+            'firstName.required' => 'Please enter your name.',
+            'email.required' => 'Please enter your email address.',
+            'email.email' => 'Please enter a valid email address.',
+            'mobilePhone.required' => 'Please enter your phone number.',
+            'cityDesc.required' => 'Please enter your city.',
+            'udF_16.required' => 'Please select the purpose of your enquiry.',
+            'udF_17.required' => 'Please select your planned timeline.',
+            'udF_18.required' => 'Please tell us how you heard about us.',
+            'udF_6.required' => 'Please select a preferred site visit date.',
+            'comments.required' => 'Please write your comments.',
             'g-recaptcha-response.required' => 'Please confirm you are not a robot.',
-            '*.required' => 'This field is required.',
         ];
     }
 
     public function store(Request $request)
     {
-
-        $interest = $request->input('interest');
-
-        $rules = $this->commonRules() + $this->sectionRules($interest);
-
-        $validated = $request->validate($rules, $this->validationMessages());
+        $validated = $request->validate($this->rules(), $this->validationMessages());
 
         unset($validated['g-recaptcha-response']);
 
-
-        if ($interest === 'vendor' && $request->filled('vendor_phone_code')) {
-            $code = trim($request->input('vendor_phone_code'));
-            $number = trim($validated['vendor_phone'] ?? '');
-            if (!str_starts_with($number, $code)) {
-                $validated['vendor_phone'] = trim($code . ' ' . $number);
-            }
-        }
-
-
-        $common = collect($validated)
-            ->only(['interest', 'name', 'email', 'phone', 'location', 'buyer_type', 'budget', 'property_type', 'comment'])
-            ->toArray();
-
-
-        $details = collect($validated)
-            ->except(array_keys($common))
-            ->toArray();
-
-        $inquiry = SiteVisit::create($common + [
-            'details'    => $details ?: null,
+        RequestSiteVisit::create([
+            'first_name' => $validated['firstName'],
+            'email' => $validated['email'],
+            'mobile_phone' => $validated['mobilePhone'],
+            'city_desc' => $validated['cityDesc'],
+            'udf_16' => $validated['udF_16'],
+            'budget_from' => $validated['budgetFrom'] ?? null,
+            'budget_to' => $validated['budgetTo'] ?? null,
+            'udf_17' => $validated['udF_17'],
+            'udf_18' => $validated['udF_18'],
+            'udf_6' => $validated['udF_6'],
+            'comments' => $validated['comments'],
+            'origin_from' => $request->input('originFrom', 'WEBSITE L1'),
             'ip_address' => $request->ip(),
         ]);
 
         return view('thank-you.thank-you');
-    }
-
-    public function vendor()
-    {
-        return view('dynamic.vendor-form');
     }
 }
