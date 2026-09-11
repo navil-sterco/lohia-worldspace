@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="prjtdtl_btns" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
-                    <a href="#" class="request_btn">Request Site Visit</a>
+                    <a href="{{ url('request-site-visit') }}" class="request_btn">Request Site Visit</a>
                     <a href="{!! $projectDetail['detail']['brochure'] ?? '' !!}" target="_blank"
                         class="pdf_btn">Brochure PDF</a>
                 </div>

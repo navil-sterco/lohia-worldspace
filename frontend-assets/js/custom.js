@@ -501,7 +501,7 @@ const MilestoneSwiper = new Swiper('.milestone_swiper', {
             spaceBetween: 0,
         },
         768: {
-            slidesPerView: 2.8,
+            slidesPerView: 1.8,
             spaceBetween: 0,
         },
         992: {

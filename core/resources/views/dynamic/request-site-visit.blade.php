@@ -3,7 +3,7 @@
 <section class="contact_sec">
     <div class="container-lg">
         <div class="sec_title">
-            <h1 class="title21">Contact Us</h1>
+            <h1 class="title21">Request Site Visit</h1>
         </div>
         <div class="contact_grid">
             {!! $section['cms']['contact_us_0'] ?? '' !!}
@@ -21,7 +21,7 @@
                     @csrf
 
                     <input type="hidden" name="originFrom" value="WEBSITE L1">
-
+                    <div class="contactform_wrap">
                     <div class="form-group">
                         <input type="text" name="firstName" value="{{ old('firstName') }}" placeholder="Name"
                             class="form-control @error('firstName') is-invalid @enderror">
@@ -58,9 +58,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Purpose of Enquiry</label>
                         <select name="udF_16" class="form-select @error('udF_16') is-invalid @enderror">
-                            <option value="" disabled @selected(!old('udF_16'))>--Select--</option>
+                            <option value="" disabled @selected(!old('udF_16'))>Purpose of Enquiry</option>
                             @foreach ($purposeOptions as $value => $label)
                                 <option value="{{ $value }}" @selected(old('udF_16') === $value)>
                                     {{ $label }}
@@ -73,9 +72,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Budget From</label>
                         <select name="budgetFrom" class="form-select @error('budgetFrom') is-invalid @enderror">
-                            <option value="" disabled @selected(!old('budgetFrom'))>--Select--</option>
+                            <option value="" disabled @selected(!old('budgetFrom'))>Budget From</option>
                             @foreach ($budgetFromOptions as $value => $label)
                                 <option value="{{ $value }}" @selected(old('budgetFrom') === $value)>
                                     {{ $label }}
@@ -88,9 +86,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Budget To</label>
                         <select name="budgetTo" class="form-select @error('budgetTo') is-invalid @enderror">
-                            <option value="" disabled @selected(!old('budgetTo'))>--Select--</option>
+                            <option value="" disabled @selected(!old('budgetTo'))>Budget To</option>
                             @foreach ($budgetToOptions as $value => $label)
                                 <option value="{{ $value }}" @selected(old('budgetTo') === $value)>
                                     {{ $label }}
@@ -103,9 +100,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Planned Timeline for Purchase</label>
                         <select name="udF_17" class="form-select @error('udF_17') is-invalid @enderror">
-                            <option value="" disabled @selected(!old('udF_17'))>--Select--</option>
+                            <option value="" disabled @selected(!old('udF_17'))>Planned Timeline for Purchase</option>
                             @foreach ($timelineOptions as $value => $label)
                                 <option value="{{ $value }}" @selected(old('udF_17') === $value)>
                                     {{ $label }}
@@ -118,9 +114,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">How Did You Hear About Us?</label>
                         <select name="udF_18" class="form-select @error('udF_18') is-invalid @enderror">
-                            <option value="" disabled @selected(!old('udF_18'))>--Select--</option>
+                            <option value="" disabled @selected(!old('udF_18'))>How Did You Hear About Us?</option>
                             @foreach ($hearAboutUsOptions as $value => $label)
                                 <option value="{{ $value }}" @selected(old('udF_18') === $value)>
                                     {{ $label }}
@@ -133,9 +128,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Preferred Site Visit Date &amp; Time</label>
-                        <input type="date" name="udF_6" value="{{ old('udF_6') }}"
-                            class="form-control @error('udF_6') is-invalid @enderror">
+                        <input type="text" name="udF_6" value="{{ old('udF_6') }}"
+                            class="form-control @error('udF_6') is-invalid @enderror" placeholder="Preferred Site Visit Date & Time" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"> 
                         @error('udF_6')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
@@ -155,7 +149,7 @@
                             <span class="invalid-feedback d-block">{{ $message }}</span>
                         @enderror
                     </div>
-
+                </div>
                     <button type="submit" class="submit_btn">Submit</button>
                 </form>
             </div>
