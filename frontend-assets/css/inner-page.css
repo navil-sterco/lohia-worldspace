@@ -150,6 +150,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .contact_form .dropdown_menu .dropdown_item{width: auto;}
 .contactform_wrap{display:flex;flex-direction:column;gap:3.5rem;}
 .contactform_wrap .form-group .form-control,.contactform_wrap .form-group .form-select{color:var(--color-white);border-color:var(--color-white);}
+.contactform_wrap .form-group .form-control[type="date"]::-webkit-calendar-picker-indicator{filter:brightness(0) invert(1);-webkit-filter:brightness(0) invert(1);cursor:pointer;}
 .contactform_wrap .form-group .form-control::placeholder{color:var(--color-white);}
 .contactform_wrap .form-group .form-select{background:url("../images/arrow-right-down-white.svg") no-repeat;background-position:right center;background-position-x:calc(100% - 1rem);background-size:1.1rem;}
 .contactform_wrap .form-group .form-select>option{color: var(--color-black);}
@@ -224,6 +225,8 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .vendorform_column .row{--bs-gutter-x:3rem;--bs-gutter-y:3rem;}
 .vendorform_wrap .form-group .form-control,.vendorform_wrap .form-group .form-select{color:var(--color-white);border-color:var(--color-white);}
 .vendorform_wrap .form-group .form-control::placeholder{color:var(--color-white);}
+.vendorform_wrap .form-group .form-control[type="date"]::-webkit-calendar-picker-indicator{filter:brightness(0) invert(1);-webkit-filter:brightness(0) invert(1);cursor:pointer;}
+
 .vendorform_wrap .form-group .form-select{background:url("../images/arrow-right-down-white.svg") no-repeat;background-position:right center;background-position-x:calc(100% - 1rem);background-size:1.1rem;}
 .vendorform_wrap .form-group .form-select>option{color:var(--color-black);}
 .vendorform_wrap .form-group textarea.form-control{min-height:11rem;}

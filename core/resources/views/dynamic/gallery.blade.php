@@ -7,7 +7,7 @@
 
         <div class="gallery_title">
             <h1 class="title21" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">Gallery</h1>
-            <h2 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">Lorem Ipsum is simply dummy text</h2>
+            <h2 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">A glimpse into the world we create.</h2>
         </div>
 
         <div class="gal_lst">
