@@ -526,13 +526,15 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var form = document.getElementById('seoMetaForm');
+        var form = document.querySelector('form');
 
         form.addEventListener('submit', function (e) {
             e.preventDefault();
 
             grecaptcha.ready(function () {
-                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', { action: 'seo_form' })
+                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                    action: 'contact_form'
+                })
                     .then(function (token) {
                         document.getElementById('g-recaptcha-response').value = token;
                         form.submit();
@@ -544,7 +546,6 @@
         });
     });
 </script>
-
 @if ($errors->any())
     <script>
         document.addEventListener('DOMContentLoaded', function () {
