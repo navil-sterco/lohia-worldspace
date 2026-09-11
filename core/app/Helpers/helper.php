@@ -18,12 +18,14 @@ function headerData()
             return [
                 'title' => $page->title,
                 'slug' => $page->slug,
+                'overwrite_url' => $page->overwrite_url,
                 'target_blank' => $page->target_blank,
 
                 'children' => $page->children->map(function ($child) {
                     return [
                         'title' => $child->title,
                         'slug' => $child->slug,
+                        'overwrite_url' => $child->overwrite_url,
                         'target_blank' => $child->target_blank,
                     ];
                 })->values(),
@@ -40,6 +42,7 @@ function footerData()
             return [
                 'title' => $page->title,
                 'slug' => $page->slug,
+                'overwrite_url' => $page->overwrite_url,
                 'target_blank' => $page->target_blank,
             ];
         });
@@ -55,11 +58,13 @@ function sidebar()
             return [
                 'title' => $page->title,
                 'slug' => $page->slug,
+                'overwrite_url' => $page->overwrite_url,
                 'target_blank' => $page->target_blank,
                 'children' => $page->children->map(function ($child) {
                     return [
                         'title' => $child->title,
                         'slug' => $child->slug,
+                        'overwrite_url' => $child->overwrite_url,
                         'target_blank' => $child->target_blank,
                     ];
                 })->values(),
@@ -75,6 +80,7 @@ function quickLinks()
             return [
                 'title' => $page->title,
                 'slug' => $page->slug,
+                'overwrite_url' => $page->overwrite_url,
                 'target_blank' => $page->target_blank,
             ];
         });
