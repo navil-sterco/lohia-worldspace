@@ -26,11 +26,12 @@ use App\Http\Controllers\Frontend\EventController;
 use App\Http\Controllers\Frontend\FaqController;
 use App\Http\Controllers\Frontend\GalleryPageController;
 use App\Http\Controllers\Frontend\JobApplicationController;
+use App\Http\Controllers\Frontend\MediaCoveragreController;
 use App\Http\Controllers\Frontend\ModularPageController;
 use App\Http\Controllers\Frontend\NewsController;
 use App\Http\Controllers\Frontend\PeopleController;
-use App\Http\Controllers\Frontend\MediaCoveragreController;
 use App\Http\Controllers\Frontend\ProjectsController;
+use App\Http\Controllers\Frontend\RequestSiteVisitController;
 use App\Http\Controllers\Frontend\TestimonialController;
 use App\Models\Page;
 use Illuminate\Foundation\Application;
@@ -151,7 +152,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 //Projects
-Route::get('/projects', [ProjectsController::class, 'index'])->name('projects.index');
+// Route::get('/projects', [ProjectsController::class, 'index'])->name('projects.index');
 Route::get('/projects/{slug}', [ProjectsController::class, 'detail'])->name('projects.detail');
 
 //Collective
@@ -165,8 +166,10 @@ Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
 
 //Contact
 Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/request-site-visit', [RequestSiteVisitController::class, 'index'])->name('request-site-visit.index');
 Route::get('/become-a-vendor', [ContactController::class, 'vendor'])->name('vendor.index');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/request-site-visit', [RequestSiteVisitController::class, 'store'])->name('request-site-visit.store');
 
 // Emi
 Route::get('/emi-calculator', [EmiController::class, 'index'])->name('emi.index');

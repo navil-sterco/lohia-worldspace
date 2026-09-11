@@ -19,7 +19,7 @@
 
                
 
-                <form action="{{ route('contact.store') }}" method="POST">
+                <form action="{{ route('request-site-visit.store') }}" method="POST">
                     @csrf
 
                     {{-- Purpose dropdown --}}
@@ -48,10 +48,6 @@
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
-
-                    {{-- =========================================================
-                         SECTION: Buying A Property
-                    ========================================================== --}}
                     <div class="contactform_wrap" data-interest="buying_property">
                         <h3 class="title48">LEAVE A MESSAGE TO BUY A PROPERTY</h3>
 
@@ -142,6 +138,9 @@
                         </div>
                     </div>
 
+                    {{-- =========================================================
+                         SECTION: Land Proposal
+                    ========================================================== --}}
                     <div class="contactform_wrap" data-interest="land_proposal" style="display:none;">
                         <h3 class="title48">LEAVE A MESSAGE FOR LAND PROPOSAL</h3>
 

@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
+class RequestSiteVisit extends Model
+{
+    protected $fillable = [
+        'interest',
+        'name',
+        'email',
+        'phone',
+        'location',
+        'buyer_type',
+        'budget',
+        'property_type',
+        'comment',
+        'details',
+        'ip_address',
+    ];
+
+    protected $casts = [
+        'details' => 'array',
+    ];
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        if (!empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('name', 'like', "%{$filters['search']}%")
+                    ->orWhere('email', 'like', "%{$filters['search']}%");
+            });
+        }
+    }
+}
