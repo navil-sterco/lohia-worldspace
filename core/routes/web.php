@@ -165,11 +165,17 @@ Route::get('/collective/{slug}', [CollectiveController::class, 'detail'])->name(
 Route::get('/people', [PeopleController::class, 'index'])->name('people.index');
 
 //Contact
-Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.index');
-Route::get('/request-site-visit', [RequestSiteVisitController::class, 'index'])->name('request-site-visit.index');
-Route::get('/become-a-vendor', [ContactController::class, 'vendor'])->name('vendor.index');
 Route::post('/contact-us', [ContactController::class, 'store'])->name('contact.store');
+Route::get('/contact-us', [ContactController::class, 'index'])->name('contact.index');
+
+Route::get('/become-a-vendor', [ContactController::class, 'vendor'])->name('vendor.index');
+
+Route::get('/request-site-visit', [RequestSiteVisitController::class, 'index'])->name('request-site-visit.index');
 Route::post('/request-site-visit', [RequestSiteVisitController::class, 'store'])->name('request-site-visit.store');
+
+//Channel Partners
+Route::get('channel-partners', [ChannelPartnerController::class, 'index'])->name('channel-partner.index');
+Route::post('channel-partners', [ChannelPartnerController::class, 'store'])->name('channel-partner.store');
 
 // Emi
 Route::get('/emi-calculator', [EmiController::class, 'index'])->name('emi.index');

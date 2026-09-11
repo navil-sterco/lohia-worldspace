@@ -1,33 +1,54 @@
 @include('includes.header')
 {!! $section['cms']['channel_partner_first_section_0'] ?? '' !!}
 
-    <section class="lohchnlform_sec">
-        <div class="lohform_victor">
-            <div class="rectangle_shape reveal-left"></div>
-            <figure class="reveal-top">
-                <img src="{{ asset('frontend-assets/images/victor-dash02.svg') }}" alt="victor" class="img-fluid w-100">
-            </figure>
-        </div>
-        <div class="container">
-            <div class="lohchnlform_wrap">
-                <h3 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">FILL UP TO REGISTER AS A CHANNEL PARTNER</h3>
+<section class="lohchnlform_sec">
+    <div class="lohform_victor">
+        <div class="rectangle_shape reveal-left"></div>
+        <figure class="reveal-top">
+            <img src="{{ asset('frontend-assets/images/victor-dash02.svg') }}" alt="victor" class="img-fluid w-100">
+        </figure>
+    </div>
+    <div class="container">
+        <div class="lohchnlform_wrap">
+            <h3 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">FILL UP TO REGISTER AS
+                A CHANNEL PARTNER</h3>
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <form id="channelPartnerForm" action="{{ route('channel-partner.store') }}" method="POST"
+                enctype="multipart/form-data">
+                @csrf
+
                 <div class="lohchnlform" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                     <h5 class="title21">Personal Information</h5>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name*">
+                                <input type="text" name="name" value="{{ old('name') }}"
+                                    class="form-control @error('name') is-invalid @enderror" placeholder="Name*">
+                                @error('name')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Personal Account Number (PAN)*">
+                                <input type="text" name="pan" value="{{ old('pan') }}"
+                                    class="form-control @error('pan') is-invalid @enderror"
+                                    placeholder="Personal Account Number (PAN)*">
+                                @error('pan')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <select name="" id="" class="form-select">
+                                    <select name="country_code" id="" class="form-select">
                                         <option value="+91">INDIA +91</option>
                                         <option value="+376">ANDORRA +376</option>
                                         <option value="+971">UAE +971</option>
@@ -257,13 +278,23 @@
                                         <option value=" +260">ZAMBIA +260</option>
                                         <option value=" +263">ZIMBABWE +263</option>
                                     </select>
-                                    <input type="text" class="form-control" placeholder="Phone Number*">
+                                    <input type="text" name="phone" value="{{ old('phone') }}"
+                                        class="form-control @error('phone') is-invalid @enderror"
+                                        placeholder="Phone Number*">
                                 </div>
+                                @error('phone')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Email Address*">
+                                <input type="text" name="email" value="{{ old('email') }}"
+                                    class="form-control @error('email') is-invalid @enderror"
+                                    placeholder="Email Address*">
+                                @error('email')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -273,7 +304,11 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Address">
+                                <input type="text" name="address" value="{{ old('address') }}"
+                                    class="form-control @error('address') is-invalid @enderror" placeholder="Address">
+                                @error('address')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -283,8 +318,12 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input type="text" class="form-control"
+                                <input type="text" name="work_profile" value="{{ old('work_profile') }}"
+                                    class="form-control @error('work_profile') is-invalid @enderror"
                                     placeholder="Provide a brief resume sharing the details of projects - Apartments, villas, Row Houses, Plots sold during the past couple of years">
+                                @error('work_profile')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -294,19 +333,33 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <input type="text" class="form-control"
+                                <input type="text" name="other_organizations" value="{{ old('other_organizations') }}"
+                                    class="form-control @error('other_organizations') is-invalid @enderror"
                                     placeholder="Name top 5 other organizations you are working with">
+                                @error('other_organizations')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Region of operations in India">
+                                <input type="text" name="region_of_operations" value="{{ old('region_of_operations') }}"
+                                    class="form-control @error('region_of_operations') is-invalid @enderror"
+                                    placeholder="Region of operations in India">
+                                @error('region_of_operations')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control"
+                                <input type="text" name="sales_team_member_name"
+                                    value="{{ old('sales_team_member_name') }}"
+                                    class="form-control @error('sales_team_member_name') is-invalid @enderror"
                                     placeholder="If Applicable, Lohia Consultants Sales Team Member Name">
+                                @error('sales_team_member_name')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -316,104 +369,191 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Name of the Company*">
+                                <input type="text" name="company_name" value="{{ old('company_name') }}"
+                                    class="form-control @error('company_name') is-invalid @enderror"
+                                    placeholder="Name of the Company*">
+                                @error('company_name')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Date of Establishment*">
+                                <input type="text" name="date_of_establishment"
+                                    value="{{ old('date_of_establishment') }}"
+                                    class="form-control @error('date_of_establishment') is-invalid @enderror"
+                                    placeholder="Date of Establishment*">
+                                @error('date_of_establishment')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <select name="" id="" class="form-select">
-                                    <option selected>Organization Type</option>
-                                    <option value="Sole Proprietorship">Sole Proprietorship</option>
-                                    <option value="Partnership">Partnership</option>
-                                    <option value="Private Limited">Private Limited</option>
-                                    <option value="Public Limited">Public Limited</option>
-                                    <option value="Individuals">Individuals</option>
-                                    <option value="Other">Other</option>
+                                <select name="organization_type" id=""
+                                    class="form-select @error('organization_type') is-invalid @enderror">
+                                    <option value="" selected>Organization Type</option>
+                                    @foreach ($organizationTypes as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('organization_type') === $value)>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
                                 </select>
+                                @error('organization_type')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <select name="" id="" class="form-select">
-                                    <option selected>Member of any Association</option>
-                                    <option value="BRAI">BRAI</option>
-                                    <option value="CREA">CREA</option>
-                                    <option value="NAR">NAR</option>
-                                    <option value="Other">Other</option>
+                                <select name="association_member" id=""
+                                    class="form-select @error('association_member') is-invalid @enderror">
+                                    <option value="" selected>Member of any Association</option>
+                                    @foreach ($associationOptions as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('association_member') === $value)>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
                                 </select>
+                                @error('association_member')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <select name="" id="" class="form-select">
-                                    <option selected>Type of Business</option>
-                                    <option value="Land Sourcing">Land Sourcing</option>
-                                    <option value="Commercial Sales">Commercial Sales</option>
-                                    <option value="Residential Sales">Residential Sales</option>
-                                    <option value="Other">Other</option>
+                                <select name="business_type" id=""
+                                    class="form-select @error('business_type') is-invalid @enderror">
+                                    <option value="" selected>Type of Business</option>
+                                    @foreach ($businessTypes as $value => $label)
+                                        <option value="{{ $value }}" @selected(old('business_type') === $value)>{{ $label }}
+                                        </option>
+                                    @endforeach
                                 </select>
+                                @error('business_type')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="upload_file">
-                                    <input type="file" accept="image/png,image/jpg,image/webp,application/pdf"
-                                        class="form-control">
+                                    <input type="file" name="registration_certificate"
+                                        accept="image/png,image/jpg,image/webp,application/pdf"
+                                        class="form-control @error('registration_certificate') is-invalid @enderror">
                                     <span class="file-name">Upload Registration Certificate (copy)</span>
                                 </div>
+                                @error('registration_certificate')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <div class="upload_file">
-                                    <input type="file" accept="image/png,image/jpg,image/webp,application/pdf"
-                                        class="form-control">
+                                    <input type="file" name="rera_certificate"
+                                        accept="image/png,image/jpg,image/webp,application/pdf"
+                                        class="form-control @error('rera_certificate') is-invalid @enderror">
                                     <span class="file-name">Upload Registration Certificate - RERA</span>
                                 </div>
+                                @error('rera_certificate')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Registered Address">
+                                <input type="text" name="registered_address" value="{{ old('registered_address') }}"
+                                    class="form-control @error('registered_address') is-invalid @enderror"
+                                    placeholder="Registered Address">
+                                @error('registered_address')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <input type="text" class="form-control" placeholder="PAN Details">
+                                <input type="text" name="company_pan_details" value="{{ old('company_pan_details') }}"
+                                    class="form-control @error('company_pan_details') is-invalid @enderror"
+                                    placeholder="PAN Details">
+                                @error('company_pan_details')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <div class="upload_file">
-                                    <input type="file" accept="image/png,image/jpg,image/webp,application/pdf"
-                                        class="form-control">
+                                    <input type="file" name="gst_certificate"
+                                        accept="image/png,image/jpg,image/webp,application/pdf"
+                                        class="form-control @error('gst_certificate') is-invalid @enderror">
                                     <span class="file-name">Upload GST Registration Number (with copy)</span>
                                 </div>
+                                @error('gst_certificate')
+                                    <span class="invalid-feedback d-block">{{ $message }}</span>
+                                @enderror
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+                            @error('g-recaptcha-response')
+                                <span class="invalid-feedback d-block">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                 </div>
                 <div class="lohchnl_btn" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
-                    <button type="button" class="btn_light">Submit</button>
+                    <button type="submit" class="btn_light">Submit</button>
                 </div>
-            </div>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="lhequry_sec">
-        <div class="container">
-            <div class="lh_equry">
-                <h3 class="title30" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">For Enquiries:</h3>
-                <div class="btn_group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
-                    <a href="mailto:partner@lohiaworldspace.com" class="btn_downdark">Email: partner@lohiaworldspace.com</a>
-                    <a href="tel:(+91)-7900-790-790" class="btn_downdark">Tel: (+91)-7900-790-790</a>
-                </div>
+<section class="lhequry_sec">
+    <div class="container">
+        <div class="lh_equry">
+            <h3 class="title30" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">For Enquiries:</h3>
+            <div class="btn_group" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                <a href="mailto:partner@lohiaworldspace.com" class="btn_downdark">Email: partner@lohiaworldspace.com</a>
+                <a href="tel:(+91)-7900-790-790" class="btn_downdark">Tel: (+91)-7900-790-790</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.querySelector('form');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            grecaptcha.ready(function () {
+                grecaptcha.execute('{{ config('services.recaptcha.site_key') }}', {
+                    action: 'contact_form'
+                })
+                    .then(function (token) {
+                        document.getElementById('g-recaptcha-response').value = token;
+                        form.submit();
+                    })
+                    .catch(function () {
+                        form.submit();
+                    });
+            });
+        });
+    });
+</script>
+@if ($errors->any())
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('channelPartnerForm');
+            if (form) {
+                form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    </script>
+@endif
 @include('includes.footer')

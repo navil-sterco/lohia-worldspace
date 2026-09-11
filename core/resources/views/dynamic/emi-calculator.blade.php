@@ -132,7 +132,7 @@
     // allowDecimal = true  -> digits + single '.' (Interest Rate)
     // allowDecimal = false -> digits only, grouped Indian-style (Loan Amount, Tenure)
     function restrictToNumeric(input, allowDecimal) {
-        input.addEventListener('keydown', function(e) {
+        input.addEventListener('keydown', function (e) {
             const isControlKey = [
                 'Backspace', 'Delete', 'Tab', 'Escape', 'Enter',
                 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'
@@ -148,7 +148,7 @@
             }
         });
 
-        input.addEventListener('input', function() {
+        input.addEventListener('input', function () {
             const cursorAtEnd = input.selectionStart === input.value.length;
             let raw = input.value.replace(/,/g, '');
 
@@ -239,6 +239,14 @@
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    top: 40,
+                    bottom: 40,
+                    left: 60,
+                    right: 60
+                }
+            },
             plugins: {
                 legend: {
                     display: false
@@ -262,10 +270,10 @@
                         weight: '400'
                     },
                     callbacks: {
-                        title: function(context) {
+                        title: function (context) {
                             return context[0].label;
                         },
-                        label: function(context) {
+                        label: function (context) {
                             return context.raw + '%';
                         }
                     }
@@ -275,29 +283,36 @@
         plugins: [{
             id: 'percentageLabels',
             afterDraw(chart) {
-                const {
-                    ctx,
-                    data
-                } = chart;
+                const { ctx, data, chartArea } = chart;
                 const meta = chart.getDatasetMeta(0);
 
                 ctx.save();
 
                 meta.data.forEach((arc, index) => {
                     const angle = (arc.startAngle + arc.endAngle) / 2;
-                    const x = arc.x + Math.cos(angle) * (arc.outerRadius + 25);
-                    const y = arc.y + Math.sin(angle) * (arc.outerRadius + 25);
+                    let x = arc.x + Math.cos(angle) * (arc.outerRadius + 25);
+                    let y = arc.y + Math.sin(angle) * (arc.outerRadius + 25);
+
+                    const text = data.datasets[0].data[index].toFixed(2) + '%';
+
+                    ctx.font = chartFont;
+                    const textWidth = ctx.measureText(text).width;
+                    const textHeight = fontSize;
+
+                    // Clamp so the label never gets drawn outside the canvas
+                    const minX = chartArea.left - 50 + textWidth / 2;
+                    const maxX = chartArea.right + 50 - textWidth / 2;
+                    const minY = chartArea.top - 20 + textHeight / 2;
+                    const maxY = chartArea.bottom + 20 - textHeight / 2;
+
+                    x = Math.min(Math.max(x, minX), maxX);
+                    y = Math.min(Math.max(y, minY), maxY);
 
                     ctx.fillStyle = '#111';
-                    ctx.font = chartFont;
                     ctx.textAlign = x > arc.x ? 'left' : 'right';
                     ctx.textBaseline = 'middle';
 
-                    ctx.fillText(
-                        data.datasets[0].data[index].toFixed(2) + '%',
-                        x,
-                        y
-                    );
+                    ctx.fillText(text, x, y);
                 });
 
                 ctx.restore();
@@ -325,14 +340,14 @@
     }
 
     // Yr/Mo toggle
-    yrBtn.addEventListener('click', function() {
+    yrBtn.addEventListener('click', function () {
         tenureUnit = 'yr';
         yrBtn.classList.add('active');
         moBtn.classList.remove('active');
         calculateEMI();
     });
 
-    moBtn.addEventListener('click', function() {
+    moBtn.addEventListener('click', function () {
         tenureUnit = 'mo';
         moBtn.classList.add('active');
         yrBtn.classList.remove('active');
@@ -340,7 +355,7 @@
     });
 
     // Live recalculation on input
-    [loanAmountInput, interestRateInput, tenureInput].forEach(function(input) {
+    [loanAmountInput, interestRateInput, tenureInput].forEach(function (input) {
         input.addEventListener('input', calculateEMI);
     });
 
