@@ -8,21 +8,23 @@ use Illuminate\Database\Eloquent\Builder;
 class RequestSiteVisit extends Model
 {
     protected $fillable = [
-        'interest',
-        'name',
+        'first_name',
         'email',
-        'phone',
-        'location',
-        'buyer_type',
-        'budget',
-        'property_type',
-        'comment',
-        'details',
+        'mobile_phone',
+        'city_desc',
+        'udf_16',
+        'budget_from',
+        'budget_to',
+        'udf_17',
+        'udf_18',
+        'udf_6',
+        'comments',
+        'origin_from',
         'ip_address',
     ];
 
     protected $casts = [
-        'details' => 'array',
+        'udf_6' => 'date',
     ];
 
     public function scopeFilter(Builder $query, $filters)
