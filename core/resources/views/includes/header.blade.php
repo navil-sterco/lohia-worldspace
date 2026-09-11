@@ -1,4 +1,5 @@
 @php
+    use Illuminate\Support\Str;
     $header = headerData();
     $sidebar = sidebar();
     $footer = footerData();
@@ -44,11 +45,14 @@
                 @foreach($header as $menu)
                     @php
                         $menuSlug = trim($menu['slug'] ?? '', '/');
-                        $isActive = $currentPath === $menuSlug
-                            || ($menuSlug !== '' && Str::startsWith($currentPath, $menuSlug . '/'));
+                        $overwriteUrl = trim($menu['overwrite_url'] ?? '', '/');
+                        $activeSlug = $overwriteUrl !== '' ? $overwriteUrl : $menuSlug;
+
+                        $isActive = $currentPath === $activeSlug
+                            || ($activeSlug !== '' && Str::startsWith($currentPath, $activeSlug . '/'));
                     @endphp
                     <li class="{{ $isActive ? 'active' : '' }}">
-                        <a href="{{ url($menu['slug']) }}"
+                        <a href="{{ url($menu['overwrite_url'] ?? $menu['slug']) }}"
                         @if(($menu['target_blank'] ?? false))
                             target="_blank" rel="noopener noreferrer"
                         @endif
@@ -80,7 +84,7 @@
                                 || ($menuSlug !== '' && Str::startsWith($currentPath, $menuSlug . '/'));
                         @endphp
                         <li class="{{ $isActive ? 'active' : '' }}">
-                            <a href="{{ url($menu['slug']) }}"
+                            <a href="{{ url($menu['overwrite_url'] ?? $menu['slug']) }}"
                             @if(($menu['target_blank'] ?? false))
                                 target="_blank" rel="noopener noreferrer"
                             @endif
@@ -103,7 +107,7 @@
                                 || ($menuSlug !== '' && Str::startsWith($currentPath, $menuSlug . '/'));
                         @endphp
                         <li class="{{ $isActive ? 'active' : '' }}">
-                            <a href="{{ url($menu['slug']) }}"
+                            <a href="{{ url($menu['overwrite_url'] ?? $menu['slug']) }}"
                                 @if(($menu['target_blank'] ?? false))
                                     target="_blank" rel="noopener noreferrer"
                                 @endif

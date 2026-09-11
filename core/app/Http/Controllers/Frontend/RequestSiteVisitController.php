@@ -3,17 +3,16 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Models\Page;
-use App\Models\ContactForm;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class ContactController extends Controller
+class RequestSiteVisitController extends Controller
 {
     public function index()
     {
-        $page = Page::published()->bySlug('contact-us')->firstOrFail();
+        $page = Page::published()->bySlug('request-site-visit')->firstOrFail();
         $viewData = $page->getModularPageData();
-        return view('dynamic.contact-us', [
+        return view('dynamic.request-site-visit', [
             'page' => $page,
             'section' => $viewData,
             'interestOptions' => $this->interestOptions(),
@@ -199,7 +198,7 @@ class ContactController extends Controller
             ->except(array_keys($common))
             ->toArray();
 
-        $inquiry = ContactForm::create($common + [
+        $inquiry = SiteVisit::create($common + [
             'details'    => $details ?: null,
             'ip_address' => $request->ip(),
         ]);

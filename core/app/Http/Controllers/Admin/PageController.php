@@ -40,11 +40,7 @@ class PageController extends Controller
             $pageIds = collect();
 
             foreach ($matchedPages as $page) {
-
-                // Add matched page
                 $pageIds->push($page->id);
-
-                // Add all ancestors
                 $parent = $page->parent;
 
                 while ($parent) {
@@ -105,13 +101,9 @@ class PageController extends Controller
 
         foreach ($pages as $page) {
             if ($page->parent_page_id == $parentId) {
-
                 $formatted = $this->formatPage($page);
-
                 $children = $this->buildTree($pages, $page->id);
-
                 $formatted['child_pages'] = $children;
-
                 $tree[] = $formatted;
             }
         }
@@ -194,7 +186,7 @@ class PageController extends Controller
             'tab_id' => 'nullable|exists:tabs,id',
             'display_order' => 'integer',
             'parent_page_id' => 'nullable|exists:pages,id',
-            'overwrite_url' => 'nullable|url|max:255',
+            'overwrite_url' => 'nullable|string|max:255',
         ]);
 
 
@@ -292,7 +284,7 @@ class PageController extends Controller
             'tab_id' => 'nullable|exists:tabs,id',
             'display_order' => 'integer',
             'parent_page_id' => 'nullable|exists:pages,id',
-            'overwrite_url' => 'nullable|url|max:255',
+            'overwrite_url' => 'nullable|string|max:255',
         ]);
 
         $parentPage = null;
