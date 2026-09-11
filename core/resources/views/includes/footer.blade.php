@@ -140,12 +140,18 @@
                     $targetBlank = !empty($menu['target_blank']);
                 @endphp
 
-                <li>
+                <li class="menu_item">
 
                     <a href="{{ url($slug) }}"
                         @if ($targetBlank) target="_blank" rel="noopener noreferrer" @endif>
                         {{ $title }}
                     </a>
+                    <ul class="sub_menu">
+                        <li><a href="{{ url($slug) }}"
+                        @if ($targetBlank) target="_blank" rel="noopener noreferrer" @endif>
+                        {{ $title }}
+                    </a></li>
+                    </ul>
                 </li>
             @endforeach
         </ul>
