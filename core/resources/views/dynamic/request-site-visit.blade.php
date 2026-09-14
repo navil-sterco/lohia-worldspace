@@ -6,7 +6,7 @@
             <h1 class="title21">Request Site Visit</h1>
         </div>
         <div class="contact_grid">
-            {!! $section['cms']['contact_us_0'] ?? '' !!}
+            {!! $section['cms']['request_site_visit_0'] ?? '' !!}
 
             <div class="contact_form">
                 <h5 class="title21">What can we help you with</h5>

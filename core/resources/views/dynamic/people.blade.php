@@ -5,8 +5,7 @@
 {!! $section['cms']['people_first_section_0'] ?? '' !!}
 {!! $section['cms']['people_second_section_1'] ?? '' !!}
 
-
-<section class="current_sec">
+<section class="current_sec" id="current-opening">
     <div class="container">
         <div class="crntopen_wraper">
             <div class="crntopen_caption">
@@ -22,7 +21,7 @@
             </div>
         </div>
 
-        <div class="crnt_vacancy">
+        <div class="crnt_vacancy" id="resume">
             @forelse ($openings as $job)
                 @php
                     $openingList = $job['mapping_items']['opening'] ?? [];

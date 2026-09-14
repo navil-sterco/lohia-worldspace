@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\Admin\ContactFormController;
+use App\Http\Controllers\Admin\ChannelPartnerController as AdminChannelPartnerController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\HomePageController;
+use App\Http\Controllers\Admin\JobApplicationController as AdminJobApplicationController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\ModuleEntryController;
+use App\Http\Controllers\Admin\NewsletterController as AdminNewsletterController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PageSectionController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -29,6 +32,7 @@ use App\Http\Controllers\Frontend\JobApplicationController;
 use App\Http\Controllers\Frontend\MediaCoveragreController;
 use App\Http\Controllers\Frontend\ModularPageController;
 use App\Http\Controllers\Frontend\NewsController;
+use App\Http\Controllers\Frontend\NewsletterController;
 use App\Http\Controllers\Frontend\PeopleController;
 use App\Http\Controllers\Frontend\ProjectsController;
 use App\Http\Controllers\Frontend\RequestSiteVisitController;
@@ -131,6 +135,14 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/contact-forms', [ContactFormController::class, 'index'])->name('contact-forms.index');
     Route::get('contact-forms/{contactForm}/destroy', [ContactFormController::class, 'destroy'])->name('contact-forms.destroy');
 
+    // Form submissions
+    Route::get('/job-applications', [AdminJobApplicationController::class, 'index'])->name('job-applications.index');
+    Route::get('job-applications/{jobApplication}/destroy', [AdminJobApplicationController::class, 'destroy'])->name('job-applications.destroy');
+    Route::get('/channel-partners', [AdminChannelPartnerController::class, 'index'])->name('admin-channel-partners.index');
+    Route::get('channel-partners/{channelPartner}/destroy', [AdminChannelPartnerController::class, 'destroy'])->name('admin-channel-partners.destroy');
+    Route::get('/newsletters', [AdminNewsletterController::class, 'index'])->name('newsletters.index');
+    Route::get('newsletters/{newsletter}/destroy', [AdminNewsletterController::class, 'destroy'])->name('newsletters.destroy');
+
     //Seo
     Route::resource('seo', SeoSettingController::class)->except(['destroy']);
     Route::prefix('seo')->group(function () {
@@ -209,6 +221,9 @@ Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
 //Channel Partners
 Route::get('/channel-partners', [ChannelPartnerController::class, 'index'])->name('channel-partners.index');
+
+//Newsletter
+Route::post('/newsletter', [NewsletterController::class, 'store'])->name('newsletter.store');
 
 Route::get('/{slug?}', function ($slug = 'home') {
     $page = Page::where('slug', $slug)->firstOrFail();
