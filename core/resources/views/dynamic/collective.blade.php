@@ -12,7 +12,7 @@
                     <div class="proj_item">
                         <div class="prjtl_grid">
                             <div class="prjtl_title">
-                                <h3>{{ strtoupper($collective['name'] ?? '') }}</h3>
+                                <h3>{!! ($collective['name'] ?? '') !!}</h3>
                                 <p>{{ $collective['location'] ?? '' }}</p>
                             </div>
                         </div>

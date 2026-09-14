@@ -666,6 +666,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .prjtl_grid::after{content:'';position:absolute;right:0;bottom:0;width:3.6rem;height:3.6rem;z-index:1;background:url(../images/arrow-red-thin.svg) no-repeat center;background-size:3.6rem;}
 .prjtl_title{display:flex;flex-direction:column;justify-content:end;align-items:start;gap:0.5rem;padding:1.4rem 2.3rem 0 0;}
 .prjtl_title>h3{font:var(--font-30);line-height:1.2;font-weight:var(--fw-400);text-transform:uppercase;}
+.prjtl_title>h3>span{text-transform:none;}
 .prjtl_title>p{font:var(--font-16);}
 .prjtl_type{display:flex;flex-direction:column;justify-content:end;align-items:start;gap:0.5rem;border-left:0.1rem solid var(--color-black);padding-inline:5rem;}
 .prjtl_type>h6{font-weight:var(--font-18);line-height:1;font-weight:var(--fw-400);}
@@ -854,7 +855,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .siteplan_wrapper{padding:4.8rem 15rem 0 4.3rem;position:relative;}
 .siteplan_wrapper::before,.faq_wrap::before{width:calc(100% - 11.7rem);height:1px;left:0;bottom:0;background:var(--color-black);position:absolute;content:"";}
 .siteplan_wrapper>.sec_title{display:grid;gap:4rem;max-width:41.4rem;margin-bottom:4rem;}
-.siteplan_wrapper .tabs-nav{flex-direction:column;align-items:start;justify-content:center;}
+/* .siteplan_wrapper .tabs-nav{flex-direction:column;align-items:start;justify-content:center;} */
 .sitefloor_grid{display:grid;grid-template-columns:250fr 914fr;gap:6.5rem;}
 .sitefloor_grid>.accordion-tabs{flex-direction:column;align-items:start;gap:3rem;}
 .sitefloor_grid>.accordion-tabs>.tab-button>strong{display:block;font:var(--font-16);font-weight:var(--fw-400);color:var(--color-black);margin-top:1rem;}
@@ -864,6 +865,11 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .aria_grid>li:last-child{padding-right:0;border-right:0;}
 .aria_grid>li>strong{display:block;font:var(--font-18);line-height:1.2;font-weight:var(--fw-400);margin-top:1rem;}
 .mast_bx{padding-block:1rem 5rem;}
+
+.mast_bx figure, .sitefloor_over>figure{position: relative;overflow: hidden;display: grid;}
+.mast_bx figure>*, .sitefloor_over>figure>*{grid-area: 1/1;}
+.mast_bx:has(figcaption) a:hover .zoombtn,.sitefloor_over>figure a:hover .zoombtn{ opacity: 1; }
+
 .mast_bx h5{margin-bottom:3rem;}
 .mast_bx figure{margin-top:5rem;}
 .sitefloor_over{padding-bottom:7.8rem;}
