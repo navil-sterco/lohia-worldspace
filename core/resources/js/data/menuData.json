@@ -98,6 +98,27 @@
                 "permission": "view-contact"
             },
             {
+                "text": "Job Applications",
+                "icon": "bx bx-briefcase",
+                "available": true,
+                "link": "job-applications.index",
+                "permission": "view-job-application"
+            },
+            {
+                "text": "Channel Partners",
+                "icon": "bx bx-buildings",
+                "available": true,
+                "link": "admin-channel-partners.index",
+                "permission": "view-channel-partner"
+            },
+            {
+                "text": "Newsletter Subscribers",
+                "icon": "bx bx-envelope",
+                "available": true,
+                "link": "newsletters.index",
+                "permission": "view-newsletter"
+            },
+            {
                 "text": "Support Info",
                 "icon": "bx bx-support",
                 "available": true,
