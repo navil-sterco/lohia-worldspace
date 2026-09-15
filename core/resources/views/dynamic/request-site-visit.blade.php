@@ -1,9 +1,10 @@
 @include('includes.header')
 
-<section class="contact_sec">
+<section class="contact_sec sitevisit_sec">
     <div class="container-lg">
         <div class="sec_title">
             <h1 class="title21">Request Site Visit</h1>
+            <a href="#" class="back_btn">Back</a>
         </div>
         <div class="contact_grid">
             {!! $section['cms']['request_site_visit_0'] ?? '' !!}
@@ -157,6 +158,10 @@
     </div>
 </section>
 
+
+<figure>
+    <img src="" alt="connectivity" class="img-fluid w-100">
+</figure>
 <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
 
 <script>

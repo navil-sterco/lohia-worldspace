@@ -22,11 +22,11 @@
                         <div class="swiper-slide">
                             <div class="prodcr_slide reveal-left">
                                 <figure>
-                                    <img src="{{ $item['image'] ?? '' }}" class="img-fluid w-100"
+                                    <img src="{{ $item['home_image'] ?? '' }}" class="img-fluid w-100"
                                         alt="{{ $item['name'] ?? 'Landmark Creations' }}">
                                 </figure>
                                 <div class="prodcr_caption">
-                                    <h6>{{ $item['name'] ?? '' }}</h6>
+                                    <h6>{!! $item['name'] ?? '' !!}</h6>
                                     <h6>{{ $item['location'] ?? '' }}</h6>
                                 </div>
                             </div>
