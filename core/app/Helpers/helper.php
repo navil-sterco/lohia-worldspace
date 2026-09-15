@@ -105,7 +105,6 @@ function supportInfo($key)
 function insightMenu(string $slug): array
 {
     $page = Page::published()
-        ->where('page_type', 'cms')
         ->where('slug', $slug)
         ->first();
 

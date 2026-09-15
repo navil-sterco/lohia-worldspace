@@ -2,7 +2,44 @@
 
 {!! $cms['home_banner_0'] ?? '' !!}
 {!! $cms['home_about_1'] ?? '' !!}
-{!! $cms['home_third_section_2'] ?? '' !!}
+
+<section class="landcreat_sec">
+    <div class="landcrea_grid">
+        {!! $cms['home_third_section_2'] ?? '' !!}
+        <div class="ldcrslide_wrapper">
+            <div class="landcr_swiper swiper">
+                <div class="swiper-wrapper">
+                    @php
+                        $projects   = $modular['projects'] ?? [];
+                        $collective = $modular['collective'] ?? [];
+                        $slides     = array_merge($projects, $collective);
+                    @endphp
+
+                    @foreach ($slides as $item)
+                        <div class="swiper-slide">
+                            <div class="landcr_slide reveal-left">
+                                <figure>
+                                    <img src="{{ $item['image'] ?? '' }}" class="img-fluid w-100" alt="{{ $item['name'] ?? 'Landmark Creations' }}">
+                                </figure>
+                                <div class="landcr_caption">
+                                    <h6 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+                                        {{ $item['name'] ?? '' }}
+                                    </h6>
+                                    <h6 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+                                        {{ $item['location'] ?? '' }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="swiper-button-prev landcr-prev"></div>
+            <div class="swiper-button-next landcr-next"></div>
+        </div>
+    </div>
+</section>
+
 {!! $cms['home_fourth_section_3'] ?? '' !!}
 {!! $cms['home_fifth_section_4'] ?? '' !!}
 {!! $cms['home_sixth_section_5'] ?? '' !!}

@@ -29,8 +29,7 @@
                 <div class="footer_link">
                     <ul>
                         @foreach ($footer as $menu)
-                            <li><a href="{{ url($menu['slug']) }}"
-                                    @if ($menu['target_blank'] ?? false) target="_blank"
+                            <li><a href="{{ url($menu['slug']) }}" @if ($menu['target_blank'] ?? false) target="_blank"
                             rel="noopener noreferrer" @endif>{{ $menu['title'] }}</a>
                             </li>
                         @endforeach
@@ -41,8 +40,7 @@
                     <h6>Other Links</h6>
                     <ul>
                         @foreach ($quickLinks as $menu)
-                            <li><a href="{{ url($menu['slug']) }}"
-                                    @if ($menu['target_blank'] ?? false) target="_blank"
+                            <li><a href="{{ url($menu['slug']) }}" @if ($menu['target_blank'] ?? false) target="_blank"
                             rel="noopener noreferrer" @endif>{{ $menu['title'] }}</a>
                             </li>
                         @endforeach
@@ -51,17 +49,21 @@
 
                 <div class="subscopy_grid">
                     <div class="subscribe_form">
-                        <input type="text" class="form-control" placeholder="Subscribe for News">
+                        <form id="subscribeForm" action="{{ route('newsletter.store') }}" method="POST">
+                            @csrf
+                            <input type="email" name="email" id="subscribeEmail" class="form-control"
+                                placeholder="Subscribe for News" required>
 
-                        <button type="button">
-                            <img src="{{ url('frontend-assets/images/arrow-right-red.svg') }}" alt="Arrow"
-                                class="img-fluid">
-                        </button>
+                            <button type="submit">
+                                <img src="{{ url('frontend-assets/images/arrow-right-red.svg') }}" alt="Arrow"
+                                    class="img-fluid">
+                            </button>
+                        </form>
                     </div>
-
                     <div class="copyright">
                         <p>Copyright © {{ date('Y') }}</p>
-                        <p>Website Design and Development by <a href="https://www.stercodigitex.com/" target="_blank">Sterco</a></p>
+                        <p>Website Design and Development by <a href="https://www.stercodigitex.com/"
+                                target="_blank">Sterco</a></p>
                     </div>
                 </div>
             </div>
@@ -84,8 +86,7 @@
 
     <div class="mobtab_content mobtab_project" data-id="menu_Tab01">
         <div class="menu_curve">
-            <img src="{{ asset('frontend-assets/images/victor-menumob01.svg') }}" alt="icon"
-                class="img-fluid w-100">
+            <img src="{{ asset('frontend-assets/images/victor-menumob01.svg') }}" alt="icon" class="img-fluid w-100">
         </div>
         <div class="mobprj_wrapper">
 
@@ -106,8 +107,7 @@
 
     <div class="mobtab_content mobtab_contact" data-id="menu_Tab02">
         <div class="menu_curve">
-            <img src="{{ asset('frontend-assets/images/victor-menumob01.svg') }}" alt="icon"
-                class="img-fluid w-100">
+            <img src="{{ asset('frontend-assets/images/victor-menumob01.svg') }}" alt="icon" class="img-fluid w-100">
         </div>
         <div class="mobcnt_wrapper">
             <div class="mobcnt_bx">
@@ -129,43 +129,84 @@
 
     <div class="mobtab_content mobtab_menu" data-id="menu_Tab03">
         <div class="menu_curve">
-            <img src="{{ asset('frontend-assets/images/victor-menumob01.svg') }}" alt="icon"
-                class="img-fluid w-100">
+            <img src="{{ asset('frontend-assets/images/victor-menumob01.svg') }}" alt="icon" class="img-fluid w-100">
         </div>
+
+        @php
+            $withChildren = [];
+            $withoutChildren = [];
+
+            foreach ($header as $menu) {
+                $children = $menu['children'] ?? [];
+                if (count($children) > 0) {
+                    $withChildren[] = $menu;
+                } else {
+                    $withoutChildren[] = $menu;
+                }
+            }
+
+            foreach ($sidebar as $menu) {
+                $children = $menu['children'] ?? [];
+                if (count($children) > 0) {
+                    $withChildren[] = $menu;
+                } else {
+                    $withoutChildren[] = $menu;
+                }
+            }
+        @endphp
+
         <ul class="mobile_menu">
-            @foreach ($header as $menu)
+            @foreach ($withChildren as $menu)
                 @php
                     $slug = $menu['slug'] ?? '';
                     $title = $menu['title'] ?? '';
                     $targetBlank = !empty($menu['target_blank']);
+                    $children = $menu['children'] ?? [];
+                    $hasChildren = count($children) > 0;
                 @endphp
 
-                <li class="menu_item">
+                <li class="{{ $hasChildren ? ' menu_item' : '' }}">
 
-                    <a href="{{ url($slug) }}"
-                        @if ($targetBlank) target="_blank" rel="noopener noreferrer" @endif>
+                    <a href="{{ $hasChildren ? '#' : url($menu['overwrite_url'] ?? $slug) }}" {{ $targetBlank ? 'target="_blank" rel="noopener noreferrer"' : '' }}>
                         {{ $title }}
                     </a>
-                    <ul class="sub_menu">
-                        <li><a href="{{ url($slug) }}"
-                        @if ($targetBlank) target="_blank" rel="noopener noreferrer" @endif>
-                        {{ $title }}
-                    </a></li>
-                    </ul>
+
+                    @if ($hasChildren)
+                        <ul class="sub_menu">
+                            @foreach ($children as $child)
+                                @php
+                                    $childSlug = $child['slug'] ?? '';
+                                    $childTitle = $child['title'] ?? '';
+                                    $childTargetBlank = !empty($child['target_blank']);
+                                    $childUrl = $child['overwrite_url'] ?? $childSlug;
+                                @endphp
+                                <li>
+                                    <a href="{{ url($childUrl) }}" {{ $childTargetBlank ? 'target="_blank" rel="noopener noreferrer"' : '' }}>
+                                        {{ $childTitle }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </li>
             @endforeach
         </ul>
+
         <div class="mobile_quickmenu">
             <a href="{{ url('/request-site-visit') }}" class="btn_light">Request Site Visit</a>
             <ul>
-                @foreach ($sidebar as $menu)
+                @foreach ($withoutChildren as $menu)
                     @php
                         $slug = $menu['slug'] ?? '';
                         $title = $menu['title'] ?? '';
                         $targetBlank = !empty($menu['target_blank']);
-
                     @endphp
-                    <li><a href="{{ url($slug) }}">{{ $title }}</a></li>
+
+                    <li>
+                        <a href="{{ url($menu['overwrite_url'] ?? $slug) }}" {{ $targetBlank ? 'target="_blank" rel="noopener noreferrer"' : '' }}>
+                            {{ $title }}
+                        </a>
+                    </li>
                 @endforeach
             </ul>
         </div>
@@ -186,7 +227,6 @@
 @if (request()->is('/') || request()->is('home'))
     <script src="{{ url('frontend-assets/js/home.js') }}"></script>
 @endif
-
 </body>
 
 </html>
