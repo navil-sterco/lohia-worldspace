@@ -9,7 +9,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $news = ModuleEntry::forModule(1, 'display_order', 'asc')
+        $news = ModuleEntry::forModule(1, 'date', 'desc')
             ->paginate(10)
             ->through(fn($e) => $e->toCleanData());
 
