@@ -1,5 +1,9 @@
 @include('includes.header')
 
+@php
+ phpinfo();   
+@endphp
+
 {!! $cms['home_banner_0'] ?? '' !!}
 {!! $cms['home_about_1'] ?? '' !!}
 
@@ -10,25 +14,42 @@
             <div class="landcr_swiper swiper">
                 <div class="swiper-wrapper">
                     @php
-                        $projects   = $modular['projects'] ?? [];
-                        $collective = $modular['collective'] ?? [];
-                        $slides     = array_merge($projects, $collective);
+                        $projects = collect($modular['projects'] ?? [])
+                            ->map(function ($item) {
+                                $item['url'] = 'projects/' . ($item['slug'] ?? '');
+                                return $item;
+                            });
+
+                        $collective = collect($modular['collective'] ?? [])
+                            ->map(function ($item) {
+                                $item['url'] = 'collective/' . ($item['slug'] ?? '');
+                                return $item;
+                            });
+
+                        $slides = $projects->merge($collective);
                     @endphp
 
                     @foreach ($slides as $item)
                         <div class="swiper-slide">
                             <div class="landcr_slide reveal-left">
                                 <figure>
-                                    <img src="{{ $item['home_image'] ?? '' }}" class="img-fluid w-100" alt="{{ $item['name'] ?? 'Landmark Creations' }}">
+                                    <img src="{{ $item['home_image'] ?? '' }}" class="img-fluid w-100"
+                                        alt="{{ $item['name'] ?? 'Landmark Creations' }}">
                                 </figure>
+
                                 <div class="landcr_caption">
                                     <h6 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                                         {!! $item['name'] ?? '' !!}
                                     </h6>
+
                                     <h6 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                                         {{ $item['location'] ?? '' }}
                                     </h6>
                                 </div>
+
+                                <a href="{{ url($item['url']) }}" class="overlap_btn">
+                                    View
+                                </a>
                             </div>
                         </div>
                     @endforeach

@@ -9,7 +9,7 @@ class BlogController extends Controller
 {
     public function index()
     {
-        $blog = ModuleEntry::forModule(6, 'display_order', 'asc')
+        $blog = ModuleEntry::forModule(6, 'date', 'desc')
             ->paginate(10)
             ->through(fn($e) => $e->toCleanData());
 
