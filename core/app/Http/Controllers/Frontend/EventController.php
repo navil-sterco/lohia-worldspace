@@ -9,7 +9,7 @@ class EventController extends Controller
 {
     public function index()
     {
-        $events = ModuleEntry::forModule(7, 'display_order', 'asc')
+        $events = ModuleEntry::forModule(7, 'date', 'desc')
             ->paginate(10)
             ->through(fn($e) => $e->toCleanData());
     

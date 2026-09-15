@@ -182,10 +182,22 @@ class Page extends Model
 
             usort($items, function ($a, $b) {
 
-                $aOrder = $a['display_order'] ?? PHP_INT_MAX;
-                $bOrder = $b['display_order'] ?? PHP_INT_MAX;
+                $aDate = $a['date'] ?? null;
+                $bDate = $b['date'] ?? null;
 
-                return $aOrder <=> $bOrder;
+                if (!$aDate && !$bDate) {
+                    return 0;
+                }
+
+                if (!$aDate) {
+                    return 1;
+                }
+
+                if (!$bDate) {
+                    return -1;
+                }
+
+                return strtotime($bDate) <=> strtotime($aDate);
             });
 
             $mapped[$slug] = $items;

@@ -96,4 +96,49 @@
     </div>
 </section>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const featureGrids = document.querySelectorAll(".feature_grid");
+
+    featureGrids.forEach(function (grid) {
+
+        const items = grid.querySelectorAll(".feature_item");
+        const loadBtn = grid.querySelector(".load_btn a");
+
+        const visibleItems = 4;
+        const loadCount = 4;
+        items.forEach(function (item, index) {
+            if (index >= visibleItems) {
+                item.classList.add("d-none");
+            }
+        });
+        if (items.length <= visibleItems) {
+            grid.querySelector(".load_btn").classList.add("d-none");
+            return;
+        }
+
+        loadBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            let hiddenItems = grid.querySelectorAll(
+                ".feature_item.d-none"
+            );
+            Array.from(hiddenItems)
+                .slice(0, loadCount)
+                .forEach(function (item) {
+                    item.classList.remove("d-none");
+                });
+            hiddenItems = grid.querySelectorAll(".feature_item.d-none");
+
+            if (hiddenItems.length === 0) {
+                grid.querySelector(".load_btn").classList.add("d-none");
+            }
+        });
+
+    });
+
+});
+</script>
+
 @include('includes.footer')
