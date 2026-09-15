@@ -11,7 +11,7 @@
   // =========================
   // Fancybox 
   // =========================
-Fancybox.bind("[data-fancybox='gallery']", {
+Fancybox.bind("[data-fancybox]", {
     Hash: false,
 
     Thumbs: {
@@ -470,6 +470,28 @@ const SpeakSwiper = new Swiper('.speak_swiper', {
         nextEl: '.speak-next',
         prevEl: '.speak-prev',
     },
+    breakpoints: {
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 0,
+        },
+        768: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+        },
+        992: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+        },
+        1200: {
+            slidesPerView: 2,
+            spaceBetween: 10,
+        },
+        1900: {
+            slidesPerView:2,
+            spaceBetween: 10,
+        }
+    }
 });
 
 

@@ -4,6 +4,7 @@
     <div class="container-lg">
         <div class="sec_title">
             <h1 class="title21">Become a Lohia Worldspace Vendor</h1>
+            <a href="#" class="back_btn">Back</a>
         </div>
 
      

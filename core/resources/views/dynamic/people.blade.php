@@ -37,7 +37,7 @@
                 <div class="vacancy_bx" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                     <h6>{{ $job['title'] }}</h6>
                     <ul>
-                        <li>Dept. - <strong>{{ $job['department'] }}</strong></li>
+                        <li>Level - <strong>{{ $job['department'] }}</strong></li>
                         <li>
                             <img src="{{ asset('frontend-assets/images/map-marker.svg') }}" alt="map" class="img-fluid">
                             {{ $locations }}

@@ -19,11 +19,11 @@
                         <div class="swiper-slide">
                             <div class="landcr_slide reveal-left">
                                 <figure>
-                                    <img src="{{ $item['image'] ?? '' }}" class="img-fluid w-100" alt="{{ $item['name'] ?? 'Landmark Creations' }}">
+                                    <img src="{{ $item['home_image'] ?? '' }}" class="img-fluid w-100" alt="{{ $item['name'] ?? 'Landmark Creations' }}">
                                 </figure>
                                 <div class="landcr_caption">
                                     <h6 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
-                                        {{ $item['name'] ?? '' }}
+                                        {!! $item['name'] ?? '' !!}
                                     </h6>
                                     <h6 data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                                         {{ $item['location'] ?? '' }}
