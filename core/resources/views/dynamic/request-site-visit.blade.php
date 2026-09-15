@@ -159,9 +159,7 @@
 </section>
 
 
-<figure>
-    <img src="" alt="connectivity" class="img-fluid w-100">
-</figure>
+
 <script src="https://www.google.com/recaptcha/api.js?render={{ config('services.recaptcha.site_key') }}"></script>
 
 <script>
