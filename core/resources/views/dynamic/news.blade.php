@@ -70,7 +70,7 @@
                     </div>
 
                     @if($news->hasPages())
-                        <div class="nws_pagination mt-5">
+                        <div class="common_pagination">
                             {{ $news->links() }}
                         </div>
                     @endif

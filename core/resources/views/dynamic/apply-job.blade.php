@@ -12,7 +12,7 @@
         <div class="col-lg-8">
             <div class="sec_title">
                 <h1 class="title21">Apply Now</h1>
-                <h2 class="title48">LOREM IPSUM DOLOR SIT AMET, CONSECTETUER ADIPISCING ELIT.</h2>
+                <h2 class="title48">Your new beginning starts here.</h2>
             </div>
         </div>
     </div>

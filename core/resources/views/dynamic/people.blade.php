@@ -49,13 +49,14 @@
             @empty
                 <p>No current openings at the moment.</p>
             @endforelse
+             @if ($openings->hasPages())
+                <div class="common_pagination" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+                    {{ $openings->links() }}
+                </div>
+            @endif
         </div>
 
-        @if ($openings->hasPages())
-            <div class="crnt_pagination">
-                {{ $openings->links() }}
-            </div>
-        @endif
+       
     </div>
 </section>
 
