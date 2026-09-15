@@ -30,7 +30,7 @@
                             <p>{{ $firstEvents['description'] }}</p>
                         </div>
                         <figure class="nws_figure">
-                            <img src="{{ $firstEvents['image'] ?? ''}}" alt="{{ $firstEvents['name'] }}" class="img-fluid w-100">
+                            <img src="{{ $firstEvents['detail_image'] ?? ''}}" alt="{{ $firstEvents['name'] }}" class="img-fluid w-100">
                         </figure>
                         <a href="{{ route('events.show', $firstEvents['slug']) }}" class="overlap_btn">View</a>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
 
                     @if($events->hasPages())
-                        <div class="nws_pagination mt-5">
+                        <div class="common_pagination">
                             {{ $events->links() }}
                         </div>
                     @endif

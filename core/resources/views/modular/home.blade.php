@@ -1,5 +1,9 @@
 @include('includes.header')
 
+@php
+ phpinfo();   
+@endphp
+
 {!! $cms['home_banner_0'] ?? '' !!}
 {!! $cms['home_about_1'] ?? '' !!}
 

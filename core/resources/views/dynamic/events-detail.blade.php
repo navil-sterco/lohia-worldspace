@@ -52,7 +52,7 @@
                                 <p>{{ $item['name'] }}</p>
                             </div>
                             <figure>
-                                <img src="{{ $item['image'] }}" alt="{{ $item['name'] }}" class="img-fluid w-100">
+                                <img src="{{ $item['detail_image'] }}" alt="{{ $item['name'] }}" class="img-fluid w-100">
                             </figure>
                             <a href="{{ route('events.show', $item['slug']) }}" class="overlap_btn">View</a>
                         </div>

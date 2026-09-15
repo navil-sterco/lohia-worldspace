@@ -27,7 +27,7 @@
         </div>
 
         @if($gallery->hasPages())
-            <div class="nws_pagination mt-5">
+            <div class="common_pagination">
                 {{ $gallery->links() }}
             </div>
         @endif

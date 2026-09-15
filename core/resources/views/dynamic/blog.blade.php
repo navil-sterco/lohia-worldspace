@@ -62,7 +62,7 @@
                     </div>
 
                     @if($blog->hasPages())
-                        <div class="nws_pagination mt-5">
+                        <div class="common_pagination">
                             {{ $blog->links() }}
                         </div>
                     @endif
