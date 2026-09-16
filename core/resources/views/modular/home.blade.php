@@ -1,9 +1,5 @@
 @include('includes.header')
 
-@php
- phpinfo();   
-@endphp
-
 {!! $cms['home_banner_0'] ?? '' !!}
 {!! $cms['home_about_1'] ?? '' !!}
 
@@ -67,9 +63,7 @@
 {!! $cms['home_seventh_section_6'] ?? '' !!}
 
 <section class="speak_sec">
-
     {!! $cms['home_testimonial_7'] ?? '' !!}
-
     <div class="container-lg">
         <div class="speak_wrapper">
             @if(!empty($modular['testimonials']))
