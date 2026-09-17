@@ -405,7 +405,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .nws_caption{position:relative;padding:9rem 25rem 11rem 12rem;background-color:var(--color-black);max-width:calc(100% - 12rem);margin-left:auto;}
 .nws_caption::after{content:'';position:absolute;right:5.2rem;top:5.2rem;width:4.7rem;height:4.7rem;background:url(../images/arrow-right-white.svg) no-repeat center;background-size:4.7rem;}
 .nws_caption>*{color:var(--color-white);}
-.nws_caption>h3{margin-block:14.1rem 3.5rem;}
+.nws_caption>h3{margin-block:14.1rem 3.5rem;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;}
 .nws_caption>p{font:var(--font-16);}
 .nws_figure>img{height:100%;aspect-ratio:964 / 649;object-fit:cover;-webkit-object-fit:cover;}
 .nwslist_wrapper{margin-top:10.9rem;}
