@@ -545,24 +545,26 @@ const MilestoneSwiper = new Swiper('.milestone_swiper', {
 
 // Custom Tab Area
 document.addEventListener('DOMContentLoaded', function () {
-  const tabs = document.querySelectorAll('.tab-link');
-  const tabPanes = document.querySelectorAll('.tab-pane');
+    const tabs = document.querySelectorAll('.tab-link');
+    const tabPanes = document.querySelectorAll('.tab-pane');
 
-  tabs.forEach(tab => {
-    tab.addEventListener('click', function () {
-      if (tab.classList.contains('disabled')) return;
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function () {
+            if (this.classList.contains('disabled')) return;
 
-      tabs.forEach(t => t.classList.remove('active'));
-      tabPanes.forEach(pane => pane.classList.remove('fade', 'active'));
+            tabs.forEach(t => t.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('fade', 'active'));
 
-      tab.classList.add('active');
-      const targetPane = document.querySelector(tab.getAttribute('data-target'));
+            this.classList.add('active');
 
-      if (targetPane) {
-        targetPane.classList.add('fade', 'active');
-      }
+            const target = this.getAttribute('data-target');
+            const targetPane = document.querySelector(target);
+
+            if (targetPane) {
+                targetPane.classList.add('fade', 'active');
+            }
+        });
     });
-  });
 });
 
 // Tab To Accordion Js Start
