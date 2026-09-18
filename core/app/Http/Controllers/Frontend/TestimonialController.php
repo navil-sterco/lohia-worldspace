@@ -10,7 +10,7 @@ class TestimonialController extends Controller
     public function index()
     {
         $testimonials = ModuleEntry::forModule(2, 'display_order', 'asc')
-            ->paginate(10)
+            ->paginate(12)
             ->through(fn($e) => $e->toCleanData());
 
 

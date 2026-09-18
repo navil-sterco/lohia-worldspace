@@ -299,7 +299,6 @@
                     const textWidth = ctx.measureText(text).width;
                     const textHeight = fontSize;
 
-                    // Clamp so the label never gets drawn outside the canvas
                     const minX = chartArea.left - 50 + textWidth / 2;
                     const maxX = chartArea.right + 50 - textWidth / 2;
                     const minY = chartArea.top - 20 + textHeight / 2;
@@ -339,7 +338,6 @@
         paymentChart.update();
     }
 
-    // Yr/Mo toggle
     yrBtn.addEventListener('click', function () {
         tenureUnit = 'yr';
         yrBtn.classList.add('active');
@@ -354,12 +352,9 @@
         calculateEMI();
     });
 
-    // Live recalculation on input
     [loanAmountInput, interestRateInput, tenureInput].forEach(function (input) {
         input.addEventListener('input', calculateEMI);
     });
-
-    // Initial calculation on load (uses placeholder values)
     calculateEMI();
 </script>
 

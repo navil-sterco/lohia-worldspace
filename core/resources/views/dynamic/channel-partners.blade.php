@@ -1,4 +1,7 @@
 @include('includes.header')
+
+<x-menu />
+
 {!! $section['cms']['channel_partner_first_section_0'] ?? '' !!}
 
 <section class="lohchnlform_sec">
