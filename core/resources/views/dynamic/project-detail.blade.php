@@ -31,6 +31,7 @@
                 </div>
             </div>
             <div class="prjtdtl_right">
+            <div class="prjover_wraper">
                 {!! $projectDetail['cms']['project_detail_first_section'] ?? '' !!}
 
                 {!! $projectDetail['cms']['project_detail_gallery_section'] ?? '' !!}
@@ -91,6 +92,7 @@
                         </div>
                     </div>
                 @endif
+            </div>
             </div>
         </div>
     </div>
