@@ -6,21 +6,21 @@
             <div class="prjtdtl_left">
                 <div class="proj_victor">
                     <img src="{{ asset('frontend-assets/images/victor-dash18.svg') }}" alt="victor"
-                        class="img-fluid w-100">
+                        class="img-fluid w-100 reveal-top">
                 </div>
                 <div class="prjtdtl_title">
                     <h1 class="title21" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">Projects</h1>
                     <h2 class="title72" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">{!! $projectDetail['detail']['name'] ?? '' !!}</h2>
                 </div>
-                <div class="prjtdtl_nav" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+                <div class="prjtdtl_nav">
                     <ul>
-                        <li><a href="#overview">Overview</a></li>
-                        <li><a href="#feature">Features & Amenities</a></li>
-                        <li><a href="#project-gallery">Gallery</a></li>
-                        <li><a href="#customer-speak">Customer Speak</a></li>
-                        <li><a href="#floor-plans">Site and Floor Plans</a></li>
-                        <li><a href="#construction">Construction Updates</a></li>
-                        <li><a href="#faqs">FAQs</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#overview">Overview</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#feature">Features & Amenities</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#project-gallery">Gallery</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#customer-speak">Customer Speak</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#floor-plans">Site and Floor Plans</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#construction">Construction Updates</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#faqs">FAQs</a></li>
                     </ul>
                 </div>
 
@@ -31,9 +31,12 @@
                 </div>
             </div>
             <div class="prjtdtl_right">
+            <div class="prjover_wraper" id="overview">
                 {!! $projectDetail['cms']['project_detail_first_section'] ?? '' !!}
+            </div>
 
                 {!! $projectDetail['cms']['project_detail_gallery_section'] ?? '' !!}
+
 
                 @if(!empty($projectDetail['modular']['testimonials']))
                     <div class="speak_wrapper" id="customer-speak">
@@ -71,10 +74,10 @@
 
                 @if(!empty($projectDetail['modular']['faqs']))
                     <div class="faq_wrap" id="faqs">
-                        <h5>FAQs</h5>
+                        <h5 data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">FAQs</h5>
                         <div class="accordions">
                             @foreach($projectDetail['modular']['faqs'] as $index => $faq)
-                                <div class="accordions-item">
+                                <div class="accordions-item" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                                     <button class="accordions-button" type="button">
                                         {{ $faq['question'] ?? '' }}
                                     </button>
@@ -90,7 +93,7 @@
                             @endforeach
                         </div>
                     </div>
-                @endif
+                @endif            
             </div>
         </div>
     </div>

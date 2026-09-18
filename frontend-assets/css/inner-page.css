@@ -405,7 +405,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .nws_caption{position:relative;padding:9rem 25rem 11rem 12rem;background-color:var(--color-black);max-width:calc(100% - 12rem);margin-left:auto;}
 .nws_caption::after{content:'';position:absolute;right:5.2rem;top:5.2rem;width:4.7rem;height:4.7rem;background:url(../images/arrow-right-white.svg) no-repeat center;background-size:4.7rem;}
 .nws_caption>*{color:var(--color-white);}
-.nws_caption>h3{margin-block:14.1rem 3.5rem;}
+.nws_caption>h3{margin-block:14.1rem 3.5rem;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;}
 .nws_caption>p{font:var(--font-16);}
 .nws_figure>img{height:100%;aspect-ratio:964 / 649;object-fit:cover;-webkit-object-fit:cover;}
 .nwslist_wrapper{margin-top:10.9rem;}
@@ -796,10 +796,18 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .prj_feature>h3{margin-block:4rem;padding-right:5rem;}
 .prj_feature>p{font:var(--font-16);}
 .feature_grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7rem 2.2rem;margin-block:5.6rem 10rem;}
+.feature_item>figure{overflow: hidden;}
+.feature_item>figure>img{ transition: all 0.5s ease; -webkit-transition: all 1s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; }
+.feature_item:hover>figure>img{ transform: scale(1.09); -webkit-transform: scale(1.09); -moz-transform: scale(1.09); -ms-transform: scale(1.09); -o-transform: scale(1.09); }
+
 .feature_caption{padding:4rem 4.7rem 0 0;}
 .feature_caption>p{font:var(--font-16);margin-top:4rem;}
 .prj_feature>blockquote{padding-right:5rem;}
 .prj_speci{padding-left:var(--leftpadding);max-width:97.4rem;}
+.speci_item>figure{overflow: hidden;}
+.speci_item>figure>img{ transition: all 0.5s ease; -webkit-transition: all 1s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; }
+.speci_item:hover>figure>img{ transform: scale(1.09); -webkit-transform: scale(1.09); -moz-transform: scale(1.09); -ms-transform: scale(1.09); -o-transform: scale(1.09); }
+
 .prj_speci>h3{margin-block:4rem;padding-right:5rem;}
 .prj_feature>p{font:var(--font-16);}
 .speci_grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7rem 2.2rem;margin-top:5.6rem;}
@@ -812,6 +820,9 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .prjglry_wraper::after{content:'';position:absolute;right:0;top:0;width:20rem;height:20rem;background-color:var(--color-e5);}
 .prjglry_wraper>.title21{position: relative;color:var(--color-white);margin-bottom:4rem;}
 .prj_gallery{width:100%;}
+.prjgl_slide>figure{overflow: hidden;}
+.prjgl_slide>figure>img{ transition: all 0.5s ease; -webkit-transition: all 1s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; }
+.prjgl_slide:has(a:hover)>figure>img{ transform: scale(1.09); -webkit-transform: scale(1.09); -moz-transform: scale(1.09); -ms-transform: scale(1.09); -o-transform: scale(1.09); }
 .prj_gallery>:is(.gallery-prev,.gallery-next){position:absolute;top:43%;left:3rem;opacity:0;}
 .prj_gallery:hover>:is(.gallery-prev,.gallery-next){opacity:1;}
 .prj_gallery>:is(.gallery-next){left:auto;right:3rem;}
@@ -893,6 +904,9 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .construction_updates{padding:5rem 18rem 5rem var(--leftpadding);}
 .construction_updates>h5,.faq_wrap>h5{font:var(--font-21);color:var(--color-black);margin-bottom:5rem;}
 .construction_updates .const_box{display:grid;grid-template-columns:repeat(2,1fr);position:relative;overflow:hidden;}
+.const_box>figure{overflow: hidden;}
+.const_box>figure>img{ transition: all 0.5s ease; -webkit-transition: all 1s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; }
+.const_box:has(a:hover)>figure>img{ transform: scale(1.09); -webkit-transform: scale(1.09); -moz-transform: scale(1.09); -ms-transform: scale(1.09); -o-transform: scale(1.09); }
 .construction_updates .const_text{background:var(--color-white);padding:5rem 10rem 6.7rem 9.7rem;display:flex;flex-flow:column;justify-content:flex-end;position:relative;overflow:hidden;}
 .construction_updates .const_box .date{font:var(--font-36);font-weight:var(--fw-bold);color:var(--color-e5);margin-bottom:2rem;line-height:1;}
 .construction_updates .const_box .date sup{position:relative;font:inherit;font-size:0.5em;color:var(--color-black);font-weight:var(--fw-500);font-family:var(--circular);line-height:1;top:-0.5em;}

@@ -9,7 +9,7 @@
 
             <div class="projt_right">
                 @forelse($collectives as $collective)
-                    <div class="proj_item">
+                    <div class="proj_item" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
                         <div class="prjtl_grid">
                             <div class="prjtl_title">
                                 <h3>{!! ($collective['name'] ?? '') !!}</h3>
