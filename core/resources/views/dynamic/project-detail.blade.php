@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="prjtdtl_right">
-            <div class="prjover_wraper">
+            <div class="prjover_wraper" id="overview">
                 {!! $projectDetail['cms']['project_detail_first_section'] ?? '' !!}
             </div>
 
