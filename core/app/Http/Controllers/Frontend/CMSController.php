@@ -19,14 +19,12 @@ class CMSController extends Controller
             $relatedPages = Page::published()
                 ->where('page_type', 'cms')
                 ->where('parent_page_id', $page->parent_page_id)
-                ->where('id', '!=', $page->id)
                 ->orderBy('display_order')
                 ->get(['title', 'slug']);
         } else {
             $relatedPages = Page::published()
                 ->where('page_type', 'cms')
                 ->where('parent_page_id', $page->id)
-                ->where('id', '!=', $page->id)
                 ->orderBy('display_order')
                 ->get(['title', 'slug']);
         }

@@ -31,7 +31,7 @@
                     </div>
 
                     @if($testimonials->hasPages())
-                        <div class="nws_pagination mt-5">
+                        <div class="common_pagination">
                             {{ $testimonials->links() }}
                         </div>
                     @endif

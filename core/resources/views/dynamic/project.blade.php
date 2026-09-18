@@ -103,7 +103,7 @@
         </div>
 
         @if($projects->hasPages())
-            <div class="projt_pagination">
+            <div class="common_pagination">
                 {{ $projects->links() }}
             </div>
         @endif

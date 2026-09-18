@@ -1,5 +1,7 @@
 @include('includes.header')
 
+<x-menu />
+
 <section class="thankyou_sec">
     <div class="container">
         <div class="thankyou_caption">
