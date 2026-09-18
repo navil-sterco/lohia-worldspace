@@ -33,8 +33,10 @@
             <div class="prjtdtl_right">
             <div class="prjover_wraper">
                 {!! $projectDetail['cms']['project_detail_first_section'] ?? '' !!}
+            </div>
 
                 {!! $projectDetail['cms']['project_detail_gallery_section'] ?? '' !!}
+
 
                 @if(!empty($projectDetail['modular']['testimonials']))
                     <div class="speak_wrapper" id="customer-speak">
@@ -91,8 +93,7 @@
                             @endforeach
                         </div>
                     </div>
-                @endif
-            </div>
+                @endif            
             </div>
         </div>
     </div>
