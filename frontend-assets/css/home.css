@@ -450,10 +450,14 @@
 .socialwall_sec .sec_title{max-width:min(885px, 34.77406vw);display:grid;gap:4rem;margin-inline:auto;}
 .socwal_wrapper{width:100%;display:inline-grid;}
 .socwal_swiper{width:100%;}
-.social_slide{position: relative; padding-right: 4rem;}
+.social_slide{position:relative;padding-right:4rem;display:flex;height:100%;align-items:start;}
 .social_slide>figure{position: relative;}
 .social_slide>figure::after{content:'';position: absolute; top: 2rem; right:2rem; width: 3.1rem; height: 3.1rem; background: url(../images/insta-icon-white.svg) no-repeat center; background-size: 3.1rem;}
 .social_slide:nth-child(even){margin-top:13.4rem;}
+.social_slide>figure{overflow: hidden;}
+.social_slide>figure>img{ transition: all 0.5s ease; -webkit-transition: all 1s ease; -moz-transition: all 0.5s ease; -ms-transition: all 0.5s ease; -o-transition: all 0.5s ease; }
+.social_slide>figure:has(a:hover)>img{ transform: scale(1.09); -webkit-transform: scale(1.09); -moz-transform: scale(1.09); -ms-transform: scale(1.09); -o-transform: scale(1.09); }
+
 .socwal_swiper>.swiper_nav{gap:1rem;position:relative;margin-block: 2.5rem 4.5rem;}
 .socwal_swiper>.swiper_nav>:is(.swiper-button-next){border-left:0.1rem solid var(--color-black);}
 
