@@ -10,7 +10,7 @@ class FaqController extends Controller
 {
     public function index()
     {
-        $page = Page::published()->bySlug('faq')->firstOrFail();
+        $page = Page::published()->bySlug('faqs')->firstOrFail();
         $viewData = $page->getModularPageData();
         $faqs = ModuleEntry::forModule(5, 'display_order', 'asc')->get()->map(fn($e) => $e->toCleanData());
 

@@ -217,7 +217,7 @@ Route::get('/events/{slug}', [EventController::class, 'detail'])->name('events.s
 Route::get('/media-coverage', [MediaCoveragreController::class, 'index'])->name('events.index');
 
 //FAQ
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/faqs', [FaqController::class, 'index'])->name('faq.index');
 
 //Channel Partners
 Route::get('/channel-partners', [ChannelPartnerController::class, 'index'])->name('channel-partners.index');

@@ -26,6 +26,9 @@
                             <div class="nws_date">
                                 {{ \Carbon\Carbon::parse($firstNews['date'])->format('d') }}<sup>{{ \Carbon\Carbon::parse($firstNews['date'])->format('M') }}</sup>
                             </div>
+                            <div class="nwsaward_logo">
+                                <img src="{{ url('frontend-assets/images/nwsaward-logo.webp') }}" alt="logo" class="img-fluid w-100">
+                            </div>
                             <h3 class="title48">{{ $firstNews['name'] }}</h3>
                             <p>{{ $firstNews['description'] }}</p>
                         </div>

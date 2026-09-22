@@ -47,12 +47,11 @@ class ContactController extends Controller
     protected function budgetRanges(): array
     {
         return [
-            'under_250k' => 'Under $250,000',
-            '250k_500k'  => '$250,000 - $500,000',
-            '500k_1m'    => '$500,000 - $1,000,000',
-            '1m_plus'    => '$1,000,000+',
+        '75l_1cr' => '75 Lakh - 1 Crore',
+        '1cr_2cr' => '1 Crore - 2 Crore',
+        '2cr_plus' => '2 Crore and Above',
         ];
-    }
+    } 
 
     protected function propertyTypes(): array
     {

@@ -28,6 +28,7 @@
                     <a href="{{ url('request-site-visit') }}" class="request_btn">Request Site Visit</a>
                     <a href="{!! $projectDetail['detail']['brochure'] ?? '' !!}" target="_blank"
                         class="pdf_btn">Brochure PDF</a>
+                    <a href="#" target="_blank" class="pdf_btn">Club Amenities Brochure</a>
                 </div>
             </div>
             <div class="prjtdtl_right">
@@ -74,7 +75,10 @@
 
                 @if(!empty($projectDetail['modular']['faqs']))
                     <div class="faq_wrap" id="faqs">
-                        <h5 data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">FAQs</h5>
+                        <div class="sec_title" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                            <h5>FAQs</h5>
+                            <a href="{{ url('faqs') }}" class="theme_btn">Read More</a>
+                        </div>                        
                         <div class="accordions">
                             @foreach($projectDetail['modular']['faqs'] as $index => $faq)
                                 <div class="accordions-item" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
