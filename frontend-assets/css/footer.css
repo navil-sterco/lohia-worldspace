@@ -1,4 +1,5 @@
 .main_footer{position:relative;padding-block:8rem;background-color:var(--color-white);}
+.gwtp_logo{position:absolute;right:10rem;width:100%;max-width:10rem;top:8rem;}
 .footer_grid{display:grid;grid-template-columns:48rem auto;margin-inline:auto;}
 .footer_left{padding-left:4.1rem;border-left:0.1rem solid var(--color-70);}
 .footer_logo{display:block;width:100%;max-width:29.9rem;}
@@ -32,10 +33,12 @@
     .footer_link>ul>li>a{padding-right:2.5rem;background-size:1.5rem;}
     .subscribe_form button{width:1.5rem;height:1.5rem;}
     .ftr_social>a{width:3rem;height:3rem;}
+    .gwtp_logo{right: 1rem;}
 }
 
 @media(max-width:1024px){
     .main_footer{padding-block: 8rem 16rem;}
+    .gwtp_logo{display: none;}
     .footer_grid{position:relative;grid-template-columns:100%;gap:5rem;--padding-left:5.6rem;}
     .footer_grid::before{content:'';position:absolute;top:0;left:0;width:1px;height:100%;background-color:var(--color-70);}
     .footer_left{padding-left:var(--padding-left);border-left:0;}
@@ -49,8 +52,9 @@
     .other_link>ul{flex-direction:column;}
     .subscopy_grid{padding-top:5.2rem;margin-top:0;background-color:var(--color-white);position:relative;}
 }
+
 @media(max-width: 767px){
-    .main_footer{padding-block: 3.4rem 10rem;}
+    .main_footer{padding-block: 3.4rem 10rem;}    
     .footer_grid{--padding-left:3.6rem;}
     .footer_logo{max-width:14.9rem;}
     .ftr_social{margin-top:2.2rem;gap:1rem;}

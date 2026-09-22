@@ -51,7 +51,7 @@ class ContactController extends Controller
             '1cr_2cr' => '1 Crore - 2 Crore',
             '2cr_plus' => '2 Crore and Above',
         ];
-    }
+    } 
 
     protected function propertyTypes(): array
     {

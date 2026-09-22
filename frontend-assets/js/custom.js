@@ -31,6 +31,29 @@ Fancybox.bind("[data-fancybox]", {
         }
     }
 });
+
+// Project Floor Plan
+$(document).ready(function () {
+    let currentFloorplan = null;
+    $(document).on('click', '.floorplan_wrap .overlap_btn', function () {
+        currentFloorplan = $(this).closest('.floorplan_wrap');
+    });
+
+    Fancybox.bind('.floorplan_wrap .overlap_btn', {        on: {
+            destroy: () => {
+                if (currentFloorplan && currentFloorplan.length) {
+                    setTimeout(function () {
+                        currentFloorplan
+                            .removeClass('f-html')
+                            .removeAttr('style');
+                    }, 100);
+                }
+            }
+        }
+    });
+});
+// Project Floor Plan End
+
   // =========================
   // AOS INIT
   // =========================
@@ -637,6 +660,7 @@ jQuery(function ($) {
 
 });
 // Tab To Accordion Js End
+
 // Accordion Js Start
 
 jQuery(function ($) {
