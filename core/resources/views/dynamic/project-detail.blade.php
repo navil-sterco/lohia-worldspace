@@ -46,8 +46,8 @@
                             <div class="swiper-wrapper">
                                 @foreach($projectDetail['modular']['testimonials'] as $testimonial)
                                     <div class="swiper-slide">
-                                        <div class="speak_video commonvideo_wraper">
-                                            <video class="desktop_video" muted="false" autoplay playsinline
+                                        <div class="speak_video commonvideo_wraper single_video_play">
+                                            <video class="desktop_video" autoplay playsinline
                                                 @if(!empty($testimonial['thumbnail_image']))
                                                     poster="{{ $testimonial['thumbnail_image'] }}"
                                                 @endif>
