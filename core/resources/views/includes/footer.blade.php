@@ -8,6 +8,23 @@
     $projects = projects();
 @endphp
 
+<div class="side_gupshup">
+    <div class="gupshup_item">
+        <img src="{{ url('frontend-assets/images/phone-icon.svg') }}" class="img-fluid" alt="Phone">
+        <p><a href="tel:+917900790790"> +91 7900 790 790</a></p>
+    </div>
+    <div class="gupshup_item">
+        <a target="_blank"  href="https://api.whatsapp.com/send?phone=917080906060&amp;text=Hi Lohia Worldspace,I need some info about Projects.">
+            <img src="{{ url('frontend-assets/images/whatsapp-icon.svg') }}" class="img-fluid" alt="whatsapp">
+        </a>
+    </div>
+    <div class="gupshup_item">
+        <a href="mailto:hello@lohiaworldspace.com">
+            <img src="{{ url('frontend-assets/images/email-icon.svg') }}" class="img-fluid" alt="Mail">
+        </a>
+    </div>
+</div>
+
 <footer class="main_footer">
     <div class="container-md">
         <div class="footer_grid">
@@ -68,6 +85,11 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="gwtp_logo">
+        <a href="{{ url('/') }}">
+            <img src="{{ url('frontend-assets/images/great-work-to-place-logo.webp') }}" alt="Great Work To Place" class="img-fluid w-100">
+        </a>
     </div>
 </footer>
 
