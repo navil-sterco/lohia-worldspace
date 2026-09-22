@@ -22,7 +22,7 @@
     <title>@yield('title', 'Lohia')</title>
     <meta name="description" content="@yield('description', 'Lohia Worldspace')">
 
-    <link rel="shortcut icon" href="{{ url('frontend-assets/images/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url('/assets/img/favicon-180x180.webp') }}" type="image/x-icon">
 
     <link rel="stylesheet" href="{{ url('frontend-assets/css/style.css') }}">
     @if(request()->is('/') || request()->is('home'))

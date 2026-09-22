@@ -75,9 +75,9 @@
                                 $slug = $testimonial['slug'] ?? '';
                             @endphp
                             <div class="swiper-slide">
-                                <div class="speak_video commonvideo_wraper">
+                                <div class="speak_video commonvideo_wraper single_video_play">
 
-                                    <video class="desktop_video" muted autoplay playsinline data-slug="{{ $slug }}">
+                                    <video class="desktop_video" autoplay playsinline data-slug="{{ $slug }}">
                                         @if($video)
                                             <source src="{{ $video }}" type="video/mp4">
                                         @endif

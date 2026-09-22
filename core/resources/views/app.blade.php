@@ -16,7 +16,7 @@
         <meta name="description" content="" />
 
         <!-- Favicon -->
-        <link rel="icon" type="image/x-icon" href="{{ asset('/assets/img/favicon.ico') }}" />
+        <link rel="shortcut icon" href="{{ url('/assets/img/favicon-180x180.webp') }}" type="image/x-icon">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
