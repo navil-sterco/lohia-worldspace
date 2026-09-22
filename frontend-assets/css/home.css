@@ -24,7 +24,6 @@
     .hero_title{padding-inline:0rem 3.2rem;padding-bottom:5.7rem;}
     .hero_title::before{height:2.6rem;}
     .hero_title>p{margin-top:1rem;font:var(--fw-400) 1.8rem / 1.5 var(--circular);}
-
 }
 /* About Area Start */
 .heroabt_sec{position:relative;display:grid;grid-template-columns:1262fr 1263fr;gap:2rem;padding-top:16.9rem;}
