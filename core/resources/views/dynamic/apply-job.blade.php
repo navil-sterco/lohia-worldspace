@@ -64,16 +64,6 @@
                             </div>
 
                             <div class="form-group">
-                                <select name="best_time_to_call" class="form-select">
-                                    <option value="" @selected(old('best_time_to_call') === null)>-- Best time to Call --</option>
-                                    <option value="Morning" @selected(old('best_time_to_call') === 'Morning')>Morning</option>
-                                    <option value="Afternoon" @selected(old('best_time_to_call') === 'Afternoon')>Afternoon</option>
-                                    <option value="Evening" @selected(old('best_time_to_call') === 'Evening')>Evening</option>
-                                </select>
-                                @error('best_time_to_call') <span class="form-error">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div class="form-group">
                                 <div class="upload_file">
                                     <input type="file" name="cv" accept="image/png,image/jpg,image/webp,application/pdf" class="form-control" id="cv_input">
                                     <span class="file-name" id="cv_file_name">Upload CV</span>
