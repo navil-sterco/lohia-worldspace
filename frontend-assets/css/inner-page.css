@@ -921,7 +921,6 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
 .construction_updates .const_text img{position:absolute;right:5rem;top:5rem;width:4.7rem;height:auto;}
 .construction_updates .const_box:not(:last-child){margin-bottom:5rem;}
 .construction_updates .const_box:hover .const_text img{filter:brightness(0);}
-.connectiv_figure>a::after{top:1rem;right:1rem;width:2.7rem;height:2.7rem;}
 .faq_wrap{padding:5rem 11.7rem 0rem var(--leftpadding);position:relative;overflow:hidden;}
 .faq_wrap::before{bottom:inherit;top:0;}
 .faq_wrap>.sec_title{display:flex;gap:2rem;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:3.2rem;}
@@ -1068,7 +1067,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
     .collab_logo{flex-wrap:wrap;gap:2rem;}
     .collsustain_wrapper>h5:has(+ *) { margin-bottom: 2.2rem; }
     .collsustain_wrapper { margin-top: 2rem; }
-
+    .connectiv_figure>a::after{top:1rem;right:1rem;width:2.7rem;height:2.7rem;}
 
 }
  /* Disclaimer Page Area Start */
