@@ -75,19 +75,27 @@
                                 $slug = $testimonial['slug'] ?? '';
                             @endphp
                             <div class="swiper-slide">
-                                <div class="speak_video commonvideo_wraper single_video_play">
-
-                                    <video class="desktop_video" autoplay playsinline data-slug="{{ $slug }}">
-                                        @if($video)
-                                            <source src="{{ $video }}" type="video/mp4">
-                                        @endif
-                                    </video>
+                                <div class="speak_video commonvideo_wraper single_video_play">                                    
+                                    <video class="desktop_video" autoplay playsinline
+                                                data-slug="{{ $slug }}" @if(!empty($testimonial['thumbnail_image']))
+                                                    poster="{{ $testimonial['thumbnail_image'] }}"
+                                                @endif>
+                                                @if(!empty($testimonial['video']))
+                                                    <source src="{{ $testimonial['video'] }}" type="video/mp4">
+                                                @endif
+                                            </video>
                                     <button type="button" class="play_btn">
                                         <img src="{{ asset('/frontend-assets/images/pause.svg') }}" alt="pause"
                                             class="img-fluid">
                                         <img src="{{ asset('frontend-assets/images/videoplay-icon.svg') }}" alt="play"
                                             class="img-fluid">
                                     </button>
+
+                                    {{-- <video class="desktop_video" autoplay playsinline data-slug="{{ $slug }}">
+                                        @if($video)
+                                            <source src="{{ $video }}" type="video/mp4">
+                                        @endif
+                                    </video> --}}
                                 </div>
                             </div>
                         @endforeach
