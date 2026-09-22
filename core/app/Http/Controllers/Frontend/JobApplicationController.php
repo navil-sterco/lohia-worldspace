@@ -38,7 +38,6 @@ class JobApplicationController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
             'phone' => ['required', 'string', 'max:20'],
-            'best_time_to_call' => ['nullable', 'in:Morning,Afternoon,Evening'],
             'cv' => ['required', 'file', 'mimes:png,jpg,jpeg,webp,pdf', 'max:5120'],
         ]);
 
@@ -55,7 +54,6 @@ class JobApplicationController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],
-            'best_time_to_call' => $validated['best_time_to_call'] ?? null,
             'cv_path' => $validated['cv'] ?? null,
             'cv_original_name' => $cv->getClientOriginalName(),
         ]);

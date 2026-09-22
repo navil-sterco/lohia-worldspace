@@ -12,7 +12,6 @@ class JobApplication extends Model
         'name',
         'email',
         'phone',
-        'best_time_to_call',
         'cv_path',
         'cv_original_name',
     ];
