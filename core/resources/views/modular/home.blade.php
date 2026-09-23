@@ -64,7 +64,7 @@
 
 <section class="speak_sec">
     {!! $cms['home_testimonial_7'] ?? '' !!}
-    <div class="container-lg">
+    <div class="container">
         <div class="speak_wrapper">
             @if(!empty($modular['testimonials']))
                 <div class="speak_swiper swiper">
@@ -118,9 +118,8 @@
                 KEEP UP WITH OUR NEWEST DEVELOPMENTS AND CHECK OUT THE LATEST INDUSTRY TRENDS
             </h3>
         </div>
-    </div>
-    <div class="whatson_grid">
-        @foreach (array_slice($modular['blogs'] ?? [], 0, 4) as $index => $blog)
+        <div class="whatson_grid">
+        @foreach (array_slice($modular['blogs'] ?? [], 0, 3) as $index => $blog)
 
             @php
                 $date = !empty($blog['date'])
@@ -143,12 +142,18 @@
             @endphp
 
             <div class="whatson_item reveal-left">
+                
+                @if ($image)
+                    <figure>
+                        <img src="{{ $image }}" alt="{{ $name }}" class="img-fluid w-100">
+                    </figure>
+                @endif
                 <div class="whatson_caption">
-                    @if ($victor)
+                    {{-- @if ($victor)
                         <div class="whatson_victor">
                             <img src="{{ asset('frontend-assets/images/' . $victor) }}" alt="victor" class="img-fluid w-100">
                         </div>
-                    @endif
+                    @endif --}}
                     <div class="whatson_date">
                         @if ($date)
                             <div class="date_item">
@@ -159,18 +164,14 @@
                                 </p>
                             </div>
                         @endif
+                        @if ($category)
                         <div class="whatson_write">
                             {{ $category }}
                         </div>
+                        @endif
                     </div>
                     <p>{{ $name }}</p>
                 </div>
-                @if ($image)
-                    <figure>
-                        <img src="{{ $image }}" alt="{{ $name }}" class="img-fluid w-100">
-                    </figure>
-                @endif
-
                 @if ($slug)
                     <a href="{{ url('blog/' . $slug) }}" class="overlap_btn">
                         <img src="{{ asset('frontend-assets/images/arrow-red-thin.svg') }}" alt="arrow" class="img-fluid">
@@ -179,6 +180,8 @@
             </div>
         @endforeach
     </div>
+    </div>
+    
 </section>
 
 {!! $cms['home_social_wall_8'] ?? '' !!}
