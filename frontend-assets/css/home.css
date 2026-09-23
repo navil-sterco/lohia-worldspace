@@ -98,7 +98,7 @@
     .ldcrslide_wrapper{padding-top:2.3rem;}
     .ldcrslide_wrapper::before{width:calc(100% - 6.75rem);height:2.3rem;background-position:top;left:2.9rem;}
     .ldcrslide_wrapper>div[class*="swiper-button-next"]{left:auto;right:4.1rem;}
-    .landcr_caption{margin-top:2.3rem;padding-right:1.9rem;}
+    .landcr_caption{margin-top:2.3rem;padding-right:1.9rem;flex-direction:column;align-items:start;gap:0.5rem;}
     .landcr_caption>h6:nth-child(1){font-weight: var(--fw-400);}
 }
 /* Our Masterpiece Area Start */
