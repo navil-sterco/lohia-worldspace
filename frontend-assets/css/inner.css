@@ -5,7 +5,7 @@
 .legacy_carrying .carying_grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;align-items:center;}
 .legacy_carrying .carying_text{padding-inline:12rem;}
 .our_legacy{width:100%;overflow:hidden;padding-bottom:15rem;}
-.our_legacy .mesurd_grid{display:grid;grid-template-columns:55% auto;gap:10rem;align-items:center;margin-top:-10.7rem;}
+.our_legacy .mesurd_grid{display:grid;grid-template-columns:55% auto;gap:10rem;align-items:center;margin-top:-13.7rem;}
 .our_legacy .measured_box{position:relative;padding:6.6rem;background:url(../images/victor-dash04.svg) no-repeat center;background-size:cover;background-color:var(--color-3e);z-index:1;}
 .our_legacy .mesrd_victor{position:relative;z-index:-1;}
 .our_legacy .measured_box p{color:var(--color-white);}
