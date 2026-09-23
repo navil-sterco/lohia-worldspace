@@ -420,7 +420,7 @@ table > tbody > tr > td:not(:last-child){border-right:0.1rem solid #d7d7d7;}
 .gupshup_item:first-child{overflow:visible;}
 .gupshup_item:first-child p{position:absolute;right:5.5rem;top:0;width:0;height:5.5rem;margin:0;background:var(--color-e5);display:flex;align-items:center;overflow:hidden;white-space:nowrap;transition:width 0.4s ease;box-shadow:-5px 3px 15px rgba(0,0,0,0.08);}
 .gupshup_item:first-child p a{padding:0 2rem;color:var(--color-white);font:var(--font-18);font-weight:var(--fw-400);white-space:nowrap;}
-.gupshup_item:first-child:hover p{width:18rem;}
+.gupshup_item:first-child:hover p{width:20rem;}
 @media (min-width:1199px) and (max-width:1440px){
   .gupshup_item:first-child:hover p{width:24rem;}
 }
