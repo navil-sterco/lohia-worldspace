@@ -328,10 +328,10 @@
 .speak_sec .sec_title{display:grid;grid-template-columns:310fr 700fr;gap:12rem;align-items:center;max-width:113rem;margin-inline:auto;margin-bottom:5.5rem;}
 .speak_title{display:grid;gap:4rem;}
 .speak_wrapper{position: relative;}
-.speak_wrapper>:is(.speak-prev, .speak-next){position: absolute; top: 50%; left: -5.5rem;}
-.speak_wrapper>:is(.speak-next){left: auto; right: -5.5rem;}
+.speak_wrapper>:is(.speak-prev,.speak-next){position:absolute;top:50%;left:-5.5rem;transform:translateY(-50%);-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-ms-transform:translateY(-50%);-o-transform:translateY(-50%);}
+.speak_wrapper>:is(.speak-next){left:auto;right:-5.5rem;}
 .speak_swiper{margin-inline:auto;}
-.speak_swiper .swiper-slide{position: relative;}
+.speak_swiper .swiper-slide{position:relative;}
 .speak_video>video{object-fit:cover;aspect-ratio:604 / 340;}
 /* .speak_grid{display:grid;grid-template-columns:812fr 890fr;gap:12rem;padding:2.5rem 4.9rem 2.5rem 2.8rem;background-color:var(--color-93);}
 .speak_figure{position:relative;background-color:var(--color-22);padding:5.3rem 6.2rem 0 5.5rem;z-index:1;}
@@ -350,9 +350,9 @@
 
 .speak_swiper .swiper-slide>.overlap_btn{position:absolute;right:5rem;left:auto;top:5rem;width:auto;height:auto;}
 .speak_swiper .swiper-slide>.overlap_btn>img{width: 4.7rem; height: 4.7rem;} */
-@media(min-width:1199px) and (max-width:1440px){
-    /* .speak_video>video{object-fit:cover;aspect-ratio:1524 / 750;} */
-}
+/* @media(min-width:1199px) and (max-width:1440px){
+    .speak_video>video{object-fit:cover;aspect-ratio:1524 / 750;}
+} */
 
 @media(max-width:1024px){
     .speak_sec{padding-block:10rem 0;background-color:var(--color-93);}
@@ -365,6 +365,7 @@
 
 @media(max-width:767px){
     .speak_sec{padding-block:4.1rem 0;}
+    .speak_sec>.container:nth-child(2){padding-inline: 0;}
     .speak_sec .sec_title{gap:4.7rem;grid-template-columns:100%;}
     .speak_title{gap:3rem;}
     .speak_title>p{display: none;}
@@ -476,8 +477,6 @@
 @media(max-width:1024px){
     .socialwall_sec{padding-block:5rem 10rem;}
     .socialwall_sec .sec_title{max-width: 100%;margin-bottom: 5rem;}
-    .social_slide{padding-right:2rem;}
-    .social_slide:nth-child(even){margin-top:5.4rem;}
 }
 @media(max-width:767px){
     .socialwall_sec{padding-block:4rem 3rem;}

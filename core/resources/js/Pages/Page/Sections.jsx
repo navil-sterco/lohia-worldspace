@@ -1218,7 +1218,7 @@ const SectionBuilder = () => {
                                 id={`file-${si}-${fn}${isMapping ? `-m-${groupName}-${itemIndex}${nestedGroup != null ? `-n-${nestedGroup}-${nestedItemIndex}` : ""}` : ""}`}
                                 accept={
                                     field.accept ||
-                                    "image/png,image/jpeg,image/jpg,image/gif,image/svg+xml,image/webp,video/mp4,video/quicktime,video/x-msvideo,application/pdf,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,.docx"
+                                    "image/png,image/jpeg,image/jpg,image/gif,image/svg+xml,image/webp,video/mp4,video/quicktime,video/x-msvideo,application/pdf,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc,.docx,.zip"
                                 }
                                 onChange={(e) => {
                                     const f = e.target.files?.[0];
