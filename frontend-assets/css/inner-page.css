@@ -1029,7 +1029,7 @@ body:has(.sticky) .inner_menu{position:-webkit-sticky;position:sticky;top:0;padd
     .feature_caption{padding:2rem 0 0 0;}
     .prj_speci, .prj_feature{max-width: 100%;}
     .prj_speci>h3{margin-block:2rem;}
-    .speci_grid{gap: 3rem 1.2rem;margin-top:2.6rem;}
+    .speci_grid{gap: 3rem 1.2rem;margin-top:2.6rem;margin-bottom: 4rem;}
     .speci_caption{padding:1rem 0 0 0;}
     .prjglry_wraper{margin-top:3rem;padding:1.5rem;}
     .prjglry_wraper>.title21{margin-bottom:1rem;}
