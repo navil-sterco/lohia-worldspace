@@ -55,7 +55,7 @@ class SectionBuilderController extends Controller
             'sections.*.section_data' => 'required|string',
             'sections.*.files' => 'sometimes|array',
             'sections.*.mapping_files' => 'sometimes|array',
-            'sections.*.files.*' => 'file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:25000',
+            'sections.*.files.*' => 'file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx,zip|max:50000',
         ]);
 
         try {
@@ -210,7 +210,7 @@ class SectionBuilderController extends Controller
         foreach ($leafFiles as $file) {
             Validator::make(
                 ['file' => $file],
-                ['file' => 'file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx|max:25000']
+                ['file' => 'file|mimes:jpg,jpeg,png,gif,svg,webp,mp4,avi,mov,ico,pdf,doc,docx,zip|max:50000']
             )->validate();
         }
     }
