@@ -28,7 +28,7 @@
                     <a href="{{ url('request-site-visit') }}" class="request_btn">Request Site Visit</a>
                     <a href="{!! $projectDetail['detail']['brochure'] ?? '' !!}" target="_blank"
                         class="pdf_btn">Brochure PDF</a>
-                    <a href="#" target="_blank" class="pdf_btn">Club Amenities Brochure</a>
+                    <a href="{{ asset('frontend-assets/pdf/club-one-brochure.pdf') }}" target="_blank" class="pdf_btn">Club Amenities Brochure</a>
                 </div>
             </div>
             <div class="prjtdtl_right">
