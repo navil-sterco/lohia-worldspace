@@ -499,19 +499,19 @@ const SpeakSwiper = new Swiper('.speak_swiper', {
             spaceBetween: 0,
         },
         768: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 10,
         },
         992: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 10,
         },
         1200: {
-            slidesPerView: 2,
+            slidesPerView: 1,
             spaceBetween: 10,
         },
         1900: {
-            slidesPerView:2,
+            slidesPerView:1,
             spaceBetween: 10,
         }
     }
