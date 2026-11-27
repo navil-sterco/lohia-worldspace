@@ -1,5 +1,5 @@
 .main_footer{position:relative;padding-block:8rem;background-color:var(--color-white);}
-.gwtp_logo{position:absolute;right:10rem;width:100%;max-width:10rem;top:8rem;}
+.gwtp_logo{position:absolute;right:10rem;width:100%;max-width:9.5rem;top:8rem;}
 .footer_grid{display:grid;grid-template-columns: 420fr 1240fr;margin-inline:auto;}
 .footer_left{padding-left:4.1rem;border-left:0.1rem solid var(--color-70);}
 .footer_logo{display:block;width:100%;max-width:29.9rem;}
@@ -22,7 +22,7 @@
 .subscribe_form{flex-shrink:0;display:grid;}
 .subscribe_form form{display:grid;}
 .subscribe_form>form>*{grid-area:1/1;}
-.subscribe_form .form-control{font:var(--font-16);font-weight:var(--fw-500);color:var(--color-black);width:39.6rem;height:3.6rem;padding:0 2rem 2rem 0;border:none;border-bottom:0.1rem solid var(--color-70);}
+.subscribe_form .form-control{font:var(--font-16);font-weight:var(--fw-500);color:var(--color-black);width:39.6rem;height:3.6rem;padding:0 2rem 1rem 0;border:none;border-bottom:0.1rem solid var(--color-70);}
 .subscribe_form .form-control::placeholder{color:var(--color-black);font-weight:var(--fw-500);}
 .subscribe_form button{width:1rem;margin-left:auto;height:1rem;cursor:pointer;z-index:1;}
 .copyright{display:flex;gap:3rem;}
