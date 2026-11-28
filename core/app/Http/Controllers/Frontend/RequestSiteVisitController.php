@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RequestSiteVisitMail;
 use App\Models\Page;
 use App\Models\RequestSiteVisit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class RequestSiteVisitController extends Controller
 {
@@ -117,7 +119,7 @@ class RequestSiteVisitController extends Controller
 
         unset($validated['g-recaptcha-response']);
 
-        RequestSiteVisit::create([
+        $siteVisit = RequestSiteVisit::create([
             'first_name' => $validated['firstName'],
             'email' => $validated['email'],
             'mobile_phone' => $validated['mobilePhone'],
@@ -132,6 +134,8 @@ class RequestSiteVisitController extends Controller
             'origin_from' => $request->input('originFrom', 'WEBSITE L1'),
             'ip_address' => $request->ip(),
         ]);
+
+        Mail::to($siteVisit->email)->send(new RequestSiteVisitMail($siteVisit));
 
         return view('thank-you.thank-you');
     }
