@@ -16,6 +16,7 @@
                     <figure>
                         <img src="{{ $item['image'] ?? '' }}" alt="{{ $item['name'] ?? 'gallery' }}" class="img-fluid w-100">
                     </figure>
+                    <h6>Bhoomi Poojan</h6>
                     <div class="zoombtn">
                         <img src="{{ asset('frontend-assets/images/zoombtn.svg') }}" alt="zoom" class="img-fluid">
                     </div>
