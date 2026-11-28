@@ -37,7 +37,7 @@
                         <p>Alternatively, choose from our list of challenges. And apply for the one you’re ready to take head on.</p>
                         <a href="{{ route('apply-job', ['slug' => $jobSlug]) }}" class="theme_btn">Apply Job</a>
                         <div class="apply_victor">
-                            <img src="{{ asset('frontend-assets/images/victor-dash11.svg') }}" alt="about" class="img-fluid reveal-left w-100 revealed-left">
+                            <img src="{{ asset('frontend-assets/images/victor-dash08.svg') }}" alt="about" class="img-fluid reveal-left w-100 revealed-left">
                         </div>
                     </div>
 
