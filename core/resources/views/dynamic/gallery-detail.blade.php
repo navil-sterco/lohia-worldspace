@@ -10,9 +10,10 @@
             <h2 class="title48" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
                 {{ $galleryDetail['name'] ?? 'Gallery' }}
             </h2>
+            <a href="{{ url()->previous() }}" class="back_btn">Back</a>
         </div>
 
-        <div class="gal_lst">
+        <div class="gal_lst galdtl_lst">
             @forelse($galleryDetail['detail_images'] as $index => $detailImage)
                 <div class="gal_bx" data-aos="fade-up" data-aos-delay="{{ 300 + ($index * 50) }}" data-aos-duration="1200">
                     <figure>

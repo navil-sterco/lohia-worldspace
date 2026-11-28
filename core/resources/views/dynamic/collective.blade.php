@@ -15,7 +15,11 @@
                                 <h3>{!! ($collective['name'] ?? '') !!}</h3>
                                 <p>{{ $collective['location'] ?? '' }}</p>
                             </div>
-                            <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
+                            @if($collective['slug'] != 'richa-office' && $collective['slug'] != 'krisna-office')
+                                <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">
+                                    View
+                                </a>
+                            @endif
                         </div>
                         <div class="projlist_swiper swiper">
                             <div class="swiper-wrapper">
@@ -29,7 +33,11 @@
                                                         class="img-fluid w-100"
                                                         alt="{{ $collective['name'] ?? 'Project' }}">
                                                 </figure>
-                                                <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
+                                                @if($collective['slug'] != 'richa-office' && $collective['slug'] != 'krisna-office')
+                                                    <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">
+                                                        View
+                                                    </a>
+                                                @endif
                                             </div>
                                         @endif
                                     @endforeach
@@ -40,7 +48,11 @@
                                                 class="img-fluid w-100"
                                                 alt="{{ $collective['name'] ?? 'Project' }}">
                                         </figure>
-                                        <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
+                                        @if($collective['slug'] != 'richa-office' && $collective['slug'] != 'krisna-office')
+                                            <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">
+                                                View
+                                            </a>
+                                        @endif
                                     </div>
                                 @endif
 
