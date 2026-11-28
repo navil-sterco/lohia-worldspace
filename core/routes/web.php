@@ -200,6 +200,7 @@ Route::get('/testimonials', [TestimonialController::class, 'index'])->name('test
 
 //Gallery
 Route::get('/gallery', [GalleryPageController::class, 'index'])->name('gallery.index');
+Route::get('/gallery/{slug}', [GalleryPageController::class, 'detail'])->name('gallery.detail');
 
 //Blog
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
