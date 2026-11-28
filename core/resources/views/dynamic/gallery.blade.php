@@ -19,7 +19,11 @@
                     <div class="zoombtn">
                         <img src="{{ asset('frontend-assets/images/zoombtn.svg') }}" alt="zoom" class="img-fluid">
                     </div>
-                    <a data-fancybox="gallery" href="{{ $item['image'] ?? '' }}" class="overlap_btn">View</a>
+                    @if(!empty($item['detail_images']))
+                        <a href="{{ route('gallery.detail', $item['slug']) }}" class="overlap_btn">View</a>
+                    @else
+                        <a data-fancybox="gallery" href="{{ $item['image'] ?? '' }}" class="overlap_btn">View</a>
+                    @endif
                 </div>
             @empty
                 <p>No gallery images to show yet.</p>
