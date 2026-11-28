@@ -21,7 +21,7 @@
                     </ul>
                 </div>
                 <div class="prjtdtl_btns" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
-                    <a href="{{ url('contact-us') }}" class="request_btn">Enquire Now</a>
+                    {{-- <a href="{{ url('contact-us') }}" class="request_btn">Enquire Now</a> --}}
                 </div>
             </div>
             <div class="prjtdtl_right">
