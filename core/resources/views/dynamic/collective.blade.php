@@ -15,11 +15,38 @@
                                 <h3>{!! ($collective['name'] ?? '') !!}</h3>
                                 <p>{{ $collective['location'] ?? '' }}</p>
                             </div>
+                            <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
                         </div>
-                        <figure>
-                            <img src="{{ $collective['image'] ?? asset('frontend-assets/images/collective-list01.webp') }}" class="img-fluid w-100" alt="project">
-                        </figure>
-                        <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
+                        <div class="projlist_swiper swiper">
+                            <div class="swiper-wrapper">
+
+                                @if(!empty($collective['mapping_items']['image_slider']))
+                                    @foreach($collective['mapping_items']['image_slider'] as $slide)
+                                        @if(!empty($slide['images']))
+                                            <div class="swiper-slide">
+                                                <figure>
+                                                    <img src="{{ $slide['images'] }}"
+                                                        class="img-fluid w-100"
+                                                        alt="{{ $collective['name'] ?? 'Project' }}">
+                                                </figure>
+                                                <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <div class="swiper-slide">
+                                        <figure>
+                                            <img src="{{ $collective['image'] ?? asset('frontend-assets/images/collective-list01.webp') }}"
+                                                class="img-fluid w-100"
+                                                alt="{{ $collective['name'] ?? 'Project' }}">
+                                        </figure>
+                                        <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
+                                    </div>
+                                @endif
+
+                            </div>
+                        </div>                     
+                        
                     </div>
                 @empty
                     <div class="no_projects">

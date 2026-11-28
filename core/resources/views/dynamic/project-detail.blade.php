@@ -14,7 +14,9 @@
                 </div>
                 <div class="prjtdtl_nav">
                     <ul>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#township-video">Township Video</a></li>
                         <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#overview">Overview</a></li>
+                        <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#township-brief">Township Brief</a></li>
                         <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#feature">Features & Amenities</a></li>
                         <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#project-gallery">Gallery</a></li>
                         <li data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200"><a href="#customer-speak">Customer Speak</a></li>
