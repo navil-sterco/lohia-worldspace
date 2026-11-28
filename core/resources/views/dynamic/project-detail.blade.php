@@ -28,7 +28,6 @@
                     <a href="{{ url('request-site-visit') }}" class="request_btn">Request Site Visit</a>
                     <a href="{!! $projectDetail['detail']['brochure'] ?? '' !!}" target="_blank"
                         class="pdf_btn">Brochure PDF</a>
-                    <a href="{{ asset('frontend-assets/pdf/club-one-brochure.pdf') }}" target="_blank" class="pdf_btn">Club Amenities Brochure</a>
                 </div>
             </div>
             <div class="prjtdtl_right">
@@ -46,8 +45,8 @@
                             <div class="swiper-wrapper">
                                 @foreach($projectDetail['modular']['testimonials'] as $testimonial)
                                     <div class="swiper-slide">
-                                        <div class="speak_video commonvideo_wraper single_video_play">
-                                            <video class="desktop_video" autoplay playsinline
+                                        <div class="speak_video commonvideo_wraper">
+                                            <video class="desktop_video" muted="false" autoplay playsinline
                                                 @if(!empty($testimonial['thumbnail_image']))
                                                     poster="{{ $testimonial['thumbnail_image'] }}"
                                                 @endif>
@@ -75,10 +74,7 @@
 
                 @if(!empty($projectDetail['modular']['faqs']))
                     <div class="faq_wrap" id="faqs">
-                        <div class="sec_title" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
-                            <h5>FAQs</h5>
-                            <a href="{{ url('faqs') }}" class="theme_btn">Read More</a>
-                        </div>                        
+                        <h5 data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">FAQs</h5>
                         <div class="accordions">
                             @foreach($projectDetail['modular']['faqs'] as $index => $faq)
                                 <div class="accordions-item" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
