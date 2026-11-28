@@ -3,8 +3,8 @@
 <x-menu />
 
 {!! $cms['sustainability_first_section_0'] ?? '' !!}
-{!! $cms['sustainability_second_section_1'] ?? '' !!}
-{!! $cms['sustainability_third_section_2'] ?? '' !!}
+{{-- {!! $cms['sustainability_second_section_1'] ?? '' !!} --}}
+{{-- {!! $cms['sustainability_third_section_2'] ?? '' !!}    --}}
 
 <section class="prodcreat_sec">
     <div class="prodcrea_grid">

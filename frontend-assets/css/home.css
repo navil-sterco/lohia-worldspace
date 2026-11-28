@@ -327,30 +327,29 @@
 .speak_sec{padding-block:20rem 10rem;}
 .speak_sec .sec_title{display:grid;grid-template-columns:310fr 700fr;gap:12rem;align-items:center;max-width:113rem;margin-inline:auto;margin-bottom:5.5rem;}
 .speak_title{display:grid;gap:4rem;}
-.speak_wrapper{position: relative;padding-inline:5.5rem;}
-.speak_wrapper>:is(.speak-prev, .speak-next){position: absolute; top: 50%; left:-16.7rem;}
-.speak_wrapper>:is(.speak-next){left: auto; right: -17.8rem;}
+.speak_wrapper{position:relative;padding-inline:5.5rem;}
+.speak_wrapper>:is(.speak-prev,.speak-next){position:absolute;top:50%;left:-16.7rem;}
+.speak_wrapper>:is(.speak-next){left:auto;right:-17.8rem;}
 .speak_swiper{margin-inline:auto;}
-.speak_swiper .swiper-slide{position: relative;}
+.speak_swiper .swiper-slide{position:relative;}
 .speak_video .speak_vdobx>video{object-fit:cover;aspect-ratio:1272 / 800;}
-.speak_video {background-color: var(--color-93);padding: 2.5rem 0 2.4rem 2.8rem;display: grid;grid-template-columns:1272fr 566fr;gap:3.4rem;}
-.speak_content{position: relative;}
-.speak_content h3{font-weight: var(--fw-normal);margin-bottom: 4rem;color: var(--color-white);z-index: 9;position: relative;}
-.speak_content p { color: var(--color-white); z-index: 9; position: relative; display: -webkit-box; -webkit-line-clamp: 3; /* Maximum 2 lines */
-    -webkit-box-orient: vertical; overflow: hidden; }
-.speak_container { max-width: 201rem; margin-inline: auto; }
-.speak_content .speck_info .speck_name,
-.speak_content .speck_info .speck_address { font: var(--font-24); }
-.speak_content .speck_info .speck_name { font-weight: var(--fw-bold); color: var(--color-white); }
-.speak_content .speck_info .speck_address { color: var(--color-e5); }
-.speak_msgbx { padding-block: 12.2rem 7.7rem; background: url(../images/speack_pattern.svg); padding-inline: 8.6rem 11.5rem; background-repeat: no-repeat; border: 0.1rem solid #a5a5a580; background-size: cover; }
+.speak_video{background-color:var(--color-93);padding:2.5rem 0 2.4rem 2.8rem;display:grid;grid-template-columns:1272fr 566fr;gap:3.4rem;}
+.speak_content{position:relative;}
+.speak_content h3{font-weight:var(--fw-normal);margin-bottom:4rem;color:var(--color-white);z-index:9;position:relative;}
+.speak_content p{color:var(--color-white);z-index:9;position:relative;display:-webkit-box;-webkit-line-clamp:3;/* Maximum 2 lines */
+ -webkit-box-orient:vertical;overflow:hidden;}
+.speak_container{max-width:201rem;margin-inline:auto;}
+.speak_content .speck_info .speck_name,.speak_content .speck_info .speck_address{font:var(--font-24);}
+.speak_content .speck_info .speck_name{font-weight:var(--fw-bold);color:var(--color-white);}
+.speak_content .speck_info .speck_address{color:var(--color-e5);}
+.speak_msgbx{padding-block:12.2rem 7.7rem;background:url(../images/speack_pattern.svg);padding-inline:8.6rem 11.5rem;background-repeat:no-repeat;border:0.1rem solid #a5a5a580;background-size:cover;}
+
 /* .speak_msgbx::after { content: ""; position: absolute; top: 0; left: 0; width: 56.6rem; height: 57.8rem; background: url(../images/speack_pattern.svg) no-repeat; background-size: contain; z-index: 0; pointer-events: none; background-position: top; }
 */
-.speak_content .speck_info { padding: 1.6rem 1.6rem 1.1rem 2.5rem; z-index: 9; position: relative; background: url(../images/speak_video_dot.svg) top left no-repeat, url(../images/speak_video_dot.svg) top right no-repeat, url(../images/speak_video_dot.svg) bottom left no-repeat, url(../images/speak_video_dot.svg) bottom right no-repeat; background-size: 1.1rem; max-width: 37.9rem; margin-inline: auto; margin-top: -0.9rem; }
-.speck_info::before { content: ''; position: absolute; top: 0; bottom: 0; left: 0; right: 0; margin: auto; width: calc(100% - 2.2rem); height: calc(100% - 1.6rem); background-color: var(--color-47); z-index: -1; }
-.speak_vdobx { position: relative; }
-.speak_vdobx .play_btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 7.6rem; height: 7.6rem; }
-
+.speak_content .speck_info{padding:1.6rem 1.6rem 1.1rem 2.5rem;z-index:9;position:relative;background:url(../images/speak_video_dot.svg) top left no-repeat,url(../images/speak_video_dot.svg) top right no-repeat,url(../images/speak_video_dot.svg) bottom left no-repeat,url(../images/speak_video_dot.svg) bottom right no-repeat;background-size:1.1rem;max-width:37.9rem;margin-inline:auto;margin-top:-0.9rem;}
+.speck_info::before{content:'';position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;width:calc(100% - 2.2rem);height:calc(100% - 1.6rem);background-color:var(--color-47);z-index:-1;}
+.speak_vdobx{position:relative;}
+.speak_vdobx .play_btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:7.6rem;height:7.6rem;}
 
 /* .speak_sec{padding-block:20rem 10rem;}
 .speak_sec .sec_title{display:grid;grid-template-columns:310fr 700fr;gap:12rem;align-items:center;max-width:113rem;margin-inline:auto;margin-bottom:5.5rem;}
@@ -385,10 +384,22 @@
 @media(max-width:1024px){
     .speak_sec{padding-block:10rem 0;background-color:var(--color-93);}
     .speak_sec .sec_title{gap:10rem;margin-inline:0;margin-bottom:5.5rem;}
-    .speak_title>*{color: var(--color-white);}
-    .speak_title>.title48>strong{color: var(--color-white);}
+    .speak_title>*{color:var(--color-white);}
+    .speak_title>.title48>strong{color:var(--color-white);}
     .speak_wrapper{padding-inline:0;}
     .speak_sec>.container-lg{padding-inline:0;}
+    .speak_video{grid-template-columns:100%;}
+    .speak_msgbx{padding-block:4.2rem 4.7rem;padding-inline:6.6rem 9.5rem;}
+    .speak_content .speck_info{margin-inline:6.6rem auto;}
+    .speak_wrapper>:is(.speak-prev,.speak-next){left:2.5rem;}
+    .speak_wrapper>:is(.speak-next){left:auto;right:2.5rem;}
+    .speak_video{padding:0;}
+    .speak_msgbx{padding-block:3.2rem;padding-inline:3.2rem;}
+    .speak_content h3{margin-bottom:2rem;}
+    .speak_content .speck_info{margin-inline:auto;max-width:calc(100% - 7.2rem);background-size:0.8rem;padding:2rem;}
+    .speck_info::before{width:calc(100% - 1.5rem);height:calc(100% - 1.5rem);}
+    .speak_content .speck_info .speck_name,.speak_content .speck_info .speck_address{font:var(--font-18);}
+
 }
 
 @media(max-width:767px){

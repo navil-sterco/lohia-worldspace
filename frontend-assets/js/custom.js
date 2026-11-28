@@ -322,9 +322,34 @@ $(document).ready(function () {
         loop: true,
         slidesPerView: 1,
         spaceBetween: 0,
-        speed: 1800,
+        speed: 1000,
         autoplay: {
-            delay: 2500,
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+        },
+        grabCursor: true,
+        watchOverflow: true,
+        observer: true,
+        observeParents: true,
+
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        }
+    });
+});
+
+
+
+$(document).ready(function () {
+    new Swiper('.projlist_swiper', {
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 0,
+        speed: 1000,
+        autoplay: {
+            delay: 3000,
             disableOnInteraction: false,
             pauseOnMouseEnter: true,
         },

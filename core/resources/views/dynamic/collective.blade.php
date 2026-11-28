@@ -1,5 +1,7 @@
 @include('includes.header')
 
+@dd($collectives);
+
 <section class="projt_sec">
     <div class="container max-content-lg">
         <div class="projt_grid">
@@ -16,9 +18,17 @@
                                 <p>{{ $collective['location'] ?? '' }}</p>
                             </div>
                         </div>
-                        <figure>
-                            <img src="{{ $collective['image'] ?? asset('frontend-assets/images/collective-list01.webp') }}" class="img-fluid w-100" alt="project">
-                        </figure>
+                        <div class="projlist_swiper swiper">
+                            <div class="swiper-wrapper">
+                                    {{-- Repeater --}}
+                                <div class="swiper-slide">
+                                    <figure>
+                                        <img src="{{ $collective['image'] ?? asset('frontend-assets/images/collective-list01.webp') }}" class="img-fluid w-100" alt="project">
+                                    </figure>
+                                </div>
+
+                            </div>
+                        </div>                        
                         <a href="{{ route('collective.detail', $collective['slug']) }}" class="overlap_btn">View</a>
                     </div>
                 @empty
