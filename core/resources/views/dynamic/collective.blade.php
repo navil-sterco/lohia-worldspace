@@ -23,7 +23,6 @@
                         </div>
                         <div class="projlist_swiper swiper">
                             <div class="swiper-wrapper">
-
                                 @if(!empty($collective['mapping_items']['image_slider']))
                                     @foreach($collective['mapping_items']['image_slider'] as $slide)
                                         @if(!empty($slide['images']))
@@ -57,6 +56,7 @@
                                 @endif
 
                             </div>
+                            <div class="swiper-pagination projlist-pagination"></div>
                         </div>                     
                         
                     </div>

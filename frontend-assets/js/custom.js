@@ -359,7 +359,7 @@ $(document).ready(function () {
         observeParents: true,
 
         pagination: {
-            el: '.swiper-pagination',
+            el: '.projlist-pagination',
             clickable: true,
         }
     });
